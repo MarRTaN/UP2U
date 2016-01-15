@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <BIT_CINDER_VERSION>0.8.6</BIT_CINDER_VERSION>
+    <BIT_OPENNI_VERSION>1.5.2.23</BIT_OPENNI_VERSION>
+    <BIT_NITE_VERSION>1.5.2.21</BIT_NITE_VERSION>
+    <BIT_OPENCV_VERSION>2.4.9</BIT_OPENCV_VERSION>
+    <BIT_PCL_VERSION>1.6</BIT_PCL_VERSION>
+    <BIT_PQClient_VERSION>2008-12-19</BIT_PQClient_VERSION>
+    <BIT_SDL_VERSION>1.2.15</BIT_SDL_VERSION>
+    <BIT_SDL_MIXER_VERSION>1.2.12</BIT_SDL_MIXER_VERSION>
+	<BIT_AVERCAP_VERSION>20131309</BIT_AVERCAP_VERSION>
+    <BIT_APP_VERIFY_DAYS>60</BIT_APP_VERIFY_DAYS>
+	<BIT_ASSIMP_VERSION>3.0</BIT_ASSIMP_VERSION>
+	<BIT_OPENCV_WITH_CUDA>no_cuda</BIT_OPENCV_WITH_CUDA>
+	<BIT_OPENCV_LIB_PATH>$(BIT_PKG_PATH)\OpenCV\$(BIT_OPENCV_VERSION)\lib\$(BIT_OPENCV_WITH_CUDA)\msw\$(PlatformTarget)\$(PlatformToolset)\;$(CUDA_PATH)\lib\Win32\;</BIT_OPENCV_LIB_PATH>
+	<BIT_OPENCV_CUDA_LIB_NAME>cuda.lib;cudart.lib;nppc.lib;nppi.lib;npps.lib;cufft.lib;cublas.lib;</BIT_OPENCV_CUDA_LIB_NAME>
+	<BIT_OPENCV_LIB_NAME_DEBUG>opencv_calib3dd.lib;opencv_mld.lib;opencv_contribd.lib;opencv_nonfreed.lib;opencv_cored.lib;opencv_objdetectd.lib;opencv_features2dd.lib;opencv_ocld.lib;opencv_flannd.lib;opencv_photod.lib;opencv_gpud.lib;opencv_stitchingd.lib;opencv_superresd.lib;opencv_highguid.lib;opencv_tsd.lib;opencv_imgprocd.lib;opencv_videod.lib;opencv_legacyd.lib;opencv_videostabd.lib;</BIT_OPENCV_LIB_NAME_DEBUG>
+	<BIT_OPENCV_LIB_NAME_RELEASE>opencv_calib3d.lib;opencv_ml.lib;opencv_contrib.lib;opencv_nonfree.lib;opencv_core.lib;opencv_objdetect.lib;opencv_features2d.lib;opencv_ocl.lib;opencv_flann.lib;opencv_photo.lib;opencv_gpu.lib;opencv_stitching.lib;opencv_superres.lib;opencv_highgui.lib;opencv_ts.lib;opencv_imgproc.lib;opencv_video.lib;opencv_legacy.lib;opencv_videostab.lib;</BIT_OPENCV_LIB_NAME_RELEASE>
+	<BIT_OPENCV_COMMENT>Default setting has no CUDA. To add CUDA, change BIT_OPENCV_WITH_CUDA to either "desktop" or "notebook" and add "$(BIT_OPENCV_CUDA_LIB_NAME)" to both BIT_OPENCV_LIB_NAME_DEBUG and BIT_OPENCV_LIB_NAME_RELEASE.</BIT_OPENCV_COMMENT>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="BIT_CINDER_VERSION">
+      <Value>$(BIT_CINDER_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_OPENNI_VERSION">
+      <Value>$(BIT_OPENNI_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_NITE_VERSION">
+      <Value>$(BIT_NITE_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_OPENCV_VERSION">
+      <Value>$(BIT_OPENCV_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_PCL_VERSION">
+      <Value>$(BIT_PCL_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_PQClient_VERSION">
+      <Value>$(BIT_PQClient_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_SDL_VERSION">
+      <Value>$(BIT_SDL_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_SDL_MIXER_VERSION">
+      <Value>$(BIT_SDL_MIXER_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_APP_VERIFY_DAYS">
+      <Value>$(BIT_APP_VERIFY_DAYS)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+	    <BuildMacro Include="BIT_OPENCV_WITH_CUDA">
+      <Value>$(BIT_OPENCV_WITH_CUDA)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_OPENCV_LIB_PATH">
+      <Value>$(BIT_OPENCV_LIB_PATH)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_OPENCV_CUDA_LIB_NAME">
+      <Value>$(BIT_OPENCV_CUDA_LIB_NAME)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_OPENCV_LIB_NAME_DEBUG">
+      <Value>$(BIT_OPENCV_LIB_NAME_DEBUG)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_OPENCV_LIB_NAME_RELEASE">
+      <Value>$(BIT_OPENCV_LIB_NAME_RELEASE)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BIT_OPENCV_COMMENT">
+      <Value>$(BIT_OPENCV_COMMENT)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,255 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Blocks">
+      <UniqueIdentifier>{A631F29F-3A19-4CEA-B480-256EBD473375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitFoundation">
+      <UniqueIdentifier>{9F5FA98E-A528-4B15-83F1-6ABB4EE6F7B8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitFoundation\src">
+      <UniqueIdentifier>{391281B9-47AE-499F-8685-728D1E7B7E18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitFoundation\include">
+      <UniqueIdentifier>{9F2EF41F-DB55-4485-A5FA-1F40390D851A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitKinect">
+      <UniqueIdentifier>{1DE452E1-406F-4199-9E35-C1C3897156DC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitKinect\src">
+      <UniqueIdentifier>{227345BE-D00A-445E-BE3B-F13E2B3502DC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitKinect\include">
+      <UniqueIdentifier>{22682B29-ED0D-4397-8B94-3463EED4EFF9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitMultimedia">
+      <UniqueIdentifier>{BA358103-3966-4664-9DCD-79EDA1B2A634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitMultimedia\src">
+      <UniqueIdentifier>{8608A150-D2FB-4E32-B2A8-B2A7A8F2A0BC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\BitMultimedia\include">
+      <UniqueIdentifier>{78F5E8FF-4829-4EA4-9596-861FD3F3840D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\CinderGstreamer">
+      <UniqueIdentifier>{7835E272-1FA4-4AE5-90C2-419D3E7A96ED}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\CinderGstreamer\src">
+      <UniqueIdentifier>{E24AA7D2-CD90-45F5-BA18-7E9874976423}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\CinderGstreamer\include">
+      <UniqueIdentifier>{5AC8ACE0-F050-4B42-912B-79D8A9CA1536}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\up2uApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\src\up2uApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\BitConsole.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\BitException.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\BitExceptionHandler.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\BitJsonTree.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\BitParams.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\BitShortcutKey.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\BitTime.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\Config.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\Debug.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitFoundation\src\Log.cpp">
+      <Filter>Blocks\BitFoundation\src</Filter>
+    </ClCompile>
+    <ClInclude Include="..\blocks\BitFoundation\include\AppVerify_.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\BitConsole.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\BitException.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\BitExceptionHandler.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\BitJsonTree.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\BitParams.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\BitShortcutKey.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\BitTime.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\Config.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\ConfigReader.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\Configurable.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\Debug.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitFoundation\include\Log.h">
+      <Filter>Blocks\BitFoundation\include</Filter>
+    </ClInclude>
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinect.cpp">
+      <Filter>Blocks\BitKinect\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectDevice.cpp">
+      <Filter>Blocks\BitKinect\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectGesture.cpp">
+      <Filter>Blocks\BitKinect\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectHand.cpp">
+      <Filter>Blocks\BitKinect\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectManager.cpp">
+      <Filter>Blocks\BitKinect\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectUser.cpp">
+      <Filter>Blocks\BitKinect\src</Filter>
+    </ClCompile>
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinect.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectCommon.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectDevice.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectGesture.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectHand.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectManager.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectUser.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitKinect\include\CinderOpenNI.h">
+      <Filter>Blocks\BitKinect\include</Filter>
+    </ClInclude>
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitAudio.cpp">
+      <Filter>Blocks\BitMultimedia\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitDisplayArea.cpp">
+      <Filter>Blocks\BitMultimedia\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitGlUtilities..cpp">
+      <Filter>Blocks\BitMultimedia\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitMultimedia.cpp">
+      <Filter>Blocks\BitMultimedia\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitVideo.cpp">
+      <Filter>Blocks\BitMultimedia\src</Filter>
+    </ClCompile>
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitAudio.h">
+      <Filter>Blocks\BitMultimedia\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitDisplayArea.h">
+      <Filter>Blocks\BitMultimedia\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitGlUtilities.h">
+      <Filter>Blocks\BitMultimedia\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitMultimedia.h">
+      <Filter>Blocks\BitMultimedia\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitVideo.h">
+      <Filter>Blocks\BitMultimedia\include</Filter>
+    </ClInclude>
+    <ClCompile Include="..\blocks\CinderGstreamer\src\_2RealGStreamerWrapper.cpp">
+      <Filter>Blocks\CinderGstreamer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\blocks\CinderGstreamer\src\CinderGstVideo.cpp">
+      <Filter>Blocks\CinderGstreamer\src</Filter>
+    </ClCompile>
+    <ClInclude Include="..\blocks\CinderGstreamer\include\_2RealGStreamerWrapper.h">
+      <Filter>Blocks\CinderGstreamer\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\blocks\CinderGstreamer\include\CinderGstVideo.h">
+      <Filter>Blocks\CinderGstreamer\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\AClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\AClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\config\config.json">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\config\params.json">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
