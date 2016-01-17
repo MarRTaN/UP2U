@@ -103,13 +103,15 @@
 		"mirror" : false
 	},
 
-	"kinectTemplate" : {
-		"index" : 0,
-		"rangeInMm" : { "min" : 50, "max" : 4000 },
-		"mirror" : true,
-		"oniFile" : "",
-		"motor" : false
-	},
+	"kinectTemplate": {
+        "index": 0,
+        "rangeInMm": { "min": 50, "max": 4000 },
+        "mirror": true,
+        "oniFile": "",
+        "motor": false,
+        "userDetectRangeMin": 0.3,
+        "userDetectRangeMax": 0.7
+    },
 	
 	"averCaptureTemplate" : { 
 		"width" : 1920, "height" : 1080,

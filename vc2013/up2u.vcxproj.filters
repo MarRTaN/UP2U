@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -50,6 +51,18 @@
     </Filter>
     <Filter Include="Blocks\CinderGstreamer\include">
       <UniqueIdentifier>{5AC8ACE0-F050-4B42-912B-79D8A9CA1536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Player">
+      <UniqueIdentifier>{33d6d058-84fd-40bc-98d0-e6183bf3f53b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{473a88bf-2bbe-4afb-8af0-454553aa717c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{27781d57-35c0-405c-b994-9a116b42fd3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{31a72877-4e85-4973-90ac-e44271fd080b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +234,12 @@
     <ClInclude Include="..\blocks\CinderGstreamer\include\CinderGstVideo.h">
       <Filter>Blocks\CinderGstreamer\include</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\PlayerManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Person.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AClass.cpp">
@@ -230,6 +249,12 @@
   <ItemGroup>
     <ClInclude Include="..\include\AClass.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PlayerManager.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Person.h">
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

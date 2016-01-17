@@ -21,6 +21,10 @@
 
 #include "AClass.h"
 
+//Additional include
+#include "ConfigReader.h"
+#include "PlayerManager.h"
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -54,6 +58,8 @@ private:
 	bool setupCompleted_;
 
 	AClass aClass_;
+
+	PlayerManager	playerMng;
 };
 
 void up2uApp::prepareSettings( Settings *settings )
@@ -110,7 +116,15 @@ void up2uApp::setup()
 		// setup everything here
 		config_.readConfigurableConfig(aClass_, "aClassConfig");	// this will eventually calls AClass::readConfig() with the Bit::JsonTree* node named "aClassConfig" as argument
 		config_.readConfigurableParams(aClass_, "aClassParams");	// this will eventually calls AClass::readParams() with the Bit::JsonTree* node named "aClassParams" as argument
-		
+		config_.readConfigurableConfig(playerMng, "kinectTemplate");
+
+		playerMng.setup();
+		if (!playerMng.isKinectReady()){
+			MessageBox(NULL, L"Kinnect is not connected !", L"Message", NULL);
+			shutdown();
+			emitClose();
+		}
+
 		// mark setup complete at the end of setup.
 		setupCompleted_ = true;
 	}
@@ -141,6 +155,7 @@ void up2uApp::shutdown()
 {
 	//int exitCode = Bit::Exception::getExitCode();
 	//exit( exitCode );	// we can not exit() here as memory leaks will occur
+	playerMng.shutdown();
 }
 
 void up2uApp::toggleFullscreen()
@@ -166,6 +181,9 @@ void up2uApp::toggleDisplayParameters()
 void up2uApp::keyDown( KeyEvent event )
 {
 	shortcutKey_.keyDown(event);
+	if (event.getCode() == KeyEvent::KEY_d){
+		playerMng.isKinectDebugMode = !playerMng.isKinectDebugMode;
+	}
 }
 
 void up2uApp::mouseDown( MouseEvent event )
@@ -196,7 +214,7 @@ void up2uApp::draw()
 	gl::clear(Color(0, 0, 0));
 	
 	// draw everything here
-	
+	playerMng.draw();
 	
 	
 	// all debugging things 
