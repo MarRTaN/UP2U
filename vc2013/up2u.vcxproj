@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{644E79EB-A2C1-46A2-A510-71768BDB6EDF}</ProjectGuid>
+    <RootNamespace>up2u</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="bit_property_sheet.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="bit_property_sheet.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\boost;..\blocks\BitFoundation\include;$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\include;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\include;..\blocks\BitKinect\include;..\blocks\BitMultimedia\include;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\include;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\include;..\blocks\CinderGstreamer\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\gstreamer-0.10;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\glib-2.0;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\libxml2;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include\msw;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;_WIN32_WINNT=0x0502;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>"$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\include";..\include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>cinder_d.lib;%(AdditionalDependencies);openNI.lib;XnVNITE_1_5_2.lib;SDL.lib;SDLmain.lib;SDL_mixer.lib;gstreamer-0.10.lib;glib-2.0.lib;gobject-2.0.lib;gstapp-0.10.lib;gstbase-0.10.lib;gstvideo-0.10.lib;gthread-2.0.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\CVClient.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\QTMLClient.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\lib\msw\$(PlatformTarget)\$(PlatformToolset);$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\lib;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\lib;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\x86;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\x86;$(OSSBUILD_GSTREAMER_DIR)\sdk\lib</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;LIBCPMT</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\x86\SDL.dll" "$(OutDir)"
+xcopy /y "$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\x86\SDL_mixer.dll" "$(OutDir)"
+xcopy /y "..\blocks\CinderGstreamer\bin\python26.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\include;"$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\include";"$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\boost";..\blocks\BitFoundation\include;$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\include;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\include;..\blocks\BitKinect\include;..\blocks\BitMultimedia\include;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\include;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\include;..\blocks\CinderGstreamer\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\gstreamer-0.10;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\glib-2.0;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\libxml2;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include\msw;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;NOMINMAX;_WIN32_WINNT=0x0502;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>"$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\include";..\include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>cinder.lib;%(AdditionalDependencies);openNI.lib;XnVNITE_1_5_2.lib;SDL.lib;SDLmain.lib;SDL_mixer.lib;gstreamer-0.10.lib;glib-2.0.lib;gobject-2.0.lib;gstapp-0.10.lib;gstbase-0.10.lib;gstvideo-0.10.lib;gthread-2.0.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\CVClient.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\QTMLClient.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>"$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\lib\msw\$(PlatformTarget)\$(PlatformToolset)";$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\lib;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\lib;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\x86;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\x86;$(OSSBUILD_GSTREAMER_DIR)\sdk\lib</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PreBuildEvent>
+      <Command>$(SolutionDir)\..\blocks\BitFoundation\include\BitAppVerify.exe $(BIT_APP_VERIFY_DAYS)</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)\..\config\* $(TargetDir)
+xcopy /y "$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\x86\SDL.dll" "$(OutDir)"
+xcopy /y "$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\x86\SDL_mixer.dll" "$(OutDir)"
+xcopy /y "..\blocks\CinderGstreamer\bin\python26.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc" />
+    <None Include="..\config\config.json" />
+    <None Include="..\config\params.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h" />
+    <ClInclude Include="..\include\AClass.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\AppVerify_.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\BitConsole.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\BitException.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\BitExceptionHandler.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\BitJsonTree.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\BitParams.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\BitShortcutKey.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\BitTime.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\Config.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\ConfigReader.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\Configurable.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\Debug.h" />
+    <ClInclude Include="..\blocks\BitFoundation\include\Log.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinect.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectCommon.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectDevice.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectGesture.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectHand.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectManager.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\BitKinectUser.h" />
+    <ClInclude Include="..\blocks\BitKinect\include\CinderOpenNI.h" />
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitAudio.h" />
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitDisplayArea.h" />
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitGlUtilities.h" />
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitMultimedia.h" />
+    <ClInclude Include="..\blocks\BitMultimedia\include\BitVideo.h" />
+    <ClInclude Include="..\blocks\CinderGstreamer\include\_2RealGStreamerWrapper.h" />
+    <ClInclude Include="..\blocks\CinderGstreamer\include\CinderGstVideo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\up2uApp.cpp" />
+    <ClCompile Include="..\src\AClass.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\BitConsole.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\BitException.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\BitExceptionHandler.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\BitJsonTree.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\BitParams.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\BitShortcutKey.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\BitTime.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\Config.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\Debug.cpp" />
+    <ClCompile Include="..\blocks\BitFoundation\src\Log.cpp" />
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinect.cpp" />
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectDevice.cpp" />
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectGesture.cpp" />
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectHand.cpp" />
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectManager.cpp" />
+    <ClCompile Include="..\blocks\BitKinect\src\BitKinectUser.cpp" />
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitAudio.cpp" />
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitDisplayArea.cpp" />
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitGlUtilities..cpp" />
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitMultimedia.cpp" />
+    <ClCompile Include="..\blocks\BitMultimedia\src\BitVideo.cpp" />
+    <ClCompile Include="..\blocks\CinderGstreamer\src\_2RealGStreamerWrapper.cpp" />
+    <ClCompile Include="..\blocks\CinderGstreamer\src\CinderGstVideo.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
