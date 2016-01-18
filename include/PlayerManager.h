@@ -27,6 +27,7 @@ public:
 	void				draw();				//draw video from kinect
 	bool				isKinectReady();
 	Surface				getSurface();
+	void				getPersonHead();
 	bool				isKinectDebugMode = false;
 
 private:

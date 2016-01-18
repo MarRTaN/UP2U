@@ -54,8 +54,13 @@ Surface PlayerManager::getSurface(){
 	Surface surface;
 	//dataMutex_.lock();
 	surface = *(kinectDevice_->getColorSurface());
+	//surface = *(kinectDevice_->getDepthSurface());
 	//dataMutex_.unlock();
 	return surface;
+}
+
+void PlayerManager::getPersonHead(){
+
 }
 
 void PlayerManager::readConfig(Bit::JsonTree* tree){
