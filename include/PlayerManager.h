@@ -31,7 +31,7 @@ public:
 	bool				isKinectDebugMode = false;
 
 private:
-	vector<Person>		persons;
+	vector<Person>		persons_;
 	float				userDetectRangeMin_;
 	float				userDetectRangeMax_;
 };
