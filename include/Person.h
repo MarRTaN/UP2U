@@ -28,9 +28,9 @@ class Person{
 		void					clearDepthPoints();
 
 	private:
-		string					playerId;
-		vector<depthVec>		depthPoints;
-		vector<float>			depthVals;
-		Vec3f					transVec;
-		Vec3f					rotateVec;
+		string					playerId_;
+		vector<depthVec>		depthPoints_;
+		vector<float>			depthVals_;
+		Vec3f					transVec_;
+		Vec3f					rotateVec_;
 };
