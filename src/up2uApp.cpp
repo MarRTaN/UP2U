@@ -119,11 +119,13 @@ void up2uApp::setup()
 		config_.readConfigurableConfig(aClass_, "aClassConfig");	// this will eventually calls AClass::readConfig() with the Bit::JsonTree* node named "aClassConfig" as argument
 		config_.readConfigurableParams(aClass_, "aClassParams");	// this will eventually calls AClass::readParams() with the Bit::JsonTree* node named "aClassParams" as argument
 		config_.readConfigurableConfig(playerMng_, "kinectTemplate");
+		config_.readConfigurableParams(playerMng_, "playerManagerParams");
 		config_.readConfigurableConfig(stageMng_, "allStageConfig");
-		//config_.readConfigurableParams(stageMng_, "allStageParams");
-
+		
 		stageMng_.setup();
 		playerMng_.setup();
+		playerMng_.setupUsers();
+
 		if (!playerMng_.isKinectReady()){
 			MessageBox(NULL, L"Kinnect is not connected !", L"Message", NULL);
 			shutdown();
@@ -189,12 +191,6 @@ void up2uApp::keyDown( KeyEvent event )
 	if (event.getCode() == KeyEvent::KEY_d){
 		playerMng_.isKinectDebugMode = !playerMng_.isKinectDebugMode;
 	}
-	if (event.getCode() == KeyEvent::KEY_q){
-		playerMng_.setPlayerDetection(true);
-	}
-	if (event.getCode() == KeyEvent::KEY_w){
-		playerMng_.setPlayerDetection(false);
-	}
 }
 
 void up2uApp::mouseDown( MouseEvent event )
@@ -208,19 +204,18 @@ void up2uApp::update()
 		Bit::ExceptionHandler::checkExceptionFromThread();
 		
 		// added update part here
-		
-		if (playerMng_.isDataReady()){
-			if (playerMng_.isPlayerDetected()){
-				stageMng_.setPlayerDetection(true);
-				stageMng_.setPersons(playerMng_.getPersons());
-			}
-			else{
-				stageMng_.setPlayerDetection(false);
-			}
-		}
-
+		//if (playerMng_.isDataReady()){
+		//	if (playerMng_.isPlayerDetected()){
+		//		stageMng_.setPlayerDetection(true);
+		//		stageMng_.setPersons(playerMng_.getPersons());
+		//	}
+		//	else{
+		//		stageMng_.setPlayerDetection(false);
+		//	}
+		//}
+		playerMng_.updateUsers();
+		stageMng_.setPersons(playerMng_.getPersons());
 		stageMng_.update();
-
 	}
 	catch (std::exception& e) {
 		Bit::ExceptionHandler::handleException(&e);
@@ -236,9 +231,7 @@ void up2uApp::draw()
 	gl::clear(Color(0, 0, 0));
 	
 	// draw everything here
-	if (stageMng_.getCurrentStage() == DETECTING_STAGE){
-		playerMng_.draw();
-	}
+	playerMng_.draw();
 	stageMng_.draw();
 	
 	
