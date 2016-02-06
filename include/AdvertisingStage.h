@@ -15,23 +15,24 @@ using namespace ci::app;
 using namespace ci::gl;
 using namespace Bit;
 
-class Stage{
-
+class AdvertisingStage{
 public:
+	typedef struct Config{
+		Bit::Video			advertisingVid;
+	};
+
+	void				readConfig(Bit::JsonTree* tree);
+
 	void				setup();
 	void				update();
 	void				draw();
-	void				drawDebugMode();
 	void				reset();
-	bool				isStageChanged();
-	void				readConfig(Bit::JsonTree* tree);
+	void				drawDebugMode();
 
-protected:
-	Bit::Video			stageVid_;
-	float				timeCount_ = 0;
-	float				timeOut_;
-	float				startTime_;
-	bool				stageChanged_ = false;
+private:
+	Bit::Video			advertisingVid_;
 	Bit::DisplayArea	displayArea_;
+	float				timeCount_ = 0;
 	bool				isDebugMode_ = false;
+	Config				config_;
 };

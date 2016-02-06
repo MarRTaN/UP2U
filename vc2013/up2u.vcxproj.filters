@@ -67,20 +67,14 @@
     <Filter Include="Header Files\Stage">
       <UniqueIdentifier>{2d9ae8b5-8553-445e-85a4-b00cc19b0f40}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game">
-      <UniqueIdentifier>{238a3b39-011f-44b7-8f9e-cbb217047983}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game">
-      <UniqueIdentifier>{7d2c622c-e2e1-4ed6-ba59-e2c93a02d18c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Stage">
       <UniqueIdentifier>{3588ae86-bace-46d7-b48e-db8d0b4dabe2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Action">
-      <UniqueIdentifier>{02404f11-1e90-47bc-ad04-9fbea00524d1}</UniqueIdentifier>
+    <Filter Include="Header Files\Pool">
+      <UniqueIdentifier>{17150294-31db-4cc4-996c-f89b28e24f61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Action">
-      <UniqueIdentifier>{00210e97-b559-422d-9ebb-34dd99f18a8a}</UniqueIdentifier>
+    <Filter Include="Source Files\Pool">
+      <UniqueIdentifier>{e5cba599-57e4-4e4f-846b-a3f21c448241}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -258,29 +252,17 @@
     <ClCompile Include="..\src\Person.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Action.cpp">
-      <Filter>Source Files\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\EndingStage.cpp">
-      <Filter>Source Files\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\GameplayStage.cpp">
-      <Filter>Source Files\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\IdleStage.cpp">
-      <Filter>Source Files\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ReadyStage.cpp">
-      <Filter>Source Files\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Stage.cpp">
-      <Filter>Source Files\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Game.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\GameManager.cpp">
+    <ClCompile Include="..\src\StageManager.cpp">
       <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AdvertisingStage.cpp">
+      <Filter>Source Files\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DetectingStage.cpp">
+      <Filter>Source Files\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Pool.cpp">
+      <Filter>Source Files\Pool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,29 +280,20 @@
     <ClInclude Include="..\include\Person.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\EndingStage.h">
-      <Filter>Header Files\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\GameplayStage.h">
-      <Filter>Header Files\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\IdleStage.h">
-      <Filter>Header Files\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ReadyStage.h">
-      <Filter>Header Files\Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\GameManager.h">
+    <ClInclude Include="..\include\StageManager.h">
       <Filter>Header Files\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Game.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\Stage.h">
+    <ClInclude Include="..\include\DetectingStage.h">
       <Filter>Header Files\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Actions.h">
-      <Filter>Header Files\Action</Filter>
+    <ClInclude Include="..\include\AdvertisingStage.h">
+      <Filter>Header Files\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Up2UTypeDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Pool.h">
+      <Filter>Header Files\Pool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

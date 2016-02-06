@@ -26,6 +26,7 @@ class Person{
 		Vec3f					getRotateVec();
 		void					addDepthPoints(float p, float q, float c, float r, float s, float t);
 		void					clearDepthPoints();
+		Vec3f					getHeadPos();
 
 	private:
 		string					playerId_;
@@ -33,4 +34,6 @@ class Person{
 		vector<float>			depthVals_;
 		Vec3f					transVec_;
 		Vec3f					rotateVec_;
+		Vec3f					headPos_;
+		int						gender_;
 };

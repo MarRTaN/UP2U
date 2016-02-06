@@ -7,9 +7,9 @@ void Person::calDOF(){
 }
 
 Vec3f Person::getTransVec(){
-	return transVec;
+	return transVec_;
 }
 
 Vec3f Person::getRotateVec(){
-	return rotateVec;
+	return rotateVec_;
 }

@@ -6,6 +6,7 @@ void PlayerManager::threadUpdate()
 	dataMutex_.lock();
 	if (isDataReady()) {
 		//function here
+		//checkDetection();
 	}
 	dataMutex_.unlock();
 }
@@ -56,6 +57,23 @@ Surface PlayerManager::getSurface(){
 	surface = *(kinectDevice_->getColorSurface());
 	//dataMutex_.unlock();
 	return surface;
+}
+
+vector<Person> PlayerManager::getPersons(){
+	return persons_;
+}
+
+void PlayerManager::checkDetection(){
+	if (persons_.size() > 0) isDetected_ = true;
+	else isDetected_ = false;
+}
+
+bool PlayerManager::isPlayerDetected(){
+	return isDetected_;
+}
+
+void PlayerManager::setPlayerDetection(bool isDetected){
+	isDetected_ = isDetected;
 }
 
 void PlayerManager::readConfig(Bit::JsonTree* tree){

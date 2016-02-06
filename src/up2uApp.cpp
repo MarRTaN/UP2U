@@ -24,6 +24,7 @@
 //Additional include
 #include "ConfigReader.h"
 #include "PlayerManager.h"
+#include "StageManager.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -59,7 +60,8 @@ private:
 
 	AClass aClass_;
 
-	PlayerManager	playerMng;
+	PlayerManager	playerMng_;
+	StageManager	stageMng_;
 };
 
 void up2uApp::prepareSettings( Settings *settings )
@@ -116,10 +118,13 @@ void up2uApp::setup()
 		// setup everything here
 		config_.readConfigurableConfig(aClass_, "aClassConfig");	// this will eventually calls AClass::readConfig() with the Bit::JsonTree* node named "aClassConfig" as argument
 		config_.readConfigurableParams(aClass_, "aClassParams");	// this will eventually calls AClass::readParams() with the Bit::JsonTree* node named "aClassParams" as argument
-		config_.readConfigurableConfig(playerMng, "kinectTemplate");
+		config_.readConfigurableConfig(playerMng_, "kinectTemplate");
+		config_.readConfigurableConfig(stageMng_, "allStageConfig");
+		//config_.readConfigurableParams(stageMng_, "allStageParams");
 
-		playerMng.setup();
-		if (!playerMng.isKinectReady()){
+		stageMng_.setup();
+		playerMng_.setup();
+		if (!playerMng_.isKinectReady()){
 			MessageBox(NULL, L"Kinnect is not connected !", L"Message", NULL);
 			shutdown();
 			emitClose();
@@ -155,7 +160,7 @@ void up2uApp::shutdown()
 {
 	//int exitCode = Bit::Exception::getExitCode();
 	//exit( exitCode );	// we can not exit() here as memory leaks will occur
-	playerMng.shutdown();
+	playerMng_.shutdown();
 }
 
 void up2uApp::toggleFullscreen()
@@ -182,7 +187,13 @@ void up2uApp::keyDown( KeyEvent event )
 {
 	shortcutKey_.keyDown(event);
 	if (event.getCode() == KeyEvent::KEY_d){
-		playerMng.isKinectDebugMode = !playerMng.isKinectDebugMode;
+		playerMng_.isKinectDebugMode = !playerMng_.isKinectDebugMode;
+	}
+	if (event.getCode() == KeyEvent::KEY_q){
+		playerMng_.setPlayerDetection(true);
+	}
+	if (event.getCode() == KeyEvent::KEY_w){
+		playerMng_.setPlayerDetection(false);
 	}
 }
 
@@ -198,7 +209,18 @@ void up2uApp::update()
 		
 		// added update part here
 		
-		
+		if (playerMng_.isDataReady()){
+			if (playerMng_.isPlayerDetected()){
+				stageMng_.setPlayerDetection(true);
+				stageMng_.setPersons(playerMng_.getPersons());
+			}
+			else{
+				stageMng_.setPlayerDetection(false);
+			}
+		}
+
+		stageMng_.update();
+
 	}
 	catch (std::exception& e) {
 		Bit::ExceptionHandler::handleException(&e);
@@ -214,7 +236,10 @@ void up2uApp::draw()
 	gl::clear(Color(0, 0, 0));
 	
 	// draw everything here
-	playerMng.draw();
+	if (stageMng_.getCurrentStage() == DETECTING_STAGE){
+		playerMng_.draw();
+	}
+	stageMng_.draw();
 	
 	
 	// all debugging things 

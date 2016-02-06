@@ -27,10 +27,15 @@ public:
 	void				draw();				//draw video from kinect
 	bool				isKinectReady();
 	Surface				getSurface();
+	void				checkDetection(); 
+	bool				isPlayerDetected();
+	vector<Person>		getPersons();
+	void				setPlayerDetection(bool isDetected);
 	bool				isKinectDebugMode = false;
 
 private:
 	vector<Person>		persons_;
+	bool				isDetected_;
 	float				userDetectRangeMin_;
 	float				userDetectRangeMax_;
 };
