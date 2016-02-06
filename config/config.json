@@ -107,10 +107,11 @@
         "index": 0,
         "rangeInMm": { "min": 50, "max": 4000 },
         "mirror": true,
-        "oniFile": "",
+        "oniFile": "C:\\oni\\TestScene01.oni",
         "motor": false,
         "userDetectRangeMin": 0.3,
-        "userDetectRangeMax": 0.7
+        "userDetectRangeMax": 0.7,
+		"faceDownPercentage": 0.5
     },
 	
 	"averCaptureTemplate" : { 

@@ -18,5 +18,15 @@
          "y" : 8.829999923706055,
          "z" : -10.94000053405762
       }
+   },
+   "playerManagerParams" : {
+      "colorX1" : -15.0,
+      "colorY1" : 0.0,
+      "depthX1" : -30.0,
+      "depthY1" : -25.0,
+      "faceFrameRationX" : 0.01111111138015986,
+      "faceFrameRationY" : 0.02222222276031971,
+      "spanCenter" : 0.6600000262260437,
+      "spanX" : -0.07000000029802322
    }
 }

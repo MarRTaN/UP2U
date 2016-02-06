@@ -59,7 +59,7 @@ private:
 
 	AClass aClass_;
 
-	PlayerManager	playerMng;
+	PlayerManager	playerMng_;
 };
 
 void up2uApp::prepareSettings( Settings *settings )
@@ -116,10 +116,12 @@ void up2uApp::setup()
 		// setup everything here
 		config_.readConfigurableConfig(aClass_, "aClassConfig");	// this will eventually calls AClass::readConfig() with the Bit::JsonTree* node named "aClassConfig" as argument
 		config_.readConfigurableParams(aClass_, "aClassParams");	// this will eventually calls AClass::readParams() with the Bit::JsonTree* node named "aClassParams" as argument
-		config_.readConfigurableConfig(playerMng, "kinectTemplate");
+		config_.readConfigurableConfig(playerMng_, "kinectTemplate");
+		config_.readConfigurableParams(playerMng_, "playerManagerParams");
 
-		playerMng.setup();
-		if (!playerMng.isKinectReady()){
+		playerMng_.setup();
+		playerMng_.setupUsers();
+		if (!playerMng_.isKinectReady()){
 			MessageBox(NULL, L"Kinnect is not connected !", L"Message", NULL);
 			shutdown();
 			emitClose();
@@ -155,7 +157,7 @@ void up2uApp::shutdown()
 {
 	//int exitCode = Bit::Exception::getExitCode();
 	//exit( exitCode );	// we can not exit() here as memory leaks will occur
-	playerMng.shutdown();
+	playerMng_.shutdown();
 }
 
 void up2uApp::toggleFullscreen()
@@ -182,7 +184,7 @@ void up2uApp::keyDown( KeyEvent event )
 {
 	shortcutKey_.keyDown(event);
 	if (event.getCode() == KeyEvent::KEY_d){
-		playerMng.isKinectDebugMode = !playerMng.isKinectDebugMode;
+		playerMng_.isKinectDebugMode = !playerMng_.isKinectDebugMode;
 	}
 }
 
@@ -197,7 +199,7 @@ void up2uApp::update()
 		Bit::ExceptionHandler::checkExceptionFromThread();
 		
 		// added update part here
-		
+		playerMng_.updateUsers();
 		
 	}
 	catch (std::exception& e) {
@@ -214,7 +216,7 @@ void up2uApp::draw()
 	gl::clear(Color(0, 0, 0));
 	
 	// draw everything here
-	playerMng.draw();
+	playerMng_.draw();
 	
 	
 	// all debugging things 

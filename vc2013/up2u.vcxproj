@@ -67,7 +67,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>cinder_d.lib;%(AdditionalDependencies);openNI.lib;XnVNITE_1_5_2.lib;SDL.lib;SDLmain.lib;SDL_mixer.lib;gstreamer-0.10.lib;glib-2.0.lib;gobject-2.0.lib;gstapp-0.10.lib;gstbase-0.10.lib;gstvideo-0.10.lib;gthread-2.0.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\CVClient.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\QTMLClient.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\lib\msw\$(PlatformTarget)\$(PlatformToolset);$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\lib;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\lib;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\x86;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\x86;$(OSSBUILD_GSTREAMER_DIR)\sdk\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\lib\msw\$(PlatformTarget)\$(PlatformToolset);$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\lib;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\lib;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\$(PlatformTarget);$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\$(PlatformTarget);$(OSSBUILD_GSTREAMER_DIR)\sdk\lib</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -167,7 +167,7 @@
     <ClInclude Include="..\include\Stage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Action.cpp" />
+    <ClCompile Include="..\src\Actions.cpp" />
     <ClCompile Include="..\src\EndingStage.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\GameManager.cpp" />

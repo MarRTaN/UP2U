@@ -258,9 +258,6 @@
     <ClCompile Include="..\src\Person.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Action.cpp">
-      <Filter>Source Files\Action</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\EndingStage.cpp">
       <Filter>Source Files\Stage</Filter>
     </ClCompile>
@@ -281,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="..\src\GameManager.cpp">
       <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Actions.cpp">
+      <Filter>Source Files\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

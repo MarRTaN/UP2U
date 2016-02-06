@@ -10,27 +10,13 @@ using namespace ci::app;
 using namespace ci::gl;
 
 class Person{
-
-	typedef struct depthVec{
-		float p;
-		float q;
-		float c = -1;
-		float r;
-		float s;
-		float t;
-	};
-
 	public:
-		void					calDOF();
-		Vec3f					getTransVec();
-		Vec3f					getRotateVec();
-		void					addDepthPoints(float p, float q, float c, float r, float s, float t);
-		void					clearDepthPoints();
-
-	private:
-		string					playerId_;
-		vector<depthVec>		depthPoints_;
-		vector<float>			depthVals_;
-		Vec3f					transVec_;
-		Vec3f					rotateVec_;
+		int			id = -1;
+		Vec2f		center = Vec2f(0, 0);
+		Rectf		position = Rectf(0, 0, 0, 0);
+		Surface		faceSurface;
+		bool		isLookUp = false;
+		bool		isActive = false;
+		int			bufferCount = 0;
+		int			bufferDelay = 40;
 };
