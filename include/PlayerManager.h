@@ -37,6 +37,9 @@ class PlayerManager : public Kinect{
 		bool				isKinectDebugMode = false;
 		bool				isDetected = false;
 
+		void				moveMotorUp();
+		void				moveMotorDown();
+
 		vector<Person>		getPersons();
 
 	private:
@@ -45,6 +48,9 @@ class PlayerManager : public Kinect{
 		float						userDetectRangeMin_;
 		float						userDetectRangeMax_;
 		list<KinectUser*>			kinectUsers_;
+		bool						motorStatus_ = false;
+
+		int					motorAngle_ = 45;
 
 		//UserHead Frame
 		float				colorX_;

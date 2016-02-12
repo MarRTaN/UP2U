@@ -186,6 +186,12 @@ void up2uApp::keyDown( KeyEvent event )
 	if (event.getCode() == KeyEvent::KEY_d){
 		playerMng_.isKinectDebugMode = !playerMng_.isKinectDebugMode;
 	}
+	if (event.getCode() == KeyEvent::KEY_w){
+		playerMng_.moveMotorUp();
+	}
+	if (event.getCode() == KeyEvent::KEY_s){
+		playerMng_.moveMotorDown();
+	}
 }
 
 void up2uApp::mouseDown( MouseEvent event )

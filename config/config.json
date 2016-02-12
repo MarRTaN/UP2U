@@ -107,7 +107,7 @@
         "index": 0,
         "rangeInMm": { "min": 50, "max": 4000 },
         "mirror": true,
-        "oniFile": "C:\\oni\\TestScene01.oni",
+        "oniFile": "",
         "motor": false,
         "userDetectRangeMin": 0.3,
         "userDetectRangeMax": 0.7,

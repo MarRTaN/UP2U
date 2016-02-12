@@ -34,6 +34,11 @@ void PlayerManager::setupUsers(){
 
 void PlayerManager::updateUsers(){
 	if (isDataReady()) {
+		if (motorStatus_ == false) {
+			kinectDevice_->initMotor();
+			kinectDevice_->moveMotor(motorAngle_);
+			motorStatus_ = true;
+		}
 		int personCount = 0;
 		while (personCount < persons_.size()){
 			if (persons_[personCount].isActive) personCount++;
@@ -161,7 +166,7 @@ void PlayerManager::draw(){
 					Texture faceVideoC = Texture(persons_[index].faceSurface);
 					Area faceAreaColor(faceRectColor.x1, faceRectColor.y1, faceRectColor.x2, faceRectColor.y2);
 
-					Rectf faceDestC(id * 60, 0, (id + 1) * 60, 60);
+					Rectf faceDestC(id * 60, 60, (id + 1) * 60, 120);
 					gl::color(Color(255, 255, 255));
 					gl::draw(faceVideoC, faceAreaColor, faceDestC);
 
@@ -192,6 +197,20 @@ Surface PlayerManager::getDepthSurface(){
 
 vector<Person> PlayerManager::getPersons(){
 	return persons_;
+}
+
+void PlayerManager::moveMotorUp(){
+	motorAngle_+=5;
+	if (motorAngle_ > 50) motorAngle_ = 50;
+	console() << motorAngle_ << endl;
+	kinectDevice_->moveMotor(motorAngle_);
+}
+
+void PlayerManager::moveMotorDown(){
+	motorAngle_-=5;
+	if (motorAngle_ < -40) motorAngle_ = -40;
+	console() << motorAngle_ << endl;
+	kinectDevice_->moveMotor(motorAngle_);
 }
 
 void PlayerManager::readConfig(Bit::JsonTree* tree){
