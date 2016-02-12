@@ -36,7 +36,10 @@ public:
 private:
 	int							currentStageId_;
 	int							lastStageId_;
-	bool						isDetected_;
+	float						startTime_ = 0;
+	float						timeOut_ = 1;
+	float						switchStageDelay_;
+	bool						isDetected_ = false;
 	vector<Person>				persons_;
 	AdvertisingStage			advertisingStage_;
 	DetectingStage				detectingStage_;

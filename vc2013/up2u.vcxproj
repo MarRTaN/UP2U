@@ -125,6 +125,7 @@
     <None Include="..\config\params.json" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Pair.h" />
     <ClInclude Include="..\include\Pool.h" />
     <ClInclude Include="..\include\StageManager.h" />
     <ClInclude Include="..\include\DetectingStage.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="..\include\Up2UTypeDef.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Pair.cpp" />
     <ClCompile Include="..\src\Pool.cpp" />
     <ClCompile Include="..\src\StageManager.cpp" />
     <ClCompile Include="..\src\DetectingStage.cpp" />

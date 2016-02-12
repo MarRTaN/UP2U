@@ -1,5 +1,6 @@
 {
     "allStageConfig": {
+        "switchStageDelay": 1,
         "advertisingStage": {
             "advertisingVid": {
                 "path": "advertisingVid.mp4",
@@ -10,107 +11,148 @@
         },
 
         "detectingStage": {
-            "stageVid": {
-                "path": "bubble.mov",
-                "loadOption": "gstreamer",
-                "blendMode": "none",
-                "playOption": { "loop": true, "pingpong": false }
-            },
             "pool": {
+                "testVid": {
+                    "path": "bubbleA01.mov",
+                    "loadOption": "gstreamer",
+                    "blendMode": "none",
+                    "playOption": { "loop": false, "pingpong": false }
+                },
                 "chatbox": {
+                    "testVid": {
+                        "path": "brownB01.mov",
+                        "loadOption": "gstreamer",
+                        "blendMode": "none",
+                        "playOption": { "loop": false, "pingpong": false }
+                    },
                     "mm": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "brownB01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             },
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "brownB02.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
+                            },
+                            "video": {
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
+                        
                     ],
                     "mf": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "brownB01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "brownB02.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "brownB03.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ],
                     "fm": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ],
                     "ff": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
-                            "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
-                                "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
+                        },
+                        {
+                            "video": {
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+
                         }
                     ],
                     "mx": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "brownA01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "brownA02.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "conyA01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+
                             }
                         }
                     ],
-                     "fx": [
+                    "fx": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "conyA01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "conyA02.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ]
@@ -119,96 +161,144 @@
                     "mm": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleB01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
-                            "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
-                                "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
-                        }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB03.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB04.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB05.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }                       
+                       
                     ],
                     "mf": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleB01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleB02.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ],
                     "fm": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleB03.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleB04.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ],
                     "ff": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleB05.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleB06.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ],
                     "mx": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleA01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleA02.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleA03.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ],
-                     "fx": [
+                    "fx": [
                         {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleA01.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
-                            },
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
                             "video": {
-                                "path": "ShootEffect.mov",
-                                "loadOption": "texture",
+                                "path": "bubbleA02.mov",
+                                "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": true, "pingpong": false }
+                                "playOption": { "loop": false, "pingpong": false }
                             }
                         }
                     ]
@@ -217,8 +307,8 @@
         }
     },
         "display": {
-            "width": 640,
-            "height": 480,
+            "width": 1080,
+            "height": 768,
             "x": 0,
             "y": 0,
             "alwaysOnTop": false,

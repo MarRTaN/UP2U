@@ -121,6 +121,7 @@ void up2uApp::setup()
 		config_.readConfigurableConfig(playerMng_, "kinectTemplate");
 		config_.readConfigurableParams(playerMng_, "playerManagerParams");
 		config_.readConfigurableConfig(stageMng_, "allStageConfig");
+		config_.readConfigurableParams(stageMng_, "stageManagerParams");
 		
 		stageMng_.setup();
 		playerMng_.setup();
@@ -214,7 +215,10 @@ void up2uApp::update()
 		//	}
 		//}
 		playerMng_.updateUsers();
+		
 		stageMng_.setPersons(playerMng_.getPersons());
+		if (playerMng_.getPersons().size() > 0) stageMng_.setPlayerDetection(true);
+		else stageMng_.setPlayerDetection(false);
 		stageMng_.update();
 	}
 	catch (std::exception& e) {

@@ -76,6 +76,12 @@
     <Filter Include="Source Files\Pool">
       <UniqueIdentifier>{e5cba599-57e4-4e4f-846b-a3f21c448241}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Pair">
+      <UniqueIdentifier>{8ee1d42d-aa9d-4ca9-b035-7c2cca041ca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pair">
+      <UniqueIdentifier>{4b35c676-fbad-4050-b043-17dfa6be7b26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\up2uApp.cpp">
@@ -264,6 +270,9 @@
     <ClCompile Include="..\src\Pool.cpp">
       <Filter>Source Files\Pool</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Pair.cpp">
+      <Filter>Source Files\Pair</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AClass.cpp">
@@ -294,6 +303,9 @@
     </ClInclude>
     <ClInclude Include="..\include\Pool.h">
       <Filter>Header Files\Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Pair.h">
+      <Filter>Header Files\Pair</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

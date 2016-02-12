@@ -38,7 +38,7 @@ void PlayerManager::updateUsers(){
 		while (personCount < persons_.size()){
 			if (persons_[personCount].isActive) personCount++;
 			else{
-				persons_.erase(persons_.begin(), persons_.begin() + personCount);
+				persons_.erase(persons_.begin() + personCount);
 			}
 		}
 	}
@@ -54,9 +54,7 @@ void PlayerManager::draw(){
 		float videoH = video.getHeight();
 		float windowW = getWindowWidth();
 		float windowH = getWindowHeight();
-
-		float destX = ((windowH / videoH)*videoW);
-		float delX = (destX - windowW) / 2.0f;
+		float imageRatio = windowW / videoW;
 
 		Area srcArea1(0, 0, video.getWidth(), video.getHeight());	//TODO change to videoH
 		Rectf destRect1(0, 0, windowW, windowH);					//TODO change to videoW
@@ -89,9 +87,6 @@ void PlayerManager::draw(){
 					persons_[index].isActive = true;
 				}
 
-				persons_[index].id = (*it)->getId();
-				persons_[index].center = Vec2f(circleCenter.x, circleCenter.y);
-
 				float facePoint = 0, hairPoint = 0;
 				float faceFrameSizeX = faceFrameRatioX_ * (*it)->getHeadProjectivePosition().Z;
 				float faceFrameSizeY = faceFrameRatioY_ * (*it)->getHeadProjectivePosition().Z;
@@ -101,18 +96,13 @@ void PlayerManager::draw(){
 
 				float colorX1 = circleCenter.x + colorX_ + factor;
 				float colorY1 = circleCenter.y + colorY_;
-				float depthX1 = circleCenter.x + depthX_;
-				float depthY1 = circleCenter.y + depthY_;
 
 				float colorX2 = colorX1 + faceFrameSizeX;
 				float colorY2 = colorY1 + faceFrameSizeY;
-				float depthX2 = depthX1 + faceFrameSizeX;
-				float depthY2 = depthY1 + faceFrameSizeY;
 
 				//Color
 				Rectf faceRectColor(colorX1, colorY1, colorX2, colorY2);
 
-				persons_[index].position = faceRectColor;
 				persons_[index].faceSurface = colorSurface;
 
 				for (int y = faceRectColor.y1; y <= faceRectColor.y2; y++){
@@ -122,18 +112,39 @@ void PlayerManager::draw(){
 						if (skinColorHSV.x >= 0 && skinColorHSV.x <= 28.f / 255.f &&
 							skinColorHSV.y >= 50.f / 255.f && skinColorHSV.y <= 255.f / 255.f &&
 							skinColorHSV.z >= 60.f / 255.f && skinColorHSV.z <= 255.f / 255.f){
-							persons_[index].faceSurface.setPixel(Vec2i(x, y), ColorAT<uint8_t>(255, 255, 255, 1));
+							//persons_[index].faceSurface.setPixel(Vec2i(x, y), ColorAT<uint8_t>(255, 255, 255, 1));
 							facePoint++;
 						}
 						else if (skinColorHSV.z >= 0.0f && skinColorHSV.z <= 0.3f){
-							persons_[index].faceSurface.setPixel(Vec2i(x, y), ColorAT<uint8_t>(255, 0, 0, 1));
+							//persons_[index].faceSurface.setPixel(Vec2i(x, y), ColorAT<uint8_t>(255, 0, 0, 1));
 							hairPoint++;
 						}
 						else {
-							persons_[index].faceSurface.setPixel(Vec2i(x, y), ColorAT<uint8_t>(0, 0, 0, 1));
+							//persons_[index].faceSurface.setPixel(Vec2i(x, y), ColorAT<uint8_t>(0, 0, 0, 1));
 						}
 					}
 				}
+
+				//rebuild position
+
+				circleCenter.x = circleCenter.x * imageRatio;
+				circleCenter.y = circleCenter.y * imageRatio;
+
+				center = spanCenter_ * video.getWidth();
+				factor = (circleCenter.x - center) * spanX_;
+
+				colorX1 = circleCenter.x + colorX_ + factor;
+				colorY1 = circleCenter.y + colorY_;
+
+				colorX2 = colorX1 + faceFrameSizeX;
+				colorY2 = colorY1 + faceFrameSizeY;
+
+				//Color
+				Rectf rebuildFaceRectColor(colorX1, colorY1, colorX2, colorY2);
+
+				persons_[index].id = (*it)->getId();
+				persons_[index].center = Vec2f(circleCenter.x, circleCenter.y);
+				persons_[index].position = rebuildFaceRectColor;
 
 				int bufferDelay = persons_[index].bufferDelay;
 
@@ -165,17 +176,22 @@ void PlayerManager::draw(){
 					gl::color(Color(255, 255, 255));
 					gl::draw(faceVideoC, faceAreaColor, faceDestC);
 
+					Area rebuildFaceAreaColor(rebuildFaceRectColor.x1, rebuildFaceRectColor.y1, rebuildFaceRectColor.x2, rebuildFaceRectColor.y2);
+
+
 					if (!persons_[index].isLookUp) gl::color(Color(0, 255, 0));
 					else					   gl::color(Color(255, 0, 0));
 					gl::lineWidth(5);
-					gl::drawStrokedRect(faceRectColor);
+					gl::drawStrokedRect(rebuildFaceAreaColor);
 
 					id++;
 				}
+				
 			}
 
 		}
 	}
+	gl::color(Color(255, 255, 255));
 }
 
 Surface PlayerManager::getColorSurface(){
