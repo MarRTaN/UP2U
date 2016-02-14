@@ -1,126 +1,454 @@
 {
-    "display" : { "width" : 640, "height" : 480, 
-				  "x" : 0, "y" : 0,
-				  "alwaysOnTop" : false,
-				  "borderLess" : true,
-				  "hideCursor" : false },
-				  
-	"assetPath" : "",
-	
-	"aClassConfig" : {
-		"configBool" : false,
-		"configDouble" : 2.2,
-		"configFloat" : 1.3,
-		"configString" : "fdsa",
-		"configInt" : 2,
-		"configVec2i" : {
-			"x" : 2,
-			"y" : 3
-		},
-		"configVec2f" : {
-			"x" : 4.5,
-			"y" : 6.7
-		},
-		"configVec3f" : {
-			"x" : 1.2,
-			"y" : 3.4,
-			"z" : 5.6
-		}
-	},
+	"allStageConfig": {
+        "switchStageDelay": 1,
+        "advertisingStage": {
+            "advertisingVid": {
+                "path": "advertisingVid.mp4",
+                "loadOption": "gstreamer",
+                "blendMode": "none",
+                "playOption": { "loop": true, "pingpong": false }
+            }
+        },
 
-	"audioTemplate" : { 
-		"path" : "relativeToAssetPath", 
-		"playOption" : { "loop" : false } 
-	},
-	
-	"videoTemplate" : {
-		"path" : "relativeToAssetPath",
-		"loadOption" : "surface | texture | gstreamer | quicktime",
-		"playOption" : { "loop" : false, "pingpong" : false }
-	},
-	
-	"multimediaTemplate" : {
-		"video" : {
-			"path" : "relativeToAssetPath",
-			"loadOption" : "surface | texture | gstreamer | quicktime",
-			"blendMode" : "none | premultiply | multiply | over | add | screen", 
-			"playOption" : { "loop" : false, "pingpong" : false }
-		},
+        "detectingStage": {
+            "pool": {
+                "testVid": {
+                    "path": "bubbleA01.mov",
+                    "loadOption": "gstreamer",
+                    "blendMode": "none",
+                    "playOption": { "loop": false, "pingpong": false }
+                },
+                "chatbox": {
+                    "testVid": {
+                        "path": "brownB01.mov",
+                        "loadOption": "gstreamer",
+                        "blendMode": "none",
+                        "playOption": { "loop": false, "pingpong": false }
+                    },
+                    "mm": [
+                        {
+                            "video": {
+                                "path": "brownB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            },
+                            "video": {
+                                "path": "brownB02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            },
+                            "video": {
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                        
+                    ],
+                    "mf": [
+                        {
+                            "video": {
+                                "path": "brownB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "brownB02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "brownB03.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ],
+                    "fm": [
+                        {
+                            "video": {
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ],
+                    "ff": [
+                        {
+                            "video": {
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "conyB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
 
-		"audio" : {
-			"path" : "relativeToAssetPath",
-			"loadOption" : "surface | texture | gstreamer | quicktime",
-			"blendMode" : "none | premultiply | multiply | over | add | screen", 
-			"playOption" : { "loop" : false, "pingpong" : false }
-		},
+                        }
+                    ],
+                    "mx": [
+                        {
+                            "video": {
+                                "path": "brownA01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "brownA02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "conyA01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
 
-		"blendMode" : "none | premultiply | multiply | over | add | screen", 
+                            }
+                        }
+                    ],
+                    "fx": [
+                        {
+                            "video": {
+                                "path": "conyA01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "conyA02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ]
+                },
+                "bubble": {
+                    "mm": [
+                        {
+                            "video": {
+                                "path": "bubbleB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB03.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB04.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleB05.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }                       
+                       
+                    ],
+                    "mf": [
+                        {
+                            "video": {
+                                "path": "bubbleB01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
 
-		"displayArea" : {
-			"size" : { "width" : 1, "height" : "auto" }, 
-			"position" : { "x" : 0, "y" : 0 }, 
-			"pivot" : { "x" : 0, "y" : 0 }, 
-			"rotation" : 0
-		} 
-	},
-	
-	"oldAudioTemplate" : { "path" : "relativeToAssetPath", "playOption" : { "loop" : false } },
-	
-	"oldVideoWithDisplayAreaTemplate" : 
-		{ "path" : "relativeToAssetPath", "audioPath" : "relativeToAssetPath", "loadOption" : "surface | texture | gstreamer | quicktime",
-		  "blendMode" : "none | premultiply | multiply | over | add | screen", "playOption" : { "loop" : false, "pingpong" : false },
-		  "displayArea" : {
-			 "size" : { "width" : 1, "height" : "auto" }, "position" : { "x" : 0, "y" : 0 }, 
-			 "pivot" : { "x" : 0, "y" : 0 }, "rotation" : 0
-		  } 
-	    },
+                            "video": {
+                                "path": "bubbleB02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ],
+                    "fm": [
+                        {
+                            "video": {
+                                "path": "bubbleB03.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
 
-	"oldVideoTemplate" : 
-		{ "path" : "relativeToAssetPath", "audioPath" : "relativeToAssetPath", "loadOption" : "surface | texture | gstreamer | quicktime",
-		  "blendMode" : "none | premultiply | multiply | over | add | screen", "playOption" : { "loop" : false, "pingpong" : false }
-	    },
+                            "video": {
+                                "path": "bubbleB04.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ],
+                    "ff": [
+                        {
+                            "video": {
+                                "path": "bubbleB05.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
 
-	"cameraTemplate" : {
-		"index" : 0,
-		"size" : { "width" : 1920, "height" : 1080 },
-		"mirror" : false,
-		"properties" : {
-			"translation" : { "x" : 9.4045319774609015e-001, "y" : 5.1591063111136357e+001, "z" : -1.0590903034455167e+001 },
-			"rotation" : [ 9.9986302928375637e-001, -1.4519449534790238e-002, -7.9440705382586886e-003,
-							1.4832464114262487e-002, 9.9905415759338856e-001, 4.0875276190674679e-002,
-							7.3430701895913896e-003, -4.0987507615998071e-002, 9.9913267564404040e-001	],
-			"verticalFov" : 39.2404,
-			"aspectRatio" : 1.7778,
-			"nearPlane" : 0.1,
-			"farPlane" : 10000,
-			"offsetInPercent" : { "x" : 0.0, "y" : 0.0 }
-		}
-	},
-
-	"cameraTemplateWithoutProperties" : {
-		"index" : 0,
-		"size" : { "width" : 1920, "height" : 1080 },
-		"mirror" : false
-	},
-
-	"kinectTemplate": {
-        "index": 0,
-        "rangeInMm": { "min": 50, "max": 4000 },
-        "mirror": true,
-        "oniFile": "",
-        "motor": false,
-        "userDetectRangeMin": 0.3,
-        "userDetectRangeMax": 0.7,
-		"faceDownPercentage": 0.5
+                            "video": {
+                                "path": "bubbleB06.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ],
+                    "mx": [
+                        {
+                            "video": {
+                                "path": "bubbleA01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleA02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleA03.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ],
+                    "fx": [
+                        {
+                            "video": {
+                                "path": "bubbleA01.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        },
+                        {
+                            "video": {
+                                "path": "bubbleA02.mov",
+                                "loadOption": "gstreamer",
+                                "blendMode": "alphaBlend",
+                                "playOption": { "loop": false, "pingpong": false }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
     },
-	
-	"averCaptureTemplate" : { 
-		"width" : 1920, "height" : 1080,
-		"progressive" : true,
-		"inputType" : "hd | sd",
-		"flip" : {"horizontal" : false, "vertical" : false},
-		"rotate" : "none | cw90 | ccw90",
-		"deinterlace" : "none | bob | blend | weave" 
-	}
-	
-}
+        "display": {
+            "width": 1080,
+            "height": 768,
+            "x": 0,
+            "y": 0,
+            "alwaysOnTop": false,
+            "borderLess": true,
+            "hideCursor": false
+        },
+
+        "assetPath": "D:\\workspace\\UP2U\\assets\\",
+
+        "aClassConfig": {
+            "configBool": false,
+            "configDouble": 2.2,
+            "configFloat": 1.3,
+            "configString": "fdsa",
+            "configInt": 2,
+            "configVec2i": {
+                "x": 2,
+                "y": 3
+            },
+            "configVec2f": {
+                "x": 4.5,
+                "y": 6.7
+            },
+            "configVec3f": {
+                "x": 1.2,
+                "y": 3.4,
+                "z": 5.6
+            }
+        },
+
+        "audioTemplate": {
+            "path": "relativeToAssetPath",
+            "playOption": { "loop": false }
+        },
+
+        "videoTemplate": {
+            "path": "relativeToAssetPath",
+            "loadOption": "surface | texture | gstreamer | quicktime",
+            "playOption": { "loop": false, "pingpong": false }
+        },
+
+        "multimediaTemplate": {
+            "video": {
+                "path": "relativeToAssetPath",
+                "loadOption": "surface | texture | gstreamer | quicktime",
+                "blendMode": "none | premultiply | multiply | over | add | screen",
+                "playOption": { "loop": false, "pingpong": false }
+            },
+
+            "audio": {
+                "path": "relativeToAssetPath",
+                "loadOption": "surface | texture | gstreamer | quicktime",
+                "blendMode": "none | premultiply | multiply | over | add | screen",
+                "playOption": { "loop": false, "pingpong": false }
+            },
+
+            "blendMode": "none | premultiply | multiply | over | add | screen",
+
+            "displayArea": {
+                "size": { "width": 1, "height": "auto" },
+                "position": { "x": 0, "y": 0 },
+                "pivot": { "x": 0, "y": 0 },
+                "rotation": 0
+            }
+        },
+
+        "oldAudioTemplate": { "path": "relativeToAssetPath", "playOption": { "loop": false } },
+
+        "oldVideoWithDisplayAreaTemplate": {
+            "path": "relativeToAssetPath",
+            "audioPath": "relativeToAssetPath",
+            "loadOption": "surface | texture | gstreamer | quicktime",
+            "blendMode": "none | premultiply | multiply | over | add | screen",
+            "playOption": { "loop": false, "pingpong": false },
+            "displayArea": {
+                "size": { "width": 1, "height": "auto" },
+                "position": { "x": 0, "y": 0 },
+                "pivot": { "x": 0, "y": 0 },
+                "rotation": 0
+            }
+        },
+
+        "oldVideoTemplate": {
+            "path": "relativeToAssetPath",
+            "audioPath": "relativeToAssetPath",
+            "loadOption": "surface | texture | gstreamer | quicktime",
+            "blendMode": "none | premultiply | multiply | over | add | screen",
+            "playOption": { "loop": false, "pingpong": false }
+        },
+
+        "cameraTemplate": {
+            "index": 0,
+            "size": { "width": 1920, "height": 1080 },
+            "mirror": false,
+            "properties": {
+                "translation": { "x": 9.4045319774609015e-001, "y": 5.1591063111136357e+001, "z": -1.0590903034455167e+001 },
+                "rotation": [
+                    9.9986302928375637e-001,
+                    -1.4519449534790238e-002,
+                    -7.9440705382586886e-003,
+                    1.4832464114262487e-002,
+                    9.9905415759338856e-001,
+                    4.0875276190674679e-002,
+                    7.3430701895913896e-003,
+                    -4.0987507615998071e-002,
+                    9.9913267564404040e-001
+                ],
+                "verticalFov": 39.2404,
+                "aspectRatio": 1.7778,
+                "nearPlane": 0.1,
+                "farPlane": 10000,
+                "offsetInPercent": { "x": 0.0, "y": 0.0 }
+            }
+        },
+
+        "cameraTemplateWithoutProperties": {
+            "index": 0,
+            "size": { "width": 1920, "height": 1080 },
+            "mirror": false
+        },
+
+        "kinectTemplate": {
+            "index": 0,
+            "rangeInMm": { "min": 50, "max": 4000 },
+            "mirror": true,
+            "oniFile": "C:\\oni\\TestScene01.oni",
+            "motor": false,
+            "userDetectRangeMin": 0.3,
+            "userDetectRangeMax": 0.7,
+		    "faceDownPercentage": 0.5
+        },
+
+        "averCaptureTemplate": {
+            "width": 1920,
+            "height": 1080,
+            "progressive": true,
+            "inputType": "hd | sd",
+            "flip": { "horizontal": false, "vertical": false },
+            "rotate": "none | cw90 | ccw90",
+            "deinterlace": "none | bob | blend | weave"
+        }
+
+    }

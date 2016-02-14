@@ -125,15 +125,13 @@
     <None Include="..\config\params.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Actions.h" />
-    <ClInclude Include="..\include\EndingStage.h" />
-    <ClInclude Include="..\include\Game.h" />
-    <ClInclude Include="..\include\GameManager.h" />
-    <ClInclude Include="..\include\GameplayStage.h" />
-    <ClInclude Include="..\include\IdleStage.h" />
+    <ClInclude Include="..\include\Pair.h" />
+    <ClInclude Include="..\include\Pool.h" />
+    <ClInclude Include="..\include\StageManager.h" />
+    <ClInclude Include="..\include\DetectingStage.h" />
     <ClInclude Include="..\include\Person.h" />
     <ClInclude Include="..\include\PlayerManager.h" />
-    <ClInclude Include="..\include\ReadyStage.h" />
+    <ClInclude Include="..\include\AdvertisingStage.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\include\AClass.h" />
     <ClInclude Include="..\blocks\BitFoundation\include\AppVerify_.h" />
@@ -164,19 +162,16 @@
     <ClInclude Include="..\blocks\BitMultimedia\include\BitVideo.h" />
     <ClInclude Include="..\blocks\CinderGstreamer\include\_2RealGStreamerWrapper.h" />
     <ClInclude Include="..\blocks\CinderGstreamer\include\CinderGstVideo.h" />
-    <ClInclude Include="..\include\Stage.h" />
+    <ClInclude Include="..\include\Up2UTypeDef.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Actions.cpp" />
-    <ClCompile Include="..\src\EndingStage.cpp" />
-    <ClCompile Include="..\src\Game.cpp" />
-    <ClCompile Include="..\src\GameManager.cpp" />
-    <ClCompile Include="..\src\GameplayStage.cpp" />
-    <ClCompile Include="..\src\IdleStage.cpp" />
+    <ClCompile Include="..\src\Pair.cpp" />
+    <ClCompile Include="..\src\Pool.cpp" />
+    <ClCompile Include="..\src\StageManager.cpp" />
+    <ClCompile Include="..\src\DetectingStage.cpp" />
     <ClCompile Include="..\src\Person.cpp" />
     <ClCompile Include="..\src\PlayerManager.cpp" />
-    <ClCompile Include="..\src\ReadyStage.cpp" />
-    <ClCompile Include="..\src\Stage.cpp" />
+    <ClCompile Include="..\src\AdvertisingStage.cpp" />
     <ClCompile Include="..\src\up2uApp.cpp" />
     <ClCompile Include="..\src\AClass.cpp" />
     <ClCompile Include="..\blocks\BitFoundation\src\BitConsole.cpp" />

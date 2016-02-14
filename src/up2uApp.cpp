@@ -24,6 +24,7 @@
 //Additional include
 #include "ConfigReader.h"
 #include "PlayerManager.h"
+#include "StageManager.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -60,6 +61,7 @@ private:
 	AClass aClass_;
 
 	PlayerManager	playerMng_;
+	StageManager	stageMng_;
 };
 
 void up2uApp::prepareSettings( Settings *settings )
@@ -118,9 +120,13 @@ void up2uApp::setup()
 		config_.readConfigurableParams(aClass_, "aClassParams");	// this will eventually calls AClass::readParams() with the Bit::JsonTree* node named "aClassParams" as argument
 		config_.readConfigurableConfig(playerMng_, "kinectTemplate");
 		config_.readConfigurableParams(playerMng_, "playerManagerParams");
-
+		config_.readConfigurableConfig(stageMng_, "allStageConfig");
+		config_.readConfigurableParams(stageMng_, "stageManagerParams");
+		
+		stageMng_.setup();
 		playerMng_.setup();
 		playerMng_.setupUsers();
+
 		if (!playerMng_.isKinectReady()){
 			MessageBox(NULL, L"Kinnect is not connected !", L"Message", NULL);
 			shutdown();
@@ -205,8 +211,21 @@ void up2uApp::update()
 		Bit::ExceptionHandler::checkExceptionFromThread();
 		
 		// added update part here
+		//if (playerMng_.isDataReady()){
+		//	if (playerMng_.isPlayerDetected()){
+		//		stageMng_.setPlayerDetection(true);
+		//		stageMng_.setPersons(playerMng_.getPersons());
+		//	}
+		//	else{
+		//		stageMng_.setPlayerDetection(false);
+		//	}
+		//}
 		playerMng_.updateUsers();
 		
+		stageMng_.setPersons(playerMng_.getPersons());
+		if (playerMng_.getPersons().size() > 0) stageMng_.setPlayerDetection(true);
+		else stageMng_.setPlayerDetection(false);
+		stageMng_.update();
 	}
 	catch (std::exception& e) {
 		Bit::ExceptionHandler::handleException(&e);
@@ -223,6 +242,7 @@ void up2uApp::draw()
 	
 	// draw everything here
 	playerMng_.draw();
+	stageMng_.draw();
 	
 	
 	// all debugging things 
