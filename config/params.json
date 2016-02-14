@@ -31,9 +31,9 @@
    },
    "stageManagerParams" : {
       "detectionStage" : {
-         "scale" : 100.0,
+         "scale" : 177.0,
          "shiftX" : 0.0,
-         "shiftY" : -100.0
+         "shiftY" : -204.0
       }
    }
 }

@@ -87,7 +87,7 @@ void DetectingStage::draw(){
 			displayArea_.draw(texture, textureRect);
 			ci::gl::disableAlphaBlending();
 		}
-		console() << "i = " << i << ", id = " << pairs_[i].person.id << ", center" << pairs_[i].person.center << endl;
+		//console() << "i = " << i << ", id = " << pairs_[i].person.id << ", center" << pairs_[i].person.center << endl;
 	}
 }
 
@@ -141,7 +141,7 @@ void DetectingStage::checkNewPersons(){
 
 
 	pairs_ = tempPairs;
-	console() << "PAIRS SIZE = " << pairs_.size() << endl;
+	//console() << "PAIRS SIZE = " << pairs_.size() << endl;
 
 }
 
@@ -163,25 +163,25 @@ void DetectingStage::eraseOldPairs(){
 }
 
 Pair DetectingStage::pairUp(int i){
-	console() << "PAIR UP NEW PERSON" << endl;
+	//console() << "PAIR UP NEW PERSON" << endl;
 	Pair tempPair;
 	tempPair.person = persons_[i];
 	
 	//if this is the first one from the left, consider the right one next to him.
 	if (i == 0 && persons_.size() > 1){
-		console() << "CASE 1" << endl;
+		//console() << "CASE 1" << endl;
 		tempPair.chatboxVid = getChatboxVid(persons_[i].gender, persons_[i + 1].gender);
 		tempPair.bubbleVid = getBubbleVid(persons_[i].gender, persons_[i + 1].gender);
 	}
 	//if this is the second one or the third one from the left, consider the left one next to him.
 	else if (i == 1 || i == 2){
-		console() << "CASE 2" << endl;
+		//console() << "CASE 2" << endl;
 		tempPair.chatboxVid = getChatboxVid(persons_[i].gender, persons_[i - 1].gender);
 		tempPair.bubbleVid = getBubbleVid(persons_[i].gender, persons_[i - 1].gender);
 	}
 	//else he must be alone
 	else{
-		console() << "CASE 3" << endl;
+		//console() << "CASE 3" << endl;
 		tempPair.chatboxVid = getChatboxVid(persons_[i].gender, UNDEFINED);
 		tempPair.bubbleVid = getBubbleVid(persons_[i].gender, UNDEFINED);
 	}

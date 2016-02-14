@@ -3,7 +3,6 @@
 void Pool::setup(){
 	loadChatBox();
 	loadBubble();
-	testVid.setup();
 }
 
 void Pool::loadChatBox(){
@@ -20,7 +19,6 @@ void Pool::loadChatBox(){
 	for (Bit::JsonTree::Iter it = config_.chatboxMFTree->begin(); it != config_.chatboxMFTree->end(); it++){
 		Bit::JsonTree* tempTree = Bit::JsonTree::toBitJsonTreePtr(*it);
 		Bit::Video tempVid;
-		console() << *tempTree << endl;
 		tempVid.readConfig(tempTree->getChildPtr("video"));
 		tempVid.setup();
 		chatboxMFList_.push_back(tempVid);
@@ -133,7 +131,7 @@ Bit::Video Pool::getChatboxVid(int gender1, int gender2){
 		int randomNo = rand() % chatboxMMList_.size();
 		result = chatboxMMList_[randomNo];*/
 		result = chatboxMMList_[cmmIndex_];
-		console() << "MM RANDOM CHATBOX = " << cmmIndex_ << " FROM " << chatboxMMList_.size() << endl;
+		//console() << "MM RANDOM CHATBOX = " << cmmIndex_ << " FROM " << chatboxMMList_.size()-1 << endl;
 		if (cmmIndex_ == chatboxMMList_.size() - 1) cmmIndex_ = 0;
 		else cmmIndex_++;
 	}
@@ -141,7 +139,7 @@ Bit::Video Pool::getChatboxVid(int gender1, int gender2){
 		/*srand(time(NULL));
 		int randomNo = rand() % chatboxMFList_.size();*/
 		result = chatboxMFList_[cmfIndex_];
-		console() << "MF RANDOM CHATBOX = " << cmfIndex_ << " FROM " << chatboxMFList_.size() << endl;
+		//console() << "MF RANDOM CHATBOX = " << cmfIndex_ << " FROM " << chatboxMFList_.size()-1 << endl;
 		if (cmfIndex_ == chatboxMFList_.size() - 1) cmfIndex_ = 0;
 		else cmfIndex_++;
 	}
@@ -149,7 +147,7 @@ Bit::Video Pool::getChatboxVid(int gender1, int gender2){
 		/*srand(time(NULL));
 		int randomNo = rand() % chatboxFMList_.size();*/
 		result = chatboxFMList_[cfmIndex_];
-		console() << "FM RANDOM CHATBOX = " << cfmIndex_ << " FROM " << chatboxFMList_.size() << endl;
+		//console() << "FM RANDOM CHATBOX = " << cfmIndex_ << " FROM " << chatboxFMList_.size()-1 << endl;
 		if (cfmIndex_ == chatboxFMList_.size() - 1) cfmIndex_ = 0;
 		else cfmIndex_++;
 	}
@@ -157,7 +155,7 @@ Bit::Video Pool::getChatboxVid(int gender1, int gender2){
 		/*srand(time(NULL));
 		int randomNo = rand() % chatboxFFList_.size();*/
 		result = chatboxFFList_[cffIndex_];
-		console() << "FF RANDOM CHATBOX = " << cffIndex_ << " FROM " << chatboxFFList_.size() << endl;
+		//console() << "FF RANDOM CHATBOX = " << cffIndex_ << " FROM " << chatboxFFList_.size() - 1 << endl;
 		if (cffIndex_ == chatboxFFList_.size() - 1) cffIndex_ = 0;
 		else cffIndex_++;
 	}
@@ -166,7 +164,7 @@ Bit::Video Pool::getChatboxVid(int gender1, int gender2){
 		console() << "SIZE = " << chatboxMXList_.size() << endl;
 		int randomNo = rand() % chatboxMXList_.size();*/
 		result = chatboxMXList_[cmxIndex_];
-		console() << "MX RANDOM CHATBOX = " << cmxIndex_ << " FROM " << chatboxMXList_.size() << endl;
+		//console() << "MX RANDOM CHATBOX = " << cmxIndex_ << " FROM " << chatboxMXList_.size() - 1 << endl;
 		if (cmxIndex_ == chatboxMXList_.size() - 1) cmxIndex_ = 0;
 		else cmxIndex_++;
 	}
@@ -174,7 +172,7 @@ Bit::Video Pool::getChatboxVid(int gender1, int gender2){
 		/*srand(time(NULL));
 		int randomNo = rand() % chatboxFXList_.size();*/
 		result = chatboxFXList_[cfxIndex_];
-		console() << "FX RANDOM CHATBOX = " << cfxIndex_ << " FROM " << chatboxFXList_.size() << endl;
+		//console() << "FX RANDOM CHATBOX = " << cfxIndex_ << " FROM " << chatboxFXList_.size() - 1 << endl;
 		if (cfxIndex_ == chatboxFXList_.size() - 1) cfxIndex_ = 0;
 		else cfxIndex_++;
 	}
@@ -190,7 +188,7 @@ Bit::Video Pool::getBubbleVid(int gender1, int gender2){
 			/*srand(time(NULL));
 			int randomNo = rand() % bubbleMMList_.size();*/
 			result = bubbleMMList_[bmmIndex_];
-			console() << "MM RANDOM BUBBLE = " << bmmIndex_ << " FROM " << bubbleMMList_.size() << endl;
+			//console() << "MM RANDOM BUBBLE = " << bmmIndex_ << " FROM " << bubbleMMList_.size() - 1 << endl;
 			if (bmmIndex_ == bubbleMMList_.size() - 1) bmmIndex_ = 0;
 			else bmmIndex_++;
 		}
@@ -200,7 +198,7 @@ Bit::Video Pool::getBubbleVid(int gender1, int gender2){
 			/*srand(time(NULL));
 			int randomNo = rand() % bubbleMFList_.size();*/
 			result = bubbleMFList_[bmfIndex_];
-			console() << "MF RANDOM BUBBLE = " << bmfIndex_ << " FROM " << bubbleMFList_.size() << endl;
+			//console() << "MF RANDOM BUBBLE = " << bmfIndex_ << " FROM " << bubbleMFList_.size() - 1 << endl;
 			if (bmfIndex_ == bubbleMFList_.size() - 1) bmfIndex_ = 0;
 			else bmfIndex_++;
 		}
@@ -210,7 +208,7 @@ Bit::Video Pool::getBubbleVid(int gender1, int gender2){
 			/*srand(time(NULL));
 			int randomNo = rand() % bubbleFMList_.size();*/
 			result = bubbleFMList_[bfmIndex_];
-			console() << "FM RANDOM BUBBLE = " << bfmIndex_ << " FROM " << bubbleFMList_.size() << endl;
+			//console() << "FM RANDOM BUBBLE = " << bfmIndex_ << " FROM " << bubbleFMList_.size() - 1 << endl;
 			if (bfmIndex_ == bubbleFMList_.size() - 1) bfmIndex_ = 0;
 			else bfmIndex_++;
 		}
@@ -220,7 +218,7 @@ Bit::Video Pool::getBubbleVid(int gender1, int gender2){
 			/*srand(time(NULL));
 			int randomNo = rand() % bubbleFFList_.size();*/
 			result = bubbleFFList_[bffIndex_];
-			console() << "FF RANDOM BUBBLE = " << bffIndex_ << " FROM " << bubbleFFList_.size() << endl;
+			//console() << "FF RANDOM BUBBLE = " << bffIndex_ << " FROM " << bubbleFFList_.size() - 1 << endl;
 			if (bffIndex_ == bubbleFFList_.size() - 1) bffIndex_ = 0;
 			else bffIndex_++;
 		}
@@ -230,7 +228,7 @@ Bit::Video Pool::getBubbleVid(int gender1, int gender2){
 			/*srand(time(NULL));
 			int randomNo = rand() % bubbleMXList_.size();*/
 			result = bubbleMXList_[bmxIndex_];
-			console() << "MX RANDOM BUBBLE = " << bmxIndex_ << " FROM " << bubbleMXList_.size() << endl;
+			//console() << "MX RANDOM BUBBLE = " << bmxIndex_ << " FROM " << bubbleMXList_.size() - 1 << endl;
 			if (bmxIndex_ == bubbleMXList_.size() - 1) bmxIndex_ = 0;
 			else bmxIndex_++;
 		}
@@ -240,7 +238,7 @@ Bit::Video Pool::getBubbleVid(int gender1, int gender2){
 			srand(time(NULL));
 			int randomNo = rand() % bubbleFXList_.size();
 			result = bubbleFXList_[bfxIndex_];
-			console() << "FX RANDOM BUBBLE = " << bfxIndex_ << " FROM " << bubbleFXList_.size() << endl;
+			//console() << "FX RANDOM BUBBLE = " << bfxIndex_ << " FROM " << bubbleFXList_.size() - 1 << endl;
 			if (bfxIndex_ == bubbleFXList_.size() - 1) bfxIndex_ = 0;
 			else bfxIndex_++;
 		}
@@ -264,5 +262,4 @@ void Pool::readConfig(Bit::JsonTree* tree){
 	config_.bubbleMXTree = tree->getChildPtr("bubble")->getChildPtr("mx");
 	config_.bubbleFXTree = tree->getChildPtr("bubble")->getChildPtr("fx");
 	
-	testVid.readConfig(tree->getChildPtr("testVid"));
 }
