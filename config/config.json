@@ -16,7 +16,7 @@
                     "path": "bubbleA01.mov",
                     "loadOption": "gstreamer",
                     "blendMode": "none",
-                    "playOption": { "loop": false, "pingpong": false }
+                    "playOption": { "loop": true, "pingpong": false }
                 },
                 "chatbox": {
 
@@ -26,7 +26,7 @@
                                     "path": "conyB01.mov",
                                     "loadOption": "gstreamer",
                                     "blendMode": "alphaBlend",
-                                    "playOption": { "loop": false, "pingpong": false }
+                                    "playOption": { "loop": true, "pingpong": false }
                                 }
                             },
                             {
@@ -34,7 +34,7 @@
                                     "path": "brownB01.mov",
                                     "loadOption": "gstreamer",
                                     "blendMode": "alphaBlend",
-                                    "playOption": { "loop": false, "pingpong": false }
+                                    "playOption": { "loop": true, "pingpong": false }
                                 }
                             },
                             {
@@ -42,7 +42,7 @@
                                     "path": "brownB02.mov",
                                     "loadOption": "gstreamer",
                                     "blendMode": "alphaBlend",
-                                    "playOption": { "loop": false, "pingpong": false }
+                                    "playOption": { "loop": true, "pingpong": false }
                                 }
                             }
                         
@@ -54,7 +54,7 @@
                                 "path": "brownB01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -62,7 +62,7 @@
                                 "path": "brownB02.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -70,7 +70,7 @@
                                 "path": "brownB03.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ],
@@ -80,7 +80,7 @@
                                 "path": "conyB01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -88,7 +88,7 @@
                                 "path": "conyB01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ],
@@ -98,7 +98,7 @@
                                 "path": "conyB01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -106,7 +106,7 @@
                                 "path": "conyB01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
 
                         }
@@ -117,7 +117,7 @@
                                 "path": "brownA02.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -125,7 +125,7 @@
                                 "path": "brownA01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -144,7 +144,7 @@
                                 "path": "conyA01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -152,7 +152,7 @@
                                 "path": "conyA02.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ]
@@ -164,7 +164,7 @@
                                 "path": "bubbleB02.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -172,7 +172,7 @@
                                 "path": "bubbleB03.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -180,7 +180,7 @@
                                 "path": "bubbleB01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -188,7 +188,7 @@
                                 "path": "bubbleB04.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -207,7 +207,7 @@
                                 "path": "bubbleB01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -216,7 +216,7 @@
                                 "path": "bubbleB02.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ],
@@ -226,7 +226,7 @@
                                 "path": "bubbleB03.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -235,7 +235,7 @@
                                 "path": "bubbleB04.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ],
@@ -254,7 +254,7 @@
                                 "path": "bubbleB06.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ],
@@ -264,7 +264,7 @@
                                 "path": "bubbleA01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -272,7 +272,7 @@
                                 "path": "bubbleA02.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -280,7 +280,7 @@
                                 "path": "bubbleA03.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ],
@@ -290,7 +290,7 @@
                                 "path": "bubbleA01.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         },
                         {
@@ -298,7 +298,7 @@
                                 "path": "bubbleA02.mov",
                                 "loadOption": "gstreamer",
                                 "blendMode": "alphaBlend",
-                                "playOption": { "loop": false, "pingpong": false }
+                                "playOption": { "loop": true, "pingpong": false }
                             }
                         }
                     ]
@@ -307,8 +307,8 @@
         }
     },
         "display": {
-            "width": 1080,
-            "height": 768,
+            "width": 800,
+            "height": 600,
             "x": 0,
             "y": 0,
             "alwaysOnTop": false,
@@ -316,7 +316,7 @@
             "hideCursor": false
         },
 
-        "assetPath": "D:\\workspace\\UP2U\\assets\\",
+        "assetPath": "C:\\Senior Project\\UP2U\\assets\\",
 
         "aClassConfig": {
             "configBool": false,
@@ -434,7 +434,7 @@
             "index": 0,
             "rangeInMm": { "min": 50, "max": 4000 },
             "mirror": true,
-            "oniFile": "C:\\oni\\TestScene01.oni",
+            "oniFile": "C:\\oni\\05-IDCUTOFF.oni",
             "motor": false,
             "userDetectRangeMin": 0.3,
             "userDetectRangeMax": 0.7,

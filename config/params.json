@@ -24,16 +24,16 @@
       "colorY1" : 0.0,
       "depthX1" : -30.0,
       "depthY1" : -25.0,
-      "faceFrameRationX" : 0.01999999955296516,
-      "faceFrameRationY" : 0.02700000070035458,
+      "faceFrameRationX" : 0.01499999966472387,
+      "faceFrameRationY" : 0.02199999988079071,
       "spanCenter" : 0.6600000262260437,
       "spanX" : -0.07000000029802322
    },
    "stageManagerParams" : {
       "detectionStage" : {
-         "scale" : 177.0,
+         "scale" : 120.0,
          "shiftX" : 0.0,
-         "shiftY" : -204.0
+         "shiftY" : -120.0
       }
    }
 }

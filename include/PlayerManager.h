@@ -20,6 +20,11 @@ using namespace ci::gl;
 
 class PlayerManager : public Kinect{
 
+	struct Skeleton{
+		int		id;
+		Vec3f	position = Vec3f(0, 0, 0);
+	};
+
 	public:
 
 		void				readConfig(Bit::JsonTree* tree);
@@ -41,6 +46,7 @@ class PlayerManager : public Kinect{
 		void				moveMotorDown();
 
 		vector<Person>		getPersons();
+		void				setUsers();
 
 	private:
 		Bit::Config					config_;
@@ -48,9 +54,13 @@ class PlayerManager : public Kinect{
 		float						userDetectRangeMin_;
 		float						userDetectRangeMax_;
 		list<KinectUser*>			kinectUsers_;
+		vector<Skeleton>			users_;
 		bool						motorStatus_ = false;
 
-		int					motorAngle_ = 45;
+		int					motorAngle_ = -20;
+
+		float				videoW = 0;
+		float				videoH = 0;
 
 		//UserHead Frame
 		float				colorX_;
@@ -66,4 +76,6 @@ class PlayerManager : public Kinect{
 		float				faceFrameRatioY_;
 
 		float				faceDownPercentage_;
+
+		int					countForDelay_ = 0;
 };

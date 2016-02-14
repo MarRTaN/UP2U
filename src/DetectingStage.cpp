@@ -17,7 +17,7 @@ void DetectingStage::update(){
 }
 
 void DetectingStage::draw(){
-
+	gl::color(255, 255, 255, 0.9);
 	for (int i = 0; i < pairs_.size(); i++){
 		Texture texture;
 		//if person look up, then pause chatboxVid and play bubbleVid
@@ -47,7 +47,11 @@ void DetectingStage::draw(){
 		Rectf textureRect;
 		Vec2f shift(param_shiftX_, param_shiftY_);
 		Vec2f radius(param_scale_, param_scale_);
-		if (pairs_[i].person.center.x - radius.x + shift.x  < 0){
+
+		textureRect = Rectf(pairs_[i].person.center - radius + shift, pairs_[i].person.center + radius + shift);
+
+
+		/*if (pairs_[i].person.center.x - radius.x + shift.x  < 0){
 			if (pairs_[i].person.center.y - radius.y + shift.y < 0){
 				textureRect = Rectf(0, 0, radius.x*2, radius.y*2);
 			}
@@ -79,7 +83,7 @@ void DetectingStage::draw(){
 			else{
 				textureRect = Rectf(pairs_[i].person.center - radius + shift, pairs_[i].person.center + radius + shift);
 			}
-		}
+		}*/
 
 		//get texture from chatbox/bubble vid and draw at center of that person.
 		if (texture){
@@ -89,6 +93,7 @@ void DetectingStage::draw(){
 		}
 		//console() << "i = " << i << ", id = " << pairs_[i].person.id << ", center" << pairs_[i].person.center << endl;
 	}
+	gl::color(255, 255, 255, 1);
 }
 
 void DetectingStage::setPersons(vector<Person> persons){
