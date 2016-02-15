@@ -46,4 +46,6 @@ private:
 	Log							log_;
 	Config						config_;
 
+	float						personLostSwitchTimeDelay_ = 0;
+
 };

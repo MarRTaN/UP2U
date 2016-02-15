@@ -1,6 +1,6 @@
 {
 	"allStageConfig": {
-        "switchStageDelay": 1,
+        "switchStageDelay": 5,
         "advertisingStage": {
             "advertisingVid": {
                 "path": "advertisingVid.mp4",
@@ -438,7 +438,7 @@
             "motor": false,
             "userDetectRangeMin": 0.3,
             "userDetectRangeMax": 0.7,
-		    "faceDownPercentage": 0.5
+		    "faceDownPercentage": 0.6
         },
 
         "averCaptureTemplate": {

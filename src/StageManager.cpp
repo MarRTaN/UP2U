@@ -46,11 +46,14 @@ void StageManager::checkDetection(){
 		if (timeOut_ < getElapsedSeconds()){
 			currentStageId_ = DETECTING_STAGE;
 		}
+		personLostSwitchTimeDelay_ = getElapsedSeconds() + switchStageDelay_;
 	}
 	else {
-		currentStageId_ = ADVERTISING_STAGE;
-		startTime_ = getElapsedSeconds();
-		timeOut_ = startTime_ + switchStageDelay_;
+		if (personLostSwitchTimeDelay_ < getElapsedSeconds()){
+			currentStageId_ = ADVERTISING_STAGE;
+			startTime_ = getElapsedSeconds();
+			timeOut_ = startTime_ + switchStageDelay_;
+		}
 	}
 }
 
