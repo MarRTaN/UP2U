@@ -95,7 +95,8 @@ void PlayerManager::draw(){
 		//console() << "==========================" << endl;
 		for (int i = 0; i < persons_.size(); i++){
 			//console() << "id = " << persons_[i].id << " :: Pos : " << persons_[i].center.x << "," << persons_[i].center.y << endl;
-			persons_[i].isActive = false;
+			//persons_[i].isActive = false;
+			persons_[i].isActive = true;
 		}
 
 		if (kinectUsers_.size() < persons_.size()){
