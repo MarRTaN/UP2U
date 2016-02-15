@@ -31,6 +31,7 @@ bool PlayerManager::isKinectReady(){
 
 void PlayerManager::setupUsers(){
 	persons_.reserve(15);
+	users_.reserve(10);
 }
 
 void PlayerManager::updateUsers(){
@@ -378,7 +379,7 @@ void PlayerManager::draw(){
 					}
 				}
 
-				if (facePoint > faceRectColor.calcArea() * 0.1 && hairPoint > faceRectColor.calcArea() * 0.05) {
+				if (facePoint > faceRectColor.calcArea() * 0.1 && hairPoint > faceRectColor.calcArea() * 0.05 && k < users_.size()) {
 					//if (true){
 					//rebuild position
 
