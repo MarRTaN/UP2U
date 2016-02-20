@@ -1,6 +1,6 @@
 {
 	"allStageConfig": {
-        "switchStageDelay": 5,
+        "switchStageDelay": 1,
         "advertisingStage": {
             "advertisingVid": {
                 "path": "advertisingVid.mp4",

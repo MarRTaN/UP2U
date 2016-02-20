@@ -198,6 +198,9 @@ void up2uApp::keyDown( KeyEvent event )
 	if (event.getCode() == KeyEvent::KEY_s){
 		playerMng_.moveMotorDown();
 	}
+	if (event.getCode() == KeyEvent::KEY_b){
+		playerMng_.setBackground();
+	}
 }
 
 void up2uApp::mouseDown( MouseEvent event )
@@ -242,7 +245,7 @@ void up2uApp::draw()
 	
 	// draw everything here
 	playerMng_.draw();
-	stageMng_.draw();
+	//stageMng_.draw();
 	
 	
 	// all debugging things 

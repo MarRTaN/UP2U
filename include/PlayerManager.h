@@ -47,6 +47,8 @@ class PlayerManager : public Kinect{
 
 		vector<Person>		getPersons();
 		void				setUsers();
+		bool				isBackground(Vec2i pixel, Vec3f color);
+		void				setBackground();
 
 	private:
 		Bit::Config					config_;
@@ -58,9 +60,13 @@ class PlayerManager : public Kinect{
 		bool						motorStatus_ = false;
 
 		int					motorAngle_ = -20;
+		int					facePixelMultiply = 2;
 
 		float				videoW = 0;
 		float				videoH = 0;
+
+		Texture				backgroundTexture_;
+		Surface				background_;
 
 		//UserHead Frame
 		float				colorX_;
@@ -78,4 +84,9 @@ class PlayerManager : public Kinect{
 		float				faceDownPercentage_;
 
 		int					countForDelay_ = 0;
+
+		//boundary
+		Rectf				frameBound;
+		Rectf				headBound;
+		float				frameX1 = 0.1, frameY1 = 0.1, frameX2 = 0.9, frameY2 = 0.6;
 };
