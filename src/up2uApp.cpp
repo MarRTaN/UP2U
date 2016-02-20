@@ -191,6 +191,7 @@ void up2uApp::keyDown( KeyEvent event )
 	shortcutKey_.keyDown(event);
 	if (event.getCode() == KeyEvent::KEY_d){
 		playerMng_.isKinectDebugMode = !playerMng_.isKinectDebugMode;
+		stageMng_.toggleDebugMode();
 	}
 	if (event.getCode() == KeyEvent::KEY_w){
 		playerMng_.moveMotorUp();

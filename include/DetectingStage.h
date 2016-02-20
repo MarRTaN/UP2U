@@ -40,6 +40,7 @@ public:
 	void				maximizeFaceColor(int personId);
 	void				normalizeFaceColor(int personId);
 	int					idToIndex(int id);
+	bool				isDebugMode = false;
 
 private:
 

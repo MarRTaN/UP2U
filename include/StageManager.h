@@ -34,7 +34,7 @@ public:
 	void			readConfig(Bit::JsonTree* tree);
 	void			readParams(Bit::JsonTree* tree, Bit::ParamsRef params);
 
-	bool			isDebugMode = false;
+	void			toggleDebugMode();
 
 private:
 	int							currentStageId_;
@@ -50,5 +50,6 @@ private:
 	Config						config_;
 
 	float						personLostSwitchTimeDelay_ = 0;
+	bool						isDebugMode_ = false;
 
 };

@@ -55,14 +55,18 @@ void PlayerManager::updateUsers(){
 					persons_[personCount].center.y < frameBound.y2 &&
 					!persons_[personCount].isPersonLost()) {
 					personCount++;
+					moveMotorDown();
 				}
 				else{
-					console() << "check lost id = " << persons_[personCount].id << endl;
 					persons_.erase(persons_.begin() + personCount);
+					isMoving_ = false;
+					moveMotorUp();
 				}
 			}
 			else if(persons_[personCount].lostCount < getElapsedSeconds()){
 				persons_.erase(persons_.begin() + personCount);
+				isMoving_ = false;
+				moveMotorUp();
 			}
 			else personCount++;
 		}
@@ -142,11 +146,14 @@ void PlayerManager::draw(){
 
 		for (int k = 0; k < users_.size(); k++){
 			circleCenter = Vec2f(users_[k].position.x, users_[k].position.y);
+			console() << "id = " << users_[k].id << endl;
+			console() << "headBound = " << headBound << endl;
+			console() << "circleCenter = " << circleCenter << endl;
 			if (circleCenter.y > headBound.y1 &&
 				circleCenter.y < headBound.y2 &&
 				circleCenter.x > headBound.x1 &&
 				circleCenter.x < headBound.x2){
-
+				console() << "IN1" << endl;
 				//check is user Exist
 				int index = -1;
 				Person data;
@@ -162,11 +169,11 @@ void PlayerManager::draw(){
 				if (index == -1) {
 					index = persons_.size();
 					data.isActive = true;
-					data.angleMean.reserve(45);
-					data.kinectCenterMean.reserve(45);
+					data.angleMean.reserve(15);
+					data.kinectCenterMean.reserve(15);
 				}
 
-				if (data.kinectCenterMean.size() > 40){
+				if (data.kinectCenterMean.size() > 10){
 					data.kinectCenterMean.erase(data.kinectCenterMean.begin());
 				}
 
@@ -179,6 +186,9 @@ void PlayerManager::draw(){
 				float facePoint = 0, hairPoint = 0;
 				float faceFrameSizeX = faceFrameRatioX_ * users_[k].position.z;
 				float faceFrameSizeY = faceFrameRatioY_ * users_[k].position.z;
+
+				//float faceFrameSizeX = 60.f;
+				//float faceFrameSizeY = 60.f;
 
 				float center = spanCenter_ * video.getWidth();
 				float factor = (data.kinectCenter.x - center) * spanX_;
@@ -227,11 +237,13 @@ void PlayerManager::draw(){
 				}
 
 				if (k < users_.size() &&
-					facePoint > faceRectColor.calcArea() / facePixelMultiply * 0.02 && 
-					hairPoint > faceRectColor.calcArea() / facePixelMultiply * 0.02) {
-					//if (true){
-					//rebuild position
+					//facePoint > faceRectColor.calcArea() / facePixelMultiply * 0.02 && 
+					//hairPoint > faceRectColor.calcArea() / facePixelMultiply * 0.02) {
+					facePoint > 0 &&
+					hairPoint > 0) {
 
+					//rebuild position
+					console() << "IN2" << endl;
 					data.center = data.kinectCenter * imageRatio;
 					hairCentroid = hairCentroid * imageRatio;
 					faceCentroid = faceCentroid * imageRatio;
@@ -254,12 +266,13 @@ void PlayerManager::draw(){
 					data.faceCentroid = faceCentroid / facePoint;
 					data.hairCentroid = hairCentroid / hairPoint;
 
-					if (data.faceCentroid.y > data.hairCentroid.y){
-
+					//if (data.faceCentroid.y > data.hairCentroid.y){
+					if (true) {
+						console() << "IN3" << endl;
 						float diff = ( (data.faceCentroid.x - data.hairCentroid.x) * 1.f) / ( (data.faceCentroid.y - data.hairCentroid.y) * 1.f );
 						float angle = atan(diff) * 180 / M_PI;
 
-						if (data.angleMean.size() > 40){
+						if (data.angleMean.size() > 10){
 							data.angleMean.erase( data.angleMean.begin());
 						}
 
@@ -364,17 +377,33 @@ void PlayerManager::setUsers(){
 }
 
 void PlayerManager::moveMotorUp(){
-	motorAngle_+=10;
-	if (motorAngle_ > 50) motorAngle_ = 50;
-	console() << motorAngle_ << endl;
-	kinectDevice_->moveMotor(motorAngle_);
+	if (!isMoving_) {
+		motorAngle_ = 0;
+		isMoving_ = true;
+		kinectDevice_->moveMotor(motorAngle_);
+	}
+	else if (motorUpCount_ > 10){
+		motorUpCount_ = 0;
+		isMoving_ = false;
+	}
+	else{
+		motorUpCount_++;
+	}
 }
 
 void PlayerManager::moveMotorDown(){
-	motorAngle_-=10;
-	if (motorAngle_ < -40) motorAngle_ = -40;
-	console() << motorAngle_ << endl;
-	kinectDevice_->moveMotor(motorAngle_);
+	if (!isMoving_) {
+		motorAngle_ = -5;
+		isMoving_ = true;
+		kinectDevice_->moveMotor(motorAngle_);
+	}
+	else if (motorDownCount_ > 10){
+		motorDownCount_ = 0;
+		isMoving_ = false;
+	}
+	else{
+		motorDownCount_++;
+	}
 }
 
 bool PlayerManager::isBackground(Vec2i pixel, Vec3f color){

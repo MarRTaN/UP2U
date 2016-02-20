@@ -30,12 +30,12 @@ void StageManager::draw(){
 		case DETECTING_STAGE: detectingStage_.draw(); break;
 	}
 
-	if (isDebugMode){
-		switch (currentStageId_){
-		case ADVERTISING_STAGE: advertisingStage_.drawDebugMode();  break;
-		case DETECTING_STAGE: detectingStage_.drawDebugMode(); break;
-		}
-	}
+	//if (isDebugMode){
+	//	switch (currentStageId_){
+	//	case ADVERTISING_STAGE: advertisingStage_.drawDebugMode();  break;
+	//	case DETECTING_STAGE: detectingStage_.drawDebugMode(); break;
+	//	}
+	//}
 }
 
 void StageManager::setPlayerDetection(bool isDetecting){
@@ -81,6 +81,11 @@ void StageManager::addTimeTalk(float t){
 
 void StageManager::addTimePhub(float t){
 	detectingStage_.addTimePhub(t);
+}
+
+void StageManager::toggleDebugMode(){
+	detectingStage_.isDebugMode = !detectingStage_.isDebugMode;
+	advertisingStage_.isDebugMode = !advertisingStage_.isDebugMode;
 }
 
 void StageManager::readConfig(Bit::JsonTree* tree){

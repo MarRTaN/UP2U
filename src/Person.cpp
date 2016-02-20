@@ -29,10 +29,10 @@ void Person::calCenterMean(){
 }
 
 int Person::getLook(){
-	if (angle > 50){
+	if (angle > 20){
 		return TURNRIGHT;
 	}
-	else if (angle < -50){
+	else if (angle < -20){
 		return TURNLEFT;
 	}
 	else {

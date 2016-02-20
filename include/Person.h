@@ -35,7 +35,7 @@ class Person{
 		bool			isLookUp = false;
 		bool			isActive = false;
 		int				bufferCount = 0;
-		int				bufferDelay = 40;
+		int				bufferDelay = 10;
 		int				gender = MALE;
 		int				segtion;
 

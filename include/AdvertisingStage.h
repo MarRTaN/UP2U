@@ -28,6 +28,7 @@ public:
 	void				draw();
 	void				reset();
 	void				drawDebugMode();
+	bool				isDebugMode = false;
 
 private:
 	Bit::Video			advertisingVid_;

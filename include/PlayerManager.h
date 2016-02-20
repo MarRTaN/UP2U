@@ -59,7 +59,7 @@ class PlayerManager : public Kinect{
 		vector<Skeleton>			users_;
 		bool						motorStatus_ = false;
 
-		int					motorAngle_ = -20;
+		int					motorAngle_ = -5;
 		int					facePixelMultiply = 2;
 
 		float				videoW = 0;
@@ -67,6 +67,9 @@ class PlayerManager : public Kinect{
 
 		Texture				backgroundTexture_;
 		Surface				background_;
+		bool				isMoving_ = false;
+		int					motorUpCount_ = 0;
+		int					motorDownCount_ = 0;
 
 		//UserHead Frame
 		float				colorX_;
@@ -88,5 +91,5 @@ class PlayerManager : public Kinect{
 		//boundary
 		Rectf				frameBound;
 		Rectf				headBound;
-		float				frameX1 = 0.1, frameY1 = 0.1, frameX2 = 0.9, frameY2 = 0.6;
+		float				frameX1 = 0.1, frameY1 = 0.1, frameX2 = 0.9, frameY2 = 0.75;
 };

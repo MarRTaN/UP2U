@@ -20,12 +20,12 @@
       }
    },
    "playerManagerParams" : {
-      "colorX1" : -15.0,
-      "colorY1" : -1.0,
+      "colorX1" : -25.0,
+      "colorY1" : -30.0,
       "depthX1" : -30.0,
       "depthY1" : -25.0,
-      "faceFrameRationX" : 0.02199999988079071,
-      "faceFrameRationY" : 0.02199999988079071,
+      "faceFrameRationX" : 0.02500000037252903,
+      "faceFrameRationY" : 0.02999999932944775,
       "spanCenter" : 0.4000000059604645,
       "spanX" : -0.05000000074505806
    },

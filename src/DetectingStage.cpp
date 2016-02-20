@@ -29,13 +29,13 @@ void DetectingStage::setup(){
 	ci::Surface turnRightSurface(loadImage(turnRightPath_));
 	turnRightTexture_ = Texture(turnRightSurface);
 	
-	facesColor_.resize(4,0.12f);
+	facesColor_.resize(15,0.12f);
 	
-	startTimeTalk_.resize(4,0.0f);
-	isStartTalking_.resize(4, false);
+	startTimeTalk_.resize(15, 0.0f);
+	isStartTalking_.resize(15, false);
 
-	startTimePhub_.resize(4, 0.0f);
-	isStartPhubbing_.resize(4, false);
+	startTimePhub_.resize(15, 0.0f);
+	isStartPhubbing_.resize(15, false);
 }
 
 void DetectingStage::update(){
@@ -108,7 +108,8 @@ void DetectingStage::draw(){
 
 	//draw sticker
 	for (int i = 0; i < persons_.size(); i++){
-		gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
+		if(!isDebugMode) gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
+		else gl::color(255, 255, 255, 0.5);
 		//choose correct texture for each person
 		Texture stickerTexture;
 
@@ -156,6 +157,7 @@ void DetectingStage::setPersons(vector<Person> persons){
 }
 
 void DetectingStage::checkAction(){
+
 	for (int i = 0; i < persons_.size(); i++){
 
 		if (persons_[i].getLook() == LOOKDOWN){
