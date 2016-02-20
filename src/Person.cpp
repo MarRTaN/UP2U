@@ -27,3 +27,16 @@ void Person::calCenterMean(){
 	}
 	kinectCenter = Vec2f(floor(sum.x / kinectCenterMean.size()), floor(sum.y / kinectCenterMean.size()));
 }
+
+int Person::getLook(){
+	if (angle > 50){
+		return TURNRIGHT;
+	}
+	else if (angle < -50){
+		return TURNLEFT;
+	}
+	else {
+		if (isLookUp) return LOOKUP;
+		else return LOOKDOWN;
+	}
+}

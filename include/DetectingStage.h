@@ -18,6 +18,7 @@ using namespace ci::gl;
 using namespace Bit;
 
 class DetectingStage{
+
 public:
 	void				readConfig(Bit::JsonTree* tree);
 	void				readParams(Bit::JsonTree* tree, Bit::ParamsRef params);
@@ -27,9 +28,18 @@ public:
 	void				drawDebugMode();
 	void				reset();
 	void				setPersons(vector<Person> persons);
+	void				checkAction();
 	void				addColor(Vec3f added);
 	void				addTimePhub(float t);
 	void				addTimeTalk(float t);
+	void				calPhubTime(int personId);
+	void				calTalkTime(int personId);
+	void				resetTimeTalk(int personId);
+	void				resetTimePhub(int personId);
+	void				minimizeFaceColor(int personId);
+	void				maximizeFaceColor(int personId);
+	void				normalizeFaceColor(int personId);
+	int					idToIndex(int id);
 
 private:
 
@@ -42,6 +52,12 @@ private:
 	int						timePhub_ = 1;
 	int						timeTalk_ = 1;
 	float					timeRatio_;
+
+	vector<float>			facesColor_;
+	vector<float>			startTimeTalk_;
+	vector<bool>			isStartTalking_;
+	vector<float>			startTimePhub_;
+	vector<bool>			isStartPhubbing_;
 
 	float					param_scale_;
 	float					param_shiftX_;
@@ -73,4 +89,5 @@ private:
 
 	Texture					turnLeftTexture_;
 	Texture					turnRightTexture_;
+
 };

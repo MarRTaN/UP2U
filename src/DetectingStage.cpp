@@ -1,10 +1,10 @@
 ﻿#include <DetectingStage.h>
 
 void DetectingStage::setup(){
+	//setup guage
 	guageVid_.setup();
 	
 	//get section image
-	
 	ci::Surface smileSurface(loadImage(smilePath_));
 	smileTexture_ = Texture(smileSurface);
 
@@ -29,6 +29,13 @@ void DetectingStage::setup(){
 	ci::Surface turnRightSurface(loadImage(turnRightPath_));
 	turnRightTexture_ = Texture(turnRightSurface);
 	
+	facesColor_.resize(4,0.12f);
+	
+	startTimeTalk_.resize(4,0.0f);
+	isStartTalking_.resize(4, false);
+
+	startTimePhub_.resize(4, 0.0f);
+	isStartPhubbing_.resize(4, false);
 }
 
 void DetectingStage::update(){
@@ -41,6 +48,7 @@ void DetectingStage::update(){
 		else if (persons_[i].center.x > getWindowWidth() * 2 / 3) persons_[i].segtion = RIGHT;
 		else persons_[i].segtion = CENTER;
 	}
+	checkAction();
 	timeRatio_ = (timePhub_*1.f) / ((timeTalk_+timePhub_) * 1.f);
 	guageVid_.seekToNormalizedTime(timeRatio_);
 	
@@ -100,31 +108,24 @@ void DetectingStage::draw(){
 
 	//draw sticker
 	for (int i = 0; i < persons_.size(); i++){
-		float h;
-		if (i == 1) h = 0.01f;
-		else if (i == 2) h = 0.12f;
-		else h = 0.26f;
-		gl::color(Color(CM_HSV, h, 0.77f, 0.96f));
-		//console() << hsv_[0] << endl;
+		gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
 		//choose correct texture for each person
 		Texture stickerTexture;
 
-		//if (persons_[i].look == LOOKUP) {
-		if (persons_[i].isLookUp) {
+		if (persons_[i].getLook() == LOOKUP) {
 			if (persons_[i].segtion == LEFT) stickerTexture = smileLeftTexture_;
 			else if (persons_[i].segtion == CENTER) stickerTexture = smileTexture_;
 			else if (persons_[i].segtion == RIGHT) stickerTexture = smileRightTexture_;
 		}
-		//else if (persons_[i].look == LOOKDOWN) {
-		else if (!persons_[i].isLookUp){
+		else if (persons_[i].getLook() == LOOKDOWN) {
 			if (persons_[i].segtion == LEFT) stickerTexture = seriousLeftTexture_;
 			else if (persons_[i].segtion == CENTER) stickerTexture = seriousTexture_;
 			else if (persons_[i].segtion == RIGHT) stickerTexture = seriousRightTexture_;
 		}
-		else if (persons_[i].look == TURNLEFT) {
+		else if (persons_[i].getLook() == TURNLEFT) {
 			stickerTexture = turnLeftTexture_;
 		}
-		else if (persons_[i].look == TURNRIGHT) {
+		else if (persons_[i].getLook() == TURNRIGHT) {
 			stickerTexture = turnRightTexture_;;
 		}
 
@@ -154,6 +155,51 @@ void DetectingStage::setPersons(vector<Person> persons){
 	persons_ = persons;
 }
 
+void DetectingStage::checkAction(){
+	for (int i = 0; i < persons_.size(); i++){
+
+		if (persons_[i].getLook() == LOOKDOWN){
+			minimizeFaceColor(persons_[i].id);
+			calPhubTime(persons_[i].id);
+			resetTimeTalk(persons_[i].id);
+		}
+
+		else if (persons_[i].getLook() == LOOKUP){
+			normalizeFaceColor(persons_[i].id);
+			resetTimePhub(persons_[i].id);
+			resetTimeTalk(persons_[i].id);
+		}
+
+		else if (persons_[i].getLook() == TURNRIGHT){
+			resetTimePhub(persons_[i].id);
+			bool isMatched = false;
+			for (int j = i; j < persons_.size(); j++){
+				if (persons_[j].getLook() == TURNLEFT) {
+					calTalkTime(persons_[i].id);
+					isMatched = true;
+					break;
+				}
+			}
+			if (isMatched) maximizeFaceColor(persons_[i].id);
+			else normalizeFaceColor(persons_[i].id);
+		}
+
+		else if (persons_[i].getLook() == TURNLEFT){
+			resetTimePhub(persons_[i].id);
+			bool isMatched = false;
+			for (int j = i; j >= 0; j--){
+				if (persons_[j].getLook() == TURNRIGHT) {
+					calTalkTime(persons_[i].id);
+					isMatched = true;
+					break;
+				}
+			}
+			if (isMatched) maximizeFaceColor(persons_[i].id);
+			else normalizeFaceColor(persons_[i].id);
+		}
+	}
+}
+
 void DetectingStage::addColor(Vec3f added){
 	hsv_ += added;
 }
@@ -168,6 +214,81 @@ void DetectingStage::addTimePhub(float t){
 
 void DetectingStage::drawDebugMode(){
 
+}
+
+void DetectingStage::calPhubTime(int personId){
+	
+	if (!isStartPhubbing_[personId]){
+		startTimePhub_[personId] = getElapsedSeconds() + 1;
+		isStartPhubbing_[personId] = true;
+	}
+	else if (startTimePhub_[personId] < getElapsedSeconds()){
+		timePhub_++;
+		isStartPhubbing_[personId] = false;
+	}
+	/*int index = idToIndex(personId);
+	if (!persons_[index].isStartPhubbing){
+	persons_[index].startTimePhubbing = getElapsedSeconds() + 1;
+	persons_[index].isStartPhubbing = true;
+	}
+	else if (persons_[index].startTimePhubbing < getElapsedSeconds()){
+	decreaseFaceColor(personId);
+	timePhub_++;
+	persons_[index].isStartPhubbing = false;
+	}*/
+}
+
+void DetectingStage::calTalkTime(int personId){
+	int index = idToIndex(personId);
+	if (!isStartTalking_[personId]){
+		startTimeTalk_[personId] = getElapsedSeconds() + 1;
+		isStartTalking_[personId] = true;
+	}
+	else if (startTimeTalk_[personId] < getElapsedSeconds()){
+		timeTalk_++;
+		isStartTalking_[personId] = false;
+	}
+	
+	/*int index = idToIndex(personId);
+	if (!persons_[index].isStartTalking){
+		persons_[index].startTimeTalking = getElapsedSeconds() + 1;
+		persons_[index].isStartTalking = true;
+	}
+	else if (persons_[index].startTimeTalking < getElapsedSeconds()){
+		increaseFaceColor(personId);
+		timeTalk_++;
+		persons_[index].isStartTalking = false;
+	}*/
+}
+
+void DetectingStage::resetTimeTalk(int personId){
+	isStartTalking_[personId] = false;
+}
+
+void DetectingStage::resetTimePhub(int personId){
+	isStartPhubbing_[personId] = false;
+}
+
+void DetectingStage::minimizeFaceColor(int personId){
+	float min = 0.01f;
+	if (facesColor_[personId] > min) facesColor_[personId] -= 0.002f;
+}
+
+void DetectingStage::maximizeFaceColor(int personId){
+	float max = 0.26f;
+	if (facesColor_[personId] < max) facesColor_[personId] += 0.002f;
+}
+
+void DetectingStage::normalizeFaceColor(int personId){
+	float mean = 0.12f;
+	if (facesColor_[personId] > mean) facesColor_[personId] -= 0.002f;
+	else if(facesColor_[personId] < mean) facesColor_[personId] += 0.002f;
+}
+
+int DetectingStage::idToIndex(int id){
+	for (int i = 0; i < persons_.size(); i++){
+		if (persons_[i].id == id) return i;
+	}
 }
 
 void DetectingStage::reset(){

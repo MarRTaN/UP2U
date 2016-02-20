@@ -37,12 +37,17 @@ class Person{
 		int				bufferCount = 0;
 		int				bufferDelay = 40;
 		int				gender = MALE;
-
-		bool			isPersonLost();
-
 		int				segtion;
-		int				look;
+
+		bool			isStartTalking = false;
+		float			startTimeTalking = 0;
+
+		bool			isStartPhubbing = false;
+		float			startTimePhubbing = 0;
+		
+		bool			isPersonLost();
 
 		void			calAngleMean();
 		void			calCenterMean();
+		int				getLook();
 };
