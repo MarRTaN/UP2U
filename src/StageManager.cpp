@@ -21,6 +21,7 @@ void StageManager::update(){
 
 	lastStageId_ = currentStageId_;
 
+
 }
 void StageManager::draw(){
 
