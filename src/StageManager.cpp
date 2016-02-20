@@ -16,7 +16,7 @@ void StageManager::update(){
 
 	switch (currentStageId_){
 	case ADVERTISING_STAGE: advertisingStage_.update(); break;
-	case DETECTING_STAGE: detectingStage_.update(); detectingStage_.setPersons(persons_); break;
+	case DETECTING_STAGE: detectingStage_.setPersons(persons_); detectingStage_.update(); break;
 	}
 
 	lastStageId_ = currentStageId_;
@@ -69,6 +69,18 @@ int	 StageManager::getCurrentStage(){
 
 void StageManager::setPersons(vector<Person> persons){
 	persons_ = persons;
+}
+
+void StageManager::addColor(Vec3f added){
+	detectingStage_.addColor(added);
+}
+
+void StageManager::addTimeTalk(float t){
+	detectingStage_.addTimeTalk(t);
+}
+
+void StageManager::addTimePhub(float t){
+	detectingStage_.addTimePhub(t);
 }
 
 void StageManager::readConfig(Bit::JsonTree* tree){

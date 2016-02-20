@@ -33,4 +33,7 @@ class Person{
 
 		Vec2f			getCenterMean();
 		bool			isPersonLost();
+
+		int				segtion;
+		int				look;
 };

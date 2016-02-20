@@ -26,6 +26,9 @@ public:
 	void			addLog(string logInfo);
 	int				getCurrentStage();
 	void			setPersons(vector<Person> persons);
+	void			addColor(Vec3f added);
+	void			addTimePhub(float t);
+	void			addTimeTalk(float t);
 	void			drawDebugMode();
 
 	void			readConfig(Bit::JsonTree* tree);

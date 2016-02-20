@@ -198,6 +198,18 @@ void up2uApp::keyDown( KeyEvent event )
 	if (event.getCode() == KeyEvent::KEY_s){
 		playerMng_.moveMotorDown();
 	}
+	if (event.getCode() == KeyEvent::KEY_z){
+		stageMng_.addColor(Vec3f(-0.01f,0.0f,0.0f));
+	}
+	if (event.getCode() == KeyEvent::KEY_x){
+		stageMng_.addColor(Vec3f(0.01f, 0.0f, 0.0f));
+	}
+	if (event.getCode() == KeyEvent::KEY_a){
+		stageMng_.addTimePhub(1);
+	}
+	if (event.getCode() == KeyEvent::KEY_s){
+		stageMng_.addTimeTalk(1);
+	}
 }
 
 void up2uApp::mouseDown( MouseEvent event )

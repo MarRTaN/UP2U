@@ -8,8 +8,6 @@
 #include "BitVideo.h"
 #include "BitDisplayArea.h"
 #include "Person.h"
-#include "Pool.h"
-#include "Pair.H"
 #include "Up2UTypeDef.h"
 #include "Config.h"
 
@@ -21,36 +19,58 @@ using namespace Bit;
 
 class DetectingStage{
 public:
-	typedef struct Config{
-		Bit::Video			stageVid;
-	};
-
 	void				readConfig(Bit::JsonTree* tree);
 	void				readParams(Bit::JsonTree* tree, Bit::ParamsRef params);
 	void				setup();
 	void				update();
 	void				draw();
-	void				checkNewPersons();
-	void				eraseOldPairs();
-	Pair				pairUp(int orderNo);
 	void				drawDebugMode();
 	void				reset();
 	void				setPersons(vector<Person> persons);
-	Bit::Video			getChatboxVid(int gender1, int gender2);
-	Bit::Video			getBubbleVid(int gender1, int gender2);
-	//Bit::Video			getRandomVid(bool isLookUp);
-
+	void				addColor(Vec3f added);
+	void				addTimePhub(float t);
+	void				addTimeTalk(float t);
 
 private:
 
-	Pool					pool_;
-	vector<Pair>			pairs_;
 	Bit::DisplayArea		displayArea_;
-	Bit::Video				stageVid_;
+	Bit::Video				guageVid_;
 	vector<Person>			persons_;
+	Vec3f					hsv_ = Vec3f(0,0,0);
+	Vec3f					rgb_;
 	float					timeCount_ = 0;
+	int						timePhub_ = 1;
+	int						timeTalk_ = 1;
+	float					timeRatio_;
+
 	float					param_scale_;
 	float					param_shiftX_;
 	float					param_shiftY_;
-	Config					config_;
+	float					param_calShift_;
+	float					param_fontSize_;
+	float					param_phubTimeX_;
+	float					param_talkTimeX_;
+	float					param_bothTimeY_;
+
+	string					seriousPath_;
+	string					seriousLeftPath_;
+	string					seriousRightPath_;
+
+	string					smilePath_;
+	string					smileLeftPath_;
+	string					smileRightPath_;
+
+	string					turnLeftPath_;
+	string					turnRightPath_;
+
+	Texture					smileTexture_;
+	Texture					smileLeftTexture_;
+	Texture					smileRightTexture_;
+
+	Texture					seriousTexture_;
+	Texture					seriousLeftTexture_;
+	Texture					seriousRightTexture_;
+
+	Texture					turnLeftTexture_;
+	Texture					turnRightTexture_;
 };
