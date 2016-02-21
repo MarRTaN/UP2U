@@ -32,7 +32,6 @@ bool PlayerManager::isKinectReady(){
 void PlayerManager::setupUsers(){
 	persons_.reserve(15);
 	users_.reserve(10);
-	frameBound = Rectf(frameX1 * getWindowWidth(), frameY1 * getWindowHeight(), frameX2 * getWindowWidth(), frameY2 * getWindowHeight());
 }
 
 void PlayerManager::updateUsers(){
@@ -42,6 +41,10 @@ void PlayerManager::updateUsers(){
 			kinectDevice_->moveMotor(motorAngle_);
 			motorStatus_ = true;
 		}
+
+		//update framebound
+		frameBound = Rectf(frameRatio_.x1 * getWindowWidth(), frameRatio_.y1 * getWindowHeight(), frameRatio_.x2 * getWindowWidth(), frameRatio_.y2 * getWindowHeight());
+
 
 		int personCount = 0;
 		//console() << "==================" << endl;
@@ -141,19 +144,15 @@ void PlayerManager::draw(){
 			countForDelay_++;
 		}
 
-		headBound = Rectf(frameX1 * videoW, frameY1 * videoH, frameX2 * videoW, frameY2 * videoH);
+		headBound = Rectf(frameRatio_.x1 * videoW, frameRatio_.y1 * videoH, frameRatio_.x2 * videoW, frameRatio_.y2 * videoH);
 
 
 		for (int k = 0; k < users_.size(); k++){
 			circleCenter = Vec2f(users_[k].position.x, users_[k].position.y);
-			console() << "id = " << users_[k].id << endl;
-			console() << "headBound = " << headBound << endl;
-			console() << "circleCenter = " << circleCenter << endl;
 			if (circleCenter.y > headBound.y1 &&
 				circleCenter.y < headBound.y2 &&
 				circleCenter.x > headBound.x1 &&
 				circleCenter.x < headBound.x2){
-				console() << "IN1" << endl;
 				//check is user Exist
 				int index = -1;
 				Person data;
@@ -169,16 +168,19 @@ void PlayerManager::draw(){
 				if (index == -1) {
 					index = persons_.size();
 					data.isActive = true;
-					data.angleMean.reserve(15);
-					data.kinectCenterMean.reserve(15);
+					data.angleMean.reserve(smoothMeanCount_ + 5);
+					data.kinectCenterMean.reserve(smoothMeanCount_ + 5);
 				}
 
-				if (data.kinectCenterMean.size() > 10){
+				if (data.kinectCenterMean.size() > smoothMeanCount_){
 					data.kinectCenterMean.erase(data.kinectCenterMean.begin());
 				}
 
 				data.kinectCenterMean.push_back(circleCenter);
 				data.calCenterMean();
+
+				data.angleLookLeft = angleLookLeft_;
+				data.angleLookRight = angleLookRight_;
 				
 				//console() << "id = " << data.id << " :: centerMean : " << data.kinectCenter << " :: user id : " << users_[k].id << " , count lost : " << data.lostCount << "/" << getElapsedSeconds() << " :: isActive = " << data.isActive << endl;
 
@@ -243,7 +245,6 @@ void PlayerManager::draw(){
 					hairPoint > 0) {
 
 					//rebuild position
-					console() << "IN2" << endl;
 					data.center = data.kinectCenter * imageRatio;
 					hairCentroid = hairCentroid * imageRatio;
 					faceCentroid = faceCentroid * imageRatio;
@@ -268,11 +269,10 @@ void PlayerManager::draw(){
 
 					//if (data.faceCentroid.y > data.hairCentroid.y){
 					if (true) {
-						console() << "IN3" << endl;
 						float diff = ( (data.faceCentroid.x - data.hairCentroid.x) * 1.f) / ( (data.faceCentroid.y - data.hairCentroid.y) * 1.f );
 						float angle = atan(diff) * 180 / M_PI;
 
-						if (data.angleMean.size() > 10){
+						if (data.angleMean.size() > smoothMeanCount_){
 							data.angleMean.erase( data.angleMean.begin());
 						}
 
@@ -428,7 +428,6 @@ void PlayerManager::readConfig(Bit::JsonTree* tree){
 	Kinect::readConfig(tree);
 	userDetectRangeMin_ = tree->getChildPtr("userDetectRangeMin")->getValue<float>();
 	userDetectRangeMax_ = tree->getChildPtr("userDetectRangeMax")->getValue<float>();
-	faceDownPercentage_ = tree->getChildPtr("faceDownPercentage")->getValue<float>();
 }
 
 void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)
@@ -437,8 +436,16 @@ void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)
 	params->addParam<float>(tree->getChildPtr("colorY1"), colorY_);
 	params->addParam<float>(tree->getChildPtr("depthX1"), depthX_);
 	params->addParam<float>(tree->getChildPtr("depthY1"), depthY_);
-	params->addParam<float>(tree->getChildPtr("faceFrameRationX"), faceFrameRatioX_);
-	params->addParam<float>(tree->getChildPtr("faceFrameRationY"), faceFrameRatioY_);
+	params->addParam<float>(tree->getChildPtr("faceFrameRatioX"), faceFrameRatioX_);
+	params->addParam<float>(tree->getChildPtr("faceFrameRatioY"), faceFrameRatioY_);
 	params->addParam<float>(tree->getChildPtr("spanX"), spanX_);
 	params->addParam<float>(tree->getChildPtr("spanCenter"), spanCenter_);
+	params->addParam<float>(tree->getChildPtr("angleLookLeft"), angleLookLeft_);
+	params->addParam<float>(tree->getChildPtr("angleLookRight"), angleLookRight_);
+	params->addParam<int>(tree->getChildPtr("smoothMeanCount"), smoothMeanCount_);
+	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("x1"), frameRatio_.x1);
+	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("y1"), frameRatio_.y1);
+	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("x2"), frameRatio_.x2);
+	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("y2"), frameRatio_.y2);
+
 }

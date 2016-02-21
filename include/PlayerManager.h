@@ -91,5 +91,10 @@ class PlayerManager : public Kinect{
 		//boundary
 		Rectf				frameBound;
 		Rectf				headBound;
-		float				frameX1 = 0.1, frameY1 = 0.1, frameX2 = 0.9, frameY2 = 0.75;
+		Rectf				frameRatio_;
+
+		//param
+		float				angleLookLeft_ = 0;
+		float				angleLookRight_ = 0;
+		int					smoothMeanCount_ = 10;
 };

@@ -37,7 +37,7 @@
             "hideCursor": false
         },
 
-        "assetPath": "D:\\workspace\\UP2U\\assets\\",
+        "assetPath": "C:\\Senior Project\\UP2U\\assets\\",
 
         "aClassConfig": {
             "configBool": false,
@@ -155,11 +155,10 @@
             "index": 0,
             "rangeInMm": { "min": 50, "max": 4000 },
             "mirror": true,
-            "oniFile": "",
+            "oniFile": "C:\\oni\\06-FULLTEST.oni",
             "motor": false,
             "userDetectRangeMin": 0.3,
-            "userDetectRangeMax": 0.7,
-		    "faceDownPercentage": 0.6
+            "userDetectRangeMax": 0.7
         },
 
         "averCaptureTemplate": {

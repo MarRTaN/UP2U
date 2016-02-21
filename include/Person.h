@@ -44,6 +44,9 @@ class Person{
 
 		bool			isStartPhubbing = false;
 		float			startTimePhubbing = 0;
+
+		float			angleLookLeft = 0;
+		float			angleLookRight = 0;
 		
 		bool			isPersonLost();
 
