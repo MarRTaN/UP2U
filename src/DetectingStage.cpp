@@ -50,14 +50,16 @@ void DetectingStage::update(){
 	}
 	checkAction();
 	timeRatio_ = (timePhub_*1.f) / ((timeTalk_+timePhub_) * 1.f);
-	guageVid_.seekToNormalizedTime(timeRatio_);
+	if (currentRatio_ + 0.001f < timeRatio_) currentRatio_ += 0.001f;
+	else if (currentRatio_ - 0.001f > timeRatio_) currentRatio_ -= 0.001f;
+	guageVid_.seekToNormalizedTime(currentRatio_);
 	
 }
 
 void DetectingStage::draw(){
 	
 	//draw gauge
-	Rectf guageRect = Rectf(getWindowWidth()*0.1, getWindowHeight()*0.1, getWindowWidth()*0.9, getWindowHeight()*0.28);
+	Rectf guageRect = Rectf(getWindowWidth()*0.10f, getWindowHeight()*0.10f, getWindowWidth()*0.9f, getWindowHeight()*0.29f);
 	Texture guageTexture = guageVid_.getTexture();
 	if (guageTexture){
 		ci::gl::enableAlphaBlending();

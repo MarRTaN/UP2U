@@ -53,6 +53,7 @@ private:
 	int						timePhub_ = 1;
 	int						timeTalk_ = 1;
 	float					timeRatio_;
+	float					currentRatio_ = 0.5f;
 
 	vector<float>			facesColor_;
 	vector<float>			startTimeTalk_;

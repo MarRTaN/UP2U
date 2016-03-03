@@ -312,13 +312,15 @@ void PlayerManager::draw(){
 
 			if (isKinectDebugMode){
 
-				Rectf faceRectColor = persons_[i].faceRectColorDebug;
-				Texture faceVideoC = Texture(persons_[i].faceSurface);
-				Area faceAreaColor(faceRectColor.x1, faceRectColor.y1, faceRectColor.x2, faceRectColor.y2);
+				if (isDrawface){
+					Rectf faceRectColor = persons_[i].faceRectColorDebug;
+					Texture faceVideoC = Texture(persons_[i].faceSurface);
+					Area faceAreaColor(faceRectColor.x1, faceRectColor.y1, faceRectColor.x2, faceRectColor.y2);
 
-				Rectf faceDestC(id * 60, 60, (id + 1) * 60, 120);
-				gl::color(Color(255, 255, 255));
-				gl::draw(faceVideoC, faceAreaColor, faceDestC);
+					Rectf faceDestC(id * 60, 60, (id + 1) * 60, 120);
+					gl::color(Color(255, 255, 255));
+					gl::draw(faceVideoC, faceAreaColor, faceDestC);
+				}
 
 				Rectf rebuildFaceRectColor = persons_[i].position;
 
@@ -378,7 +380,7 @@ void PlayerManager::setUsers(){
 
 void PlayerManager::moveMotorUp(){
 	if (!isMoving_) {
-		motorAngle_ = 0;
+		motorAngle_ = -25;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
 	}
@@ -393,7 +395,7 @@ void PlayerManager::moveMotorUp(){
 
 void PlayerManager::moveMotorDown(){
 	if (!isMoving_) {
-		motorAngle_ = -5;
+		motorAngle_ = -25;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
 	}
@@ -443,6 +445,7 @@ void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)
 	params->addParam<float>(tree->getChildPtr("angleLookLeft"), angleLookLeft_);
 	params->addParam<float>(tree->getChildPtr("angleLookRight"), angleLookRight_);
 	params->addParam<int>(tree->getChildPtr("smoothMeanCount"), smoothMeanCount_);
+	params->addParam<float>(tree->getChildPtr("faceDownPercentage"), faceDownPercentage_);
 	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("x1"), frameRatio_.x1);
 	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("y1"), frameRatio_.y1);
 	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("x2"), frameRatio_.x2);

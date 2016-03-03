@@ -22,7 +22,7 @@
             "guageVid": {
                 "path": "guage.mov",
                 "loadOption": "gstreamer",
-                "blendMode": "screen",
+                "blendMode": "none",
                 "playOption": { "loop": false, "pingpong": false }
             }
         }
@@ -33,11 +33,11 @@
             "x": 0,
             "y": 0,
             "alwaysOnTop": false,
-            "borderLess": true,
+            "borderLess": false,
             "hideCursor": false
         },
 
-        "assetPath": "C:\\Senior Project\\UP2U\\assets\\",
+        "assetPath": "D:\\workspace\\UP2U\\assets\\",
 
         "aClassConfig": {
             "configBool": false,
@@ -155,7 +155,7 @@
             "index": 0,
             "rangeInMm": { "min": 50, "max": 4000 },
             "mirror": true,
-            "oniFile": "C:\\oni\\06-FULLTEST.oni",
+            "oniFile": "",
             "motor": false,
             "userDetectRangeMin": 0.3,
             "userDetectRangeMax": 0.7

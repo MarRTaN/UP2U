@@ -40,6 +40,7 @@ class PlayerManager : public Kinect{
 		Surface				getColorSurface();
 		Surface				getDepthSurface();
 		bool				isKinectDebugMode = false;
+		bool				isDrawface = false;
 		bool				isDetected = false;
 
 		void				moveMotorUp();
@@ -59,7 +60,7 @@ class PlayerManager : public Kinect{
 		vector<Skeleton>			users_;
 		bool						motorStatus_ = false;
 
-		int					motorAngle_ = -5;
+		int					motorAngle_ = -25;
 		int					facePixelMultiply = 2;
 
 		float				videoW = 0;
