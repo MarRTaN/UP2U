@@ -59,7 +59,7 @@ class PlayerManager : public Kinect{
 		vector<Skeleton>			users_;
 		bool						motorStatus_ = false;
 
-		int					motorAngle_ = -5;
+		int					motorAngle_ = 10;
 		int					facePixelMultiply = 2;
 
 		float				videoW = 0;
