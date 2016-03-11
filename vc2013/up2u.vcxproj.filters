@@ -255,6 +255,12 @@
     <ClCompile Include="..\src\DetectingStage.cpp">
       <Filter>Source Files\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\stdafx.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AClass.cpp">

@@ -32,9 +32,11 @@ bool PlayerManager::isKinectReady(){
 void PlayerManager::setupUsers(){
 	persons_.reserve(15);
 	users_.reserve(10);
+	//WinExec("C:/faceApi.exe", SW_HIDE);
 }
 
 void PlayerManager::updateUsers(){
+	sentImageFaceApi();
 	if (isDataReady()) {
 		if (motorStatus_ == false) {
 			kinectDevice_->initMotor();
@@ -77,12 +79,14 @@ void PlayerManager::updateUsers(){
 }
 
 void PlayerManager::draw(){
-	
+
 	if (isDataReady()) {
 		//dataMutex_.lock();
 		Surface colorSurface = getColorSurface();
 		Surface depthSurface = getDepthSurface();
 		Texture video = gl::Texture(colorSurface);
+		cv::Mat colorMat = toOcv(colorSurface);
+		cv::Mat outputMat;
 
 		videoW = video.getWidth();
 		videoH = video.getHeight();
@@ -203,14 +207,50 @@ void PlayerManager::draw(){
 
 				//Color
 				Rectf faceRectColor(colorX1, colorY1, colorX2, colorY2);
+				cv::Rect faceRect(colorX1, colorY1, colorX2 - colorX1, colorY2 - colorY1);
 				data.faceRectColorDebug = faceRectColor;
 				data.faceSurface = colorSurface;
+
 
 				//Centroid
 				Vec2i hairCentroid = Vec2i(0, 0);
 				Vec2i faceCentroid = Vec2i(0, 0);
 
-				for (int y = faceRectColor.y1; y <= faceRectColor.y2; y += facePixelMultiply){
+				cv::Mat cvtMat;
+				cv::cvtColor(colorMat(faceRect), cvtMat, CV_BGR2HSV);
+				//cv::inRange(cvtMat, cv::Scalar(110, 10, 60), cv::Scalar(170, 150, 255), outputMat);
+				cv::inRange(cvtMat, cv::Scalar(0, 40, 60), cv::Scalar(27, 150, 255), outputMat);
+				double sumfacePoint = cv::sum(outputMat)[0];
+
+				/*boost::filesystem::path path("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\faces\\");
+				path /= "test.jpg";
+				writeImage(path, fromOcv(outputMat));
+
+				console() << sumfacePoint << endl;*/
+
+				Surface calSurface = fromOcv(outputMat);
+
+				Texture faceVideoC = Texture(calSurface);
+				Area faceAreaColor(0, 0, calSurface.getWidth(), calSurface.getHeight());
+
+				Rectf faceDestC((users_[k].id - 1) * 60, 60, users_[k].id * 60, 120);
+				gl::color(Color(255, 255, 255));
+				gl::draw(faceVideoC, faceAreaColor, faceDestC);
+
+				//----------------------------
+
+
+				Surface calSurface2 = fromOcv(colorMat(faceRect));
+
+				Texture faceVideoC2 = Texture(calSurface2);
+				Area faceAreaColor2(0, 0, calSurface2.getWidth(), calSurface2.getHeight());
+
+				Rectf faceDestC2((users_[k].id - 1) * 60, 120, users_[k].id * 60, 180);
+				gl::color(Color(255, 255, 255));
+				gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
+
+
+				/*for (int y = faceRectColor.y1; y <= faceRectColor.y2; y += facePixelMultiply){
 					for (int x = faceRectColor.x1; x <= faceRectColor.x2; x += facePixelMultiply){
 						ColorT<uint8_t> skinColorRGB = colorSurface.getPixel(Vec2i(x, y));
 						Vec3f skinColorHSV = skinColorRGB.get(CM_HSV);
@@ -236,7 +276,7 @@ void PlayerManager::draw(){
 							data.faceSurface.setPixel(Vec2i(x, y), ColorAT<uint8_t>(0, 255, 0, 1));
 						}
 					}
-				}
+				}*/
 
 				if (k < users_.size() &&
 					//facePoint > faceRectColor.calcArea() / facePixelMultiply * 0.02 && 
@@ -295,9 +335,44 @@ void PlayerManager::draw(){
 								if (data.bufferCount > bufferDelay){
 									data.isLookUp = true;
 									data.bufferCount = 0;
+
+									if (!data.isImageSaved){
+										/*boost::filesystem::path path("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\faces\\");
+										path /= to_string(data.id) + ".jpg";
+										writeImage(path, copyWindowSurface());*/
+										data.isImageSaved = true;
+									}
 								}
 								data.bufferCount++;
 							}
+						}
+
+						//check person gender
+						if (data.isImageSaved){
+							if (data.gender == UNDEFINED && data.delayCallFaceApi >= 600){
+								/*std::ifstream myfile;
+								myfile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\output.txt");
+								std::string str;
+								std::string file_contents;
+								std::getline(myfile, str);
+								file_contents += str;
+								cout << "file :: " << file_contents << endl;
+
+								if (file_contents != "" && file_contents != "[]"){
+									rapidjson::Document d;
+
+									char json[1024];
+									std::strcpy(json, file_contents.c_str());
+
+									d.Parse(json);
+
+									string gender = d[0]["faceAttributes"]["gender"].GetString();
+									if (gender == "male") data.gender = MALE;
+									else if (gender == "female") data.gender = FEMALE;
+								}*/
+								data.delayCallFaceApi = 0;
+							}
+							data.delayCallFaceApi++;
 						}
 
 						if (index == persons_.size()) persons_.push_back(Person());
@@ -312,13 +387,15 @@ void PlayerManager::draw(){
 
 			if (isKinectDebugMode){
 
-				Rectf faceRectColor = persons_[i].faceRectColorDebug;
-				Texture faceVideoC = Texture(persons_[i].faceSurface);
-				Area faceAreaColor(faceRectColor.x1, faceRectColor.y1, faceRectColor.x2, faceRectColor.y2);
+				if (isDrawface){
+					Rectf faceRectColor = persons_[i].faceRectColorDebug;
+					Texture faceVideoC = Texture(persons_[i].faceSurface);
+					Area faceAreaColor(faceRectColor.x1, faceRectColor.y1, faceRectColor.x2, faceRectColor.y2);
 
-				Rectf faceDestC(id * 60, 60, (id + 1) * 60, 120);
-				gl::color(Color(255, 255, 255));
-				gl::draw(faceVideoC, faceAreaColor, faceDestC);
+					Rectf faceDestC(id * 60, 60, (id + 1) * 60, 120);
+					gl::color(Color(255, 255, 255));
+					gl::draw(faceVideoC, faceAreaColor, faceDestC);
+				}
 
 				Rectf rebuildFaceRectColor = persons_[i].position;
 
@@ -378,7 +455,7 @@ void PlayerManager::setUsers(){
 
 void PlayerManager::moveMotorUp(){
 	if (!isMoving_) {
-		motorAngle_ = 0;
+		motorAngle_ = -25;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
 	}
@@ -393,7 +470,7 @@ void PlayerManager::moveMotorUp(){
 
 void PlayerManager::moveMotorDown(){
 	if (!isMoving_) {
-		motorAngle_ = -5;
+		motorAngle_ = -25;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
 	}
@@ -424,6 +501,15 @@ void PlayerManager::setBackground(){
 	background_ = Surface(backgroundTexture_);
 }
 
+void PlayerManager::sentImageFaceApi(){
+	//sender sender_("localhost", "6677");
+	/*rapidjson::Document d;
+	rapidjson::Document::AllocatorType& allocator = d.GetAllocator();
+	d.SetObject();
+	d.AddMember("test", "marrtan", allocator);
+	sender_.send(d);*/
+}
+
 void PlayerManager::readConfig(Bit::JsonTree* tree){
 	Kinect::readConfig(tree);
 	userDetectRangeMin_ = tree->getChildPtr("userDetectRangeMin")->getValue<float>();
@@ -443,6 +529,7 @@ void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)
 	params->addParam<float>(tree->getChildPtr("angleLookLeft"), angleLookLeft_);
 	params->addParam<float>(tree->getChildPtr("angleLookRight"), angleLookRight_);
 	params->addParam<int>(tree->getChildPtr("smoothMeanCount"), smoothMeanCount_);
+	params->addParam<float>(tree->getChildPtr("faceDownPercentage"), faceDownPercentage_);
 	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("x1"), frameRatio_.x1);
 	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("y1"), frameRatio_.y1);
 	params->addParam<float>(tree->getChildPtr("frameRatio")->getChildPtr("x2"), frameRatio_.x2);

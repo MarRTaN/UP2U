@@ -36,7 +36,7 @@ class Person{
 		bool			isActive = false;
 		int				bufferCount = 0;
 		int				bufferDelay = 10;
-		int				gender = MALE;
+		int				gender = UNDEFINED;
 		int				segtion;
 
 		bool			isStartTalking = false;
@@ -53,4 +53,7 @@ class Person{
 		void			calAngleMean();
 		void			calCenterMean();
 		int				getLook();
+
+		bool			isImageSaved = false;
+		int				delayCallFaceApi = 600;
 };

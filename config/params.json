@@ -21,30 +21,30 @@
    },
    "playerManagerParams" : {
       "angleLookLeft" : -25.0,
-      "angleLookRight" : 20.0,
-      "colorX1" : -20.0,
+      "angleLookRight" : 15.0,
+      "colorX1" : -25.0,
       "colorY1" : -10.0,
-      "depthX1" : -30.0,
+      "depthX1" : -35.0,
       "depthY1" : -25.0,
-      "faceDownPercentage" : 0.60,
-      "faceFrameRatioX" : 0.02500000037252903,
+      "faceDownPercentage" : 0.6999999880790710,
+      "faceFrameRatioX" : 0.02999999932944775,
       "faceFrameRatioY" : 0.02999999932944775,
+      "frameRatio" : {
+         "x1" : 0.1000000014901161,
+         "x2" : 0.8999999761581421,
+         "y1" : 0.4000000059604645,
+         "y2" : 0.8999999761581421
+      },
       "smoothMeanCount" : 10,
       "spanCenter" : 0.50,
-      "spanX" : -0.07000000029802322,
-	  "frameRatio" : {
-		"x1" : 0.1,
-		"y1" : 0.4,
-		"x2" : 0.9,
-		"y2" : 0.75
-	  }
+      "spanX" : -0.01999999955296516
    },
    "stageManagerParams" : {
       "detectionStage" : {
-         "bothTimeY" : 127.0,
+         "bothTimeY" : 131.0,
          "calShift" : -18.0,
          "fontSize" : 30.0,
-         "phubTimeX" : 160.0,
+         "phubTimeX" : 141.0,
          "scale" : 61.0,
          "shiftX" : 4.0,
          "shiftY" : 18.0,

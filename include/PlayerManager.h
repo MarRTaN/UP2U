@@ -3,14 +3,22 @@
 #include "BitKinect.h"
 #include "cinder/app/AppBasic.h"
 #include "cinder/app/AppNative.h"
-
 #include "cinder/Color.h"
 #include "cinder/gl/gl.h"
 #include "cinder/params/Params.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/Capture.h"
 #include "cinder/Camera.h"
+#include "cinder/ImageIo.h"
+#include "rapidjson\document.h"
+#include "CinderOpenCV.h"
+#include "opencv2/opencv.hpp"
+#include "opencv2/core/core.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 #include "Person.h"
+#include <iostream>
+#include <fstream>
+
 
 #include "Config.h"
 
@@ -40,6 +48,7 @@ class PlayerManager : public Kinect{
 		Surface				getColorSurface();
 		Surface				getDepthSurface();
 		bool				isKinectDebugMode = false;
+		bool				isDrawface = false;
 		bool				isDetected = false;
 
 		void				moveMotorUp();
@@ -49,6 +58,8 @@ class PlayerManager : public Kinect{
 		void				setUsers();
 		bool				isBackground(Vec2i pixel, Vec3f color);
 		void				setBackground();
+
+		void				sentImageFaceApi();
 
 	private:
 		Bit::Config					config_;
