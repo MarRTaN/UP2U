@@ -10,7 +10,7 @@
 #include "cinder/Capture.h"
 #include "cinder/Camera.h"
 #include "cinder/ImageIo.h"
-#include "rapidjson\document.h"
+//#include "rapidjson\document.h"
 #include "CinderOpenCV.h"
 #include "opencv2/opencv.hpp"
 #include "opencv2/core/core.hpp"

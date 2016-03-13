@@ -155,7 +155,7 @@
             "index": 0,
             "rangeInMm": { "min": 50, "max": 4000 },
             "mirror": true,
-            "oniFile": "",
+            "oniFile": "D:\\workspace\\UP2U\\assets\\06-FULLTEST.oni",
             "motor": false,
             "userDetectRangeMin": 0.3,
             "userDetectRangeMax": 0.7
