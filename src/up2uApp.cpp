@@ -214,9 +214,6 @@ void up2uApp::keyDown( KeyEvent event )
 	if (event.getCode() == KeyEvent::KEY_s){
 		stageMng_.addTimeTalk(1);
 	}
-	if (event.getCode() == KeyEvent::KEY_b){
-		playerMng_.setBackground();
-	}
 }
 
 void up2uApp::mouseDown( MouseEvent event )

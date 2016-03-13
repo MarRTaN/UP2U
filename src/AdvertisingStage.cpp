@@ -16,7 +16,7 @@ void AdvertisingStage::draw(){
 	Texture advertisingVidTexture = advertisingVid_.getTexture();
 	if (advertisingVidTexture){
 		enableAlphaBlending();
-		//displayArea_.draw(advertisingVidTexture, getWindowBounds());
+		displayArea_.draw(advertisingVidTexture, getWindowBounds());
 		disableAlphaBlending();
 	}
 }

@@ -33,6 +33,11 @@ class PlayerManager : public Kinect{
 		Vec3f	position = Vec3f(0, 0, 0);
 	};
 
+	struct faceData{
+		Vec2i	pos;
+		int		count;
+	};
+
 	public:
 
 		void				readConfig(Bit::JsonTree* tree);
@@ -56,10 +61,9 @@ class PlayerManager : public Kinect{
 
 		vector<Person>		getPersons();
 		void				setUsers();
-		bool				isBackground(Vec2i pixel, Vec3f color);
-		void				setBackground();
 
 		void				sentImageFaceApi();
+		faceData			getCentroid(int type, int idNow, cv::Mat colorMat, cv::Rect faceRect, cv::Scalar minColor, cv::Scalar maxColor, cv::Size blurSize, Vec2f threadhold);
 
 	private:
 		Bit::Config					config_;
