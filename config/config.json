@@ -5,7 +5,7 @@
             "advertisingVid": {
                 "path": "advertisingVid.mp4",
                 "loadOption": "gstreamer",
-                "blendMode": "none",
+                "blendMode": "premultiply",
                 "playOption": { "loop": true, "pingpong": false }
             }
         },
@@ -20,9 +20,9 @@
             "turnLeft": "smiley\\turnLeft.png",
             "turnRight": "smiley\\turnRight.png",
             "guageVid": {
-                "path": "guage.mov",
+                "path": "gauge.mov",
                 "loadOption": "gstreamer",
-                "blendMode": "none",
+                "blendMode": "premultiply",
                 "playOption": { "loop": false, "pingpong": false }
             }
         }

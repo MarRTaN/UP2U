@@ -36,6 +36,8 @@ void DetectingStage::setup(){
 
 	startTimePhub_.resize(15, 0.0f);
 	isStartPhubbing_.resize(15, false);
+
+	font_ = Font("ThaiSansNeue-Regular.otf",30.0f);
 }
 
 void DetectingStage::update(){
@@ -53,21 +55,14 @@ void DetectingStage::update(){
 	if (currentRatio_ + 0.001f < timeRatio_) currentRatio_ += 0.001f;
 	else if (currentRatio_ - 0.001f > timeRatio_) currentRatio_ -= 0.001f;
 	guageVid_.seekToNormalizedTime(currentRatio_);
-	
 }
 
 void DetectingStage::draw(){
 	
-	//draw gauge
+	//get guage
 	Rectf guageRect = Rectf(getWindowWidth()*0.10f, getWindowHeight()*0.10f, getWindowWidth()*0.9f, getWindowHeight()*0.29f);
 	Texture guageTexture = guageVid_.getTexture();
-	if (guageTexture){
-		ci::gl::enableAlphaBlending();
-		displayArea_.draw(guageTexture, guageRect);
-		ci::gl::disableAlphaBlending();
-	}
-
-	//draw time
+	
 	///calculate phub time
 	int phubH = timePhub_ / 3600;
 	int phubM = (timePhub_ / 60) % 60;
@@ -103,10 +98,16 @@ void DetectingStage::draw(){
 
 	talkString = talkHS + ":" + talkMS + ":" + talkSS;
 
-	enableAlphaBlending();
-	drawString(phubString, Vec2f(param_phubTimeX_, param_bothTimeY_), Color(1, 1, 1), Font(loadAsset("ThaiSansNeue-Regular.otf"), param_fontSize_));
-	drawString(talkString, Vec2f(param_talkTimeX_, param_bothTimeY_), Color(1, 1, 1), Font(loadAsset("ThaiSansNeue-Regular.otf"), param_fontSize_));
-	disableAlphaBlending();
+	//draw guage
+	if (guageTexture){
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		displayArea_.draw(guageTexture, guageRect);
+		drawString(phubString, Vec2f(param_phubTimeX_, param_bothTimeY_), Color(1, 1, 1), font_);
+		drawString(talkString, Vec2f(param_talkTimeX_, param_bothTimeY_), Color(1, 1, 1), font_);
+		glDisable(GL_BLEND);
+	}
+
 
 	//draw sticker
 	for (int i = 0; i < persons_.size(); i++){
@@ -144,9 +145,11 @@ void DetectingStage::draw(){
 
 		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift, persons_[i].center + scale + shift + calShift);
 		if (stickerTexture){
-			ci::gl::enableAlphaBlending();
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			displayArea_.draw(stickerTexture, stickerRect);
 			ci::gl::disableAlphaBlending();
+			glDisable(GL_BLEND);
 		}
 	}
 	gl::color(255, 255, 255);
@@ -230,16 +233,7 @@ void DetectingStage::calPhubTime(int personId){
 		timePhub_++;
 		isStartPhubbing_[personId] = false;
 	}
-	/*int index = idToIndex(personId);
-	if (!persons_[index].isStartPhubbing){
-	persons_[index].startTimePhubbing = getElapsedSeconds() + 1;
-	persons_[index].isStartPhubbing = true;
-	}
-	else if (persons_[index].startTimePhubbing < getElapsedSeconds()){
-	decreaseFaceColor(personId);
-	timePhub_++;
-	persons_[index].isStartPhubbing = false;
-	}*/
+
 }
 
 void DetectingStage::calTalkTime(int personId){
@@ -253,16 +247,6 @@ void DetectingStage::calTalkTime(int personId){
 		isStartTalking_[personId] = false;
 	}
 	
-	/*int index = idToIndex(personId);
-	if (!persons_[index].isStartTalking){
-		persons_[index].startTimeTalking = getElapsedSeconds() + 1;
-		persons_[index].isStartTalking = true;
-	}
-	else if (persons_[index].startTimeTalking < getElapsedSeconds()){
-		increaseFaceColor(personId);
-		timeTalk_++;
-		persons_[index].isStartTalking = false;
-	}*/
 }
 
 void DetectingStage::resetTimeTalk(int personId){

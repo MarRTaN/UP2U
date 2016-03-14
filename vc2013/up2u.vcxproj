@@ -85,13 +85,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\boost;..\blocks\BitFoundation\include;$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\include;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\include;..\blocks\BitKinect\include;..\blocks\BitMultimedia\include;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\include;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\include;..\blocks\CinderGstreamer\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\gstreamer-0.10;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\glib-2.0;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\libxml2;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include\msw;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\blocks\OpenCV\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\boost;..\blocks\BitFoundation\include;$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\include;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\include;..\blocks\BitKinect\include;..\blocks\BitMultimedia\include;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\include;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\include;..\blocks\CinderGstreamer\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\gstreamer-0.10;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\glib-2.0;$(OSSBUILD_GSTREAMER_DIR)\sdk\include\libxml2;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include\msw;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\include;$(BIT_PKG_PATH)\rapidjson\include;$(BIT_PKG_PATH)\OpenCV\2.4.9\include;$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\blocks\OpenCV\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;NOMINMAX;_WIN32_WINNT=0x0502;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <CompileAsManaged>false</CompileAsManaged>
     </ClCompile>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -100,8 +101,7 @@
       <AdditionalIncludeDirectories>"$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\include";..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder.lib;%(AdditionalDependencies);openNI.lib;XnVNITE_1_5_2.lib;SDL.lib;SDLmain.lib;SDL_mixer.lib;gstreamer-0.10.lib;glib-2.0.lib;gobject-2.0.lib;gstapp-0.10.lib;gstbase-0.10.lib;gstvideo-0.10.lib;gthread-2.0.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\CVClient.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\QTMLClient.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\lib\msw\$(PlatformTarget)\$(PlatformToolset);$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\lib;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\lib;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\x86;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\x86;$(OSSBUILD_GSTREAMER_DIR)\sdk\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BIT_PKG_PATH)\cinder\$(BIT_CINDER_VERSION)\lib\msw\$(PlatformTarget)\$(PlatformToolset);$(BIT_PKG_PATH)\OpenNI\$(BIT_OPENNI_VERSION)\lib;$(BIT_PKG_PATH)\NITE\$(BIT_NITE_VERSION)\lib;$(BIT_PKG_PATH)\SDL\SDL\$(BIT_SDL_VERSION)\lib\x86;$(BIT_PKG_PATH)\SDL\SDL_mixer\$(BIT_SDL_MIXER_VERSION)\lib\x86;$(OSSBUILD_GSTREAMER_DIR)\sdk\lib;$(BIT_PKG_PATH)\OpenCV\2.4.9\lib\no_cuda\msw\x86\v120\</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -110,6 +110,9 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>cinder.lib;%(AdditionalDependencies);openNI.lib;XnVNITE_1_5_2.lib;SDL.lib;SDLmain.lib;SDL_mixer.lib;gstreamer-0.10.lib;glib-2.0.lib;gobject-2.0.lib;gstapp-0.10.lib;gstbase-0.10.lib;gstvideo-0.10.lib;gthread-2.0.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\CVClient.lib;..\..\..\bit\packages\cinder\0.8.6\blocks\QuickTime\lib\msw\x86\QTMLClient.lib;opencv_core.lib;opencv_imgproc.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>$(SolutionDir)\..\blocks\BitFoundation\include\BitAppVerify.exe $(BIT_APP_VERIFY_DAYS)</Command>
@@ -165,7 +168,6 @@
     <ClInclude Include="..\include\Up2UTypeDef.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\sender.cpp" />
     <ClCompile Include="..\src\StageManager.cpp" />
     <ClCompile Include="..\src\DetectingStage.cpp" />
     <ClCompile Include="..\src\Person.cpp" />
@@ -173,7 +175,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="..\src\AdvertisingStage.cpp" />
-    <ClCompile Include="..\src\stdafx.cpp" />
     <ClCompile Include="..\src\up2uApp.cpp" />
     <ClCompile Include="..\src\AClass.cpp" />
     <ClCompile Include="..\blocks\BitFoundation\src\BitConsole.cpp" />

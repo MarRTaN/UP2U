@@ -124,7 +124,7 @@ void PlayerManager::draw(){
 		int id = 0;
 
 		//console() << "==========================" << endl;
-		/*for (int i = 0; i < persons_.size(); i++){
+		for (int i = 0; i < persons_.size(); i++){
 			//console() << "id = " << persons_[i].id << " :: Pos : " << persons_[i].center.x << "," << persons_[i].center.y << endl;
 			if (persons_[i].isActive){
 				persons_[i].isActive = false;
@@ -137,7 +137,7 @@ void PlayerManager::draw(){
 			else if (countForDelay_ < 22) moveMotorDown();
 			else countForDelay_ = 0;
 			countForDelay_++;
-		}*/
+		}
 
 		headBound = Rectf(frameRatio_.x1 * videoW, frameRatio_.y1 * videoH, frameRatio_.x2 * videoW, frameRatio_.y2 * videoH);
 		
@@ -449,7 +449,7 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 
 	Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60, idNow * 60, (type * 60) + 120);
 	gl::color(Color(255, 255, 255));
-	gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
+	//gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
 
 	//contour
 
@@ -476,7 +476,7 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 
 		if(type == 0) gl::color(Color(255, 0, 0));
 		else		  gl::color(Color(255, 255, 0));
-		gl::drawSolidCircle(Vec2f(cX + faceRect.x + faceRect.width, cY + faceRect.y + faceRect.height), 5);
+		//gl::drawSolidCircle(Vec2f(cX + faceRect.x + faceRect.width, cY + faceRect.y + faceRect.height), 5);
 	}
 
 	faceData fd;

@@ -44,6 +44,7 @@ public:
 
 private:
 
+	Font					font_;
 	Bit::DisplayArea		displayArea_;
 	Bit::Video				guageVid_;
 	vector<Person>			persons_;
