@@ -5,7 +5,7 @@
             "advertisingVid": {
                 "path": "advertisingVid.mp4",
                 "loadOption": "gstreamer",
-                "blendMode": "none",
+                "blendMode": "premultiply",
                 "playOption": { "loop": true, "pingpong": false }
             }
         },
@@ -14,15 +14,40 @@
             "smile": "smiley\\smile.png",
             "smileLeft": "smiley\\smileLeft.png",
             "smileRight": "smiley\\smileRight.png",
-            "serious": "smiley\\serious.png",
+			
+			"smileMale": "smiley\\smileMale.png",
+            "smileLeftMale": "smiley\\smileLeftMale.png",
+            "smileRightMale": "smiley\\smileRightMale.png",
+			
+			"smileFemale": "smiley\\smileFemale.png",
+            "smileLeftFemale": "smiley\\smileLeftFemale.png",
+            "smileRightFemale": "smiley\\smileRightFemale.png",
+            
+			"serious": "smiley\\serious.png",
             "seriousLeft": "smiley\\seriousLeft.png",
             "seriousRight": "smiley\\seriousRight.png",
-            "turnLeft": "smiley\\turnLeft.png",
+			
+            "seriousMale": "smiley\\seriousMale.png",
+            "seriousLeftMale": "smiley\\seriousLeftMale.png",
+            "seriousRightMale": "smiley\\seriousRightMale.png",
+			
+            "seriousFemale": "smiley\\seriousFemale.png",
+            "seriousLeftFemale": "smiley\\seriousLeftFemale.png",
+            "seriousRightFemale": "smiley\\seriousRightFemale.png",
+            
+			"turnLeft": "smiley\\turnLeft.png",
             "turnRight": "smiley\\turnRight.png",
+
+			"turnLeftMale": "smiley\\leftMale.png",
+            "turnRightMale": "smiley\\rightMale.png",
+			
+			"turnLeftFemale": "smiley\\leftFemale.png",
+            "turnRightFemale": "smiley\\rightFemale.png",
+
             "guageVid": {
-                "path": "guage.mov",
+                "path": "gauge.mov",
                 "loadOption": "gstreamer",
-                "blendMode": "none",
+                "blendMode": "premultiply",
                 "playOption": { "loop": false, "pingpong": false }
             }
         }
@@ -158,7 +183,10 @@
             "oniFile": "C:\\oni\\06-FULLTEST.oni",
             "motor": false,
             "userDetectRangeMin": 0.3,
-            "userDetectRangeMax": 0.7
+            "userDetectRangeMax": 0.7,
+			"cameraId": 1,
+			"motorAngleUp": -20,
+			"motorAngleDown" : -25
         },
 
         "averCaptureTemplate": {

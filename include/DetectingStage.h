@@ -44,6 +44,7 @@ public:
 
 private:
 
+	Font					font_;
 	Bit::DisplayArea		displayArea_;
 	Bit::Video				guageVid_;
 	vector<Person>			persons_;
@@ -74,22 +75,66 @@ private:
 	string					seriousLeftPath_;
 	string					seriousRightPath_;
 
+	string					seriousMalePath_;
+	string					seriousLeftMalePath_;
+	string					seriousRightMalePath_;
+
+	string					seriousFemalePath_;
+	string					seriousLeftFemalePath_;
+	string					seriousRightFemalePath_;
+
+
 	string					smilePath_;
 	string					smileLeftPath_;
 	string					smileRightPath_;
 
+	string					smileMalePath_;
+	string					smileLeftMalePath_;
+	string					smileRightMalePath_;
+
+	string					smileFemalePath_;
+	string					smileLeftFemalePath_;
+	string					smileRightFemalePath_;
+
 	string					turnLeftPath_;
 	string					turnRightPath_;
+
+	string					turnLeftMalePath_;
+	string					turnRightMalePath_;
+
+	string					turnLeftFemalePath_;
+	string					turnRightFemalePath_;
 
 	Texture					smileTexture_;
 	Texture					smileLeftTexture_;
 	Texture					smileRightTexture_;
 
+	Texture					smileMaleTexture_;
+	Texture					smileLeftMaleTexture_;
+	Texture					smileRightMaleTexture_;
+
+	Texture					smileFemaleTexture_;
+	Texture					smileLeftFemaleTexture_;
+	Texture					smileRightFemaleTexture_;
+
 	Texture					seriousTexture_;
 	Texture					seriousLeftTexture_;
 	Texture					seriousRightTexture_;
 
+	Texture					seriousMaleTexture_;
+	Texture					seriousLeftMaleTexture_;
+	Texture					seriousRightMaleTexture_;
+
+	Texture					seriousFemaleTexture_;
+	Texture					seriousLeftFemaleTexture_;
+	Texture					seriousRightFemaleTexture_;
+
 	Texture					turnLeftTexture_;
 	Texture					turnRightTexture_;
 
+	Texture					turnLeftMaleTexture_;
+	Texture					turnRightMaleTexture_;
+
+	Texture					turnLeftFemaleTexture_;
+	Texture					turnRightFemaleTexture_;
 };

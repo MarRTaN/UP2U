@@ -3,6 +3,7 @@
 #include "BitKinect.h"
 #include "cinder/app/AppBasic.h"
 #include "cinder/app/AppNative.h"
+#include "cinder/Capture.h"
 #include "cinder/Color.h"
 #include "cinder/gl/gl.h"
 #include "cinder/params/Params.h"
@@ -62,10 +63,12 @@ class PlayerManager : public Kinect{
 		vector<Person>		getPersons();
 		void				setUsers();
 
-		void				sentImageFaceApi();
 		faceData			getCentroid(int type, int idNow, cv::Mat colorMat, cv::Rect faceRect, cv::Scalar minColor, cv::Scalar maxColor, cv::Size blurSize, Vec2f threadhold);
 
 	private:
+		CaptureRef					mCapture_;
+		TextureRef					mTexture_;
+		Surface						mSurface_;
 		Bit::Config					config_;
 		vector<Person>				persons_;
 		float						userDetectRangeMin_;
@@ -73,8 +76,9 @@ class PlayerManager : public Kinect{
 		list<KinectUser*>			kinectUsers_;
 		vector<Skeleton>			users_;
 		bool						motorStatus_ = false;
+		int							selectedCamera_;
 
-		int					motorAngle_ = 10;
+		int					motorAngle_ = 0;
 		int					facePixelMultiply = 2;
 
 		float				videoW = 0;
@@ -85,6 +89,8 @@ class PlayerManager : public Kinect{
 		bool				isMoving_ = false;
 		int					motorUpCount_ = 0;
 		int					motorDownCount_ = 0;
+		int					motorAngleUp_ = 0;
+		int					motorAngleDown_ = 0;
 
 		//UserHead Frame
 		float				colorX_;

@@ -32,13 +32,37 @@ bool PlayerManager::isKinectReady(){
 void PlayerManager::setupUsers(){
 	persons_.reserve(15);
 	users_.reserve(10);
-	//WinExec("C:/faceApi.exe", SW_HIDE);
+	
+	int cameraCount = 0;
+
+	Capture::DeviceRef cameraDevice;
+
+	// print the devices
+	for (auto device = Capture::getDevices().begin(); device != Capture::getDevices().end(); ++device) {
+		if (cameraCount == selectedCamera_) cameraDevice = *device;
+		cameraCount++;
+	}
+
+	try {
+		mCapture_ = Capture::create(800, 600, cameraDevice);
+		mCapture_->start();
+	}
+	catch (...) {
+		console() << "Failed to initialize capture" << std::endl;
+	}
 }
 
 void PlayerManager::updateUsers(){
-	sentImageFaceApi();
+
 	if (isDataReady()) {
+
+		if (mCapture_ && mCapture_->checkNewFrame()) {
+			mSurface_ = mCapture_->getSurface();
+			mTexture_ = ci::gl::Texture::create(mSurface_);
+		}
+
 		if (motorStatus_ == false) {
+			motorAngle_ = motorAngleDown_;
 			kinectDevice_->initMotor();
 			kinectDevice_->moveMotor(motorAngle_);
 			motorStatus_ = true;
@@ -60,12 +84,23 @@ void PlayerManager::updateUsers(){
 					moveMotorDown();
 				}
 				else{
+					ofstream savefile;
+					savefile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\output.txt");
+					savefile << "";
+					savefile.close();
+
 					persons_.erase(persons_.begin() + personCount);
 					isMoving_ = false;
 					moveMotorUp();
 				}
 			}
 			else if(persons_[personCount].lostCount < getElapsedSeconds()){
+
+				ofstream savefile;
+				savefile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\output.txt");
+				savefile << "";
+				savefile.close();
+
 				persons_.erase(persons_.begin() + personCount);
 				isMoving_ = false;
 				moveMotorUp();
@@ -90,14 +125,30 @@ void PlayerManager::draw(){
 		float windowH = getWindowHeight();
 		float imageRatio = windowW / videoW;
 
-		Area srcArea1(0, 0, video.getWidth(), video.getHeight());
-		Rectf destRect1(0, 0, windowW, windowH);
+		Area srcArea(0, 0, video.getWidth(), video.getHeight());
+		Rectf destRect(0, windowH - (windowW * video.getHeight() / video.getWidth()), windowW, windowH);
 
-		//capture from kinect
-		gl::color(Color(255, 255, 255));
-		gl::draw(video, srcArea1, destRect1);
+		//capture from kinect 
+		if (!isKinectDebugMode){
 
-		if (isKinectDebugMode){
+			if (mTexture_){
+				Texture tx = Texture(mSurface_);
+				Area srcAreaCamera(0, 0, tx.getWidth(), tx.getHeight());
+				Rectf destCamera(windowW, windowH - (windowW * tx.getHeight() / tx.getWidth()), 0, windowH);
+				glPushMatrix();
+				gl::draw(mTexture_, srcAreaCamera, destCamera);
+				glPopMatrix();
+			}
+
+			gl::color(Color(255, 255, 255));
+			gl::draw(video, srcArea, destRect);
+
+		}
+		else{
+
+			gl::color(Color(255, 255, 255));
+			gl::draw(video, srcArea, destRect);
+
 			if (backgroundTexture_){
 				Surface bg = background_;
 				Texture videoBg = Texture(bg);
@@ -124,7 +175,7 @@ void PlayerManager::draw(){
 		int id = 0;
 
 		//console() << "==========================" << endl;
-		/*for (int i = 0; i < persons_.size(); i++){
+		for (int i = 0; i < persons_.size(); i++){
 			//console() << "id = " << persons_[i].id << " :: Pos : " << persons_[i].center.x << "," << persons_[i].center.y << endl;
 			if (persons_[i].isActive){
 				persons_[i].isActive = false;
@@ -137,7 +188,7 @@ void PlayerManager::draw(){
 			else if (countForDelay_ < 22) moveMotorDown();
 			else countForDelay_ = 0;
 			countForDelay_++;
-		}*/
+		}
 
 		headBound = Rectf(frameRatio_.x1 * videoW, frameRatio_.y1 * videoH, frameRatio_.x2 * videoW, frameRatio_.y2 * videoH);
 		
@@ -197,7 +248,10 @@ void PlayerManager::draw(){
 
 				//Color
 				Rectf faceRectColor(colorX1, colorY1, colorX2, colorY2);
-				cv::Rect faceRect(colorX1, colorY1, colorX2 - colorX1, colorY2 - colorY1);
+				float faceRectWidth = colorX2 - colorX1;
+				float faceRectHeight = colorY2 - colorY1;
+				cv::Rect faceRect(colorX1, colorY1, faceRectWidth, faceRectHeight);
+
 				data.faceRectColorDebug = faceRectColor;
 				data.faceSurface = colorSurface;
 
@@ -276,9 +330,12 @@ void PlayerManager::draw(){
 									data.bufferCount = 0;
 
 									if (!data.isImageSaved){
-										/*boost::filesystem::path path("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\faces\\");
+										boost::filesystem::path path("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\faces\\");
 										path /= to_string(data.id) + ".jpg";
-										writeImage(path, copyWindowSurface());*/
+										cv::Mat cvtColorMat;
+										cv::cvtColor(colorMat(faceRect), cvtColorMat, CV_BGR2RGB);
+										cv::resize(cvtColorMat, cvtColorMat, cv::Size(faceRectWidth*4, faceRectHeight*4));
+										writeImage(path, fromOcv(cvtColorMat));
 										data.isImageSaved = true;
 									}
 								}
@@ -287,15 +344,24 @@ void PlayerManager::draw(){
 						}
 
 						//check person gender
-						//if (data.isImageSaved){
-						//	if (data.gender == UNDEFINED && data.delayCallFaceApi >= 600){
-								/*std::ifstream myfile;
+						if (data.isImageSaved){
+							if (data.gender == UNDEFINED && data.delayCallFaceApi >= data.callFaceApi){
+								
+								ofstream savefile;
+								savefile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\input.txt");
+								savefile << "C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\faces\\" << to_string(data.id) << ".jpg" ;
+								savefile.close();
+
+								//WinExec("C:/faceApi.exe", SW_HIDE);
+
+								std::ifstream myfile;
 								myfile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\output.txt");
 								std::string str;
 								std::string file_contents;
 								std::getline(myfile, str);
 								file_contents += str;
-								cout << "file :: " << file_contents << endl;
+
+								console() << "id = " << data.id << ", content = " << file_contents << endl;
 
 								if (file_contents != "" && file_contents != "[]"){
 									rapidjson::Document d;
@@ -308,11 +374,14 @@ void PlayerManager::draw(){
 									string gender = d[0]["faceAttributes"]["gender"].GetString();
 									if (gender == "male") data.gender = MALE;
 									else if (gender == "female") data.gender = FEMALE;
-								}*/
-						//		data.delayCallFaceApi = 0;
-						//	}
-						//	data.delayCallFaceApi++;
-						//}
+
+									console() << "id = " << data.id << ", gender = " << gender << endl;
+								}
+								data.delayCallFaceApi = 0;
+								data.callFaceApi *= 2;
+							}
+							data.delayCallFaceApi++;
+						}
 
 						if (index == persons_.size()) persons_.push_back(Person());
 						persons_[index] = data;
@@ -394,7 +463,7 @@ void PlayerManager::setUsers(){
 
 void PlayerManager::moveMotorUp(){
 	if (!isMoving_) {
-		motorAngle_ = -25;
+		motorAngle_ = motorAngleUp_;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
 	}
@@ -409,7 +478,7 @@ void PlayerManager::moveMotorUp(){
 
 void PlayerManager::moveMotorDown(){
 	if (!isMoving_) {
-		motorAngle_ = -25;
+		motorAngle_ = motorAngleDown_;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
 	}
@@ -420,15 +489,6 @@ void PlayerManager::moveMotorDown(){
 	else{
 		motorDownCount_++;
 	}
-}
-
-void PlayerManager::sentImageFaceApi(){
-	//sender sender_("localhost", "6677");
-	/*rapidjson::Document d;
-	rapidjson::Document::AllocatorType& allocator = d.GetAllocator();
-	d.SetObject();
-	d.AddMember("test", "marrtan", allocator);
-	sender_.send(d);*/
 }
 
 PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat colorMat, cv::Rect faceRect, cv::Scalar minColor, cv::Scalar maxColor, cv::Size blurSize, Vec2f threadhold){
@@ -442,14 +502,15 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 	cv::threshold(outputHairMat, outputHairMat, threadhold.x, threadhold.y, cv::THRESH_BINARY);
 	double sumHairPoint = cv::sum(outputHairMat)[0];
 
-	Surface calSurface2 = fromOcv(outputHairMat);
+	if (isKinectDebugMode){
+		Surface calSurface2 = fromOcv(outputHairMat);
+		Texture faceVideoC2 = Texture(calSurface2);
+		Area faceAreaColor2(0, 0, calSurface2.getWidth(), calSurface2.getHeight());
 
-	Texture faceVideoC2 = Texture(calSurface2);
-	Area faceAreaColor2(0, 0, calSurface2.getWidth(), calSurface2.getHeight());
-
-	Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60, idNow * 60, (type * 60) + 120);
-	gl::color(Color(255, 255, 255));
-	gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
+		Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60, idNow * 60, (type * 60) + 120);
+		gl::color(Color(255, 255, 255));
+		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
+	}
 
 	//contour
 
@@ -474,9 +535,11 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		cX = int(faceM.m10 / faceM.m00);
 		cY = int(faceM.m01 / faceM.m00);
 
-		if(type == 0) gl::color(Color(255, 0, 0));
-		else		  gl::color(Color(255, 255, 0));
-		gl::drawSolidCircle(Vec2f(cX + faceRect.x + faceRect.width, cY + faceRect.y + faceRect.height), 5);
+		if (isKinectDebugMode){
+			if (type == 0) gl::color(Color(255, 0, 0));
+			else		  gl::color(Color(255, 255, 0));
+			gl::drawSolidCircle(Vec2f(cX + faceRect.x + faceRect.width, cY + faceRect.y + faceRect.height), 5);
+		}
 	}
 
 	faceData fd;
@@ -490,6 +553,9 @@ void PlayerManager::readConfig(Bit::JsonTree* tree){
 	Kinect::readConfig(tree);
 	userDetectRangeMin_ = tree->getChildPtr("userDetectRangeMin")->getValue<float>();
 	userDetectRangeMax_ = tree->getChildPtr("userDetectRangeMax")->getValue<float>();
+	selectedCamera_ = tree->getChildPtr("cameraId")->getValue<int>();
+	motorAngleUp_ = tree->getChildPtr("motorAngleUp")->getValue<int>();
+	motorAngleDown_ = tree->getChildPtr("motorAngleDown")->getValue<int>();
 }
 
 void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)
