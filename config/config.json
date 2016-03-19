@@ -1,5 +1,5 @@
 {
-	"allStageConfig": {
+    "allStageConfig": {
         "switchStageDelay": 1,
         "advertisingStage": {
             "advertisingVid": {
@@ -11,37 +11,38 @@
         },
 
         "detectingStage": {
+            "gauge":  "gauge.png",
             "smile": "smiley\\smile.png",
             "smileLeft": "smiley\\smileLeft.png",
             "smileRight": "smiley\\smileRight.png",
-			
-			"smileMale": "smiley\\smileMale.png",
+
+            "smileMale": "smiley\\smileMale.png",
             "smileLeftMale": "smiley\\smileLeftMale.png",
             "smileRightMale": "smiley\\smileRightMale.png",
-			
-			"smileFemale": "smiley\\smileFemale.png",
+
+            "smileFemale": "smiley\\smileFemale.png",
             "smileLeftFemale": "smiley\\smileLeftFemale.png",
             "smileRightFemale": "smiley\\smileRightFemale.png",
-            
-			"serious": "smiley\\serious.png",
+
+            "serious": "smiley\\serious.png",
             "seriousLeft": "smiley\\seriousLeft.png",
             "seriousRight": "smiley\\seriousRight.png",
-			
+
             "seriousMale": "smiley\\seriousMale.png",
             "seriousLeftMale": "smiley\\seriousLeftMale.png",
             "seriousRightMale": "smiley\\seriousRightMale.png",
-			
+
             "seriousFemale": "smiley\\seriousFemale.png",
             "seriousLeftFemale": "smiley\\seriousLeftFemale.png",
             "seriousRightFemale": "smiley\\seriousRightFemale.png",
-            
-			"turnLeft": "smiley\\turnLeft.png",
+
+            "turnLeft": "smiley\\turnLeft.png",
             "turnRight": "smiley\\turnRight.png",
 
-			"turnLeftMale": "smiley\\leftMale.png",
+            "turnLeftMale": "smiley\\leftMale.png",
             "turnRightMale": "smiley\\rightMale.png",
-			
-			"turnLeftFemale": "smiley\\leftFemale.png",
+
+            "turnLeftFemale": "smiley\\leftFemale.png",
             "turnRightFemale": "smiley\\rightFemale.png",
 
             "guageVid": {
@@ -53,8 +54,8 @@
         }
     },
         "display": {
-            "width": 800,
-            "height": 600,
+            "width": 1920,
+            "height": 1080,
             "x": 0,
             "y": 0,
             "alwaysOnTop": false,
@@ -62,7 +63,7 @@
             "hideCursor": false
         },
 
-        "assetPath": "C:\\Senior Project\\UP2U\\assets\\",
+        "assetPath": "D:\\workspace\\UP2U\\assets\\",
 
         "aClassConfig": {
             "configBool": false,
@@ -180,7 +181,8 @@
             "index": 0,
             "rangeInMm": { "min": 50, "max": 4000 },
             "mirror": true,
-            "oniFile": "C:\\oni\\06-FULLTEST.oni",
+            "oniFile": "D:\\workspace\\UP2U\\assets\\06-FULLTEST.oni",
+            "saveImagePath": "D:\\faceApi\\",
             "motor": false,
             "userDetectRangeMin": 0.3,
             "userDetectRangeMax": 0.7,

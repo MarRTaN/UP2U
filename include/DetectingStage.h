@@ -44,7 +44,10 @@ public:
 
 private:
 
-	Font					font_;
+	Font					fontS_;
+	Font					fontM_;
+	Font					fontH_;
+	
 	Bit::DisplayArea		displayArea_;
 	Bit::Video				guageVid_;
 	vector<Person>			persons_;
@@ -62,14 +65,31 @@ private:
 	vector<float>			startTimePhub_;
 	vector<bool>			isStartPhubbing_;
 
+
+	float					param_startGaugeX_;
+	float					param_startGaugeY_;
+	float					param_endGaugeX_;
+	float					param_endGaugeY_;
+
 	float					param_scale_;
 	float					param_shiftX_;
 	float					param_shiftY_;
 	float					param_calShift_;
 	float					param_fontSize_;
-	float					param_phubTimeX_;
-	float					param_talkTimeX_;
-	float					param_bothTimeY_;
+
+	float					param_phubTimeSX_;
+	float					param_talkTimeSX_;
+	float					param_phubTimeMX_;
+	float					param_talkTimeMX_;
+	float					param_phubTimeHX_;
+	float					param_talkTimeHX_;
+
+	float					param_bothTimeSY_;
+	float					param_bothTimeMY_;
+	float					param_bothTimeHY_;
+
+
+	string					gaugePath_;
 
 	string					seriousPath_;
 	string					seriousLeftPath_;
@@ -105,6 +125,7 @@ private:
 	string					turnLeftFemalePath_;
 	string					turnRightFemalePath_;
 
+	Texture					gaugeTexture_;
 	Texture					smileTexture_;
 	Texture					smileLeftTexture_;
 	Texture					smileRightTexture_;

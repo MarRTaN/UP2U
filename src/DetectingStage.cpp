@@ -2,8 +2,12 @@
 
 void DetectingStage::setup(){
 	//setup guage
-	guageVid_.setup();
+	//guageVid_.setup();
 	
+	//get gauge image
+	ci::Surface gaugeSurface(loadImage(gaugePath_));
+	gaugeTexture_ = Texture(gaugeSurface);
+
 	//get section image
 	ci::Surface smileSurface(loadImage(smilePath_));
 	smileTexture_ = Texture(smileSurface);
@@ -87,12 +91,14 @@ void DetectingStage::setup(){
 	startTimePhub_.resize(15, 0.0f);
 	isStartPhubbing_.resize(15, false);
 
-	font_ = Font("ThaiSansNeue-Regular.otf",30.0f);
+	fontS_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
+	fontM_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_*0.8f);
+	fontH_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_*0.6f);
 }
 
 void DetectingStage::update(){
 	if (timeCount_ == 0){
-		guageVid_.play();
+		//guageVid_.play();
 		timeCount_ = 1;
 	}
 	for (int i = 0; i < persons_.size(); i++){
@@ -101,18 +107,19 @@ void DetectingStage::update(){
 		else persons_[i].segtion = CENTER;
 	}
 	checkAction();
-	timeRatio_ = (timePhub_*1.f) / ((timeTalk_+timePhub_) * 1.f);
+	timeRatio_ = (timePhub_*1.f) / ((timePhub_+ timeTalk_) * 1.f);
 	if (currentRatio_ + 0.001f < timeRatio_) currentRatio_ += 0.001f;
 	else if (currentRatio_ - 0.001f > timeRatio_) currentRatio_ -= 0.001f;
-	guageVid_.seekToNormalizedTime(currentRatio_);
+	//guageVid_.seekToNormalizedTime(currentRatio_);
 }
 
 void DetectingStage::draw(){
 	
 	//get guage
-	Rectf guageRect = Rectf(getWindowWidth()*0.10f, getWindowHeight()*0.10f, getWindowWidth()*0.9f, getWindowHeight()*0.29f);
-	Texture guageTexture = guageVid_.getTexture();
-	
+	Rectf gaugeRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight()*0.4f);
+	//Texture guageTexture = guageVid_.getTexture();
+
+
 	///calculate phub time
 	int phubH = timePhub_ / 3600;
 	int phubM = (timePhub_ / 60) % 60;
@@ -148,13 +155,26 @@ void DetectingStage::draw(){
 
 	talkString = talkHS + ":" + talkMS + ":" + talkSS;
 
+	//draw red green rect
+	Rectf greenRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight()*0.15f);
+	Rectf redRect = Rectf(0.0f, 0.0f, (getWindowWidth()*currentRatio_), getWindowHeight()*0.15f);
+	gl::color(67.f/255.f, 193.f/255.f, 30.f/255.f);
+	drawSolidRect(greenRect);
+	gl::color(255.f/255.f, 54.f/255.f, 54.f/255.f);
+	drawSolidRect(redRect);
+	gl::color(1, 1, 1);
+
 	//draw guage
-	if (guageTexture){
+	if (gaugeTexture_){
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		displayArea_.draw(guageTexture, guageRect);
-		drawString(phubString, Vec2f(param_phubTimeX_, param_bothTimeY_), Color(1, 1, 1), font_);
-		drawString(talkString, Vec2f(param_talkTimeX_, param_bothTimeY_), Color(1, 1, 1), font_);
+		displayArea_.draw(gaugeTexture_, gaugeRect);
+		drawString(phubSS, Vec2f(param_phubTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
+		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
+		drawString(phubMS, Vec2f(param_phubTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
+		drawString(talkMS, Vec2f(param_talkTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
+		drawString(phubHS, Vec2f(param_phubTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
+		drawString(talkHS, Vec2f(param_talkTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
 		glDisable(GL_BLEND);
 	}
 
@@ -162,7 +182,7 @@ void DetectingStage::draw(){
 	//draw sticker
 	for (int i = 0; i < persons_.size(); i++){
 		if(!isDebugMode) gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
-		else gl::color(255, 255, 255, 0.5);
+		else gl::color(1, 1, 1, 0.5);
 		//choose correct texture for each person
 		Texture stickerTexture;
 
@@ -230,7 +250,7 @@ void DetectingStage::draw(){
 			glDisable(GL_BLEND);
 		}
 	}
-	gl::color(255, 255, 255);
+	gl::color(1, 1, 1);
 }
 
 void DetectingStage::setPersons(vector<Person> persons){
@@ -365,6 +385,7 @@ void DetectingStage::reset(){
 void DetectingStage::readConfig(Bit::JsonTree* tree){
 	guageVid_.readConfig(tree->getChildPtr("guageVid"));
 
+	gaugePath_ = Bit::Config::getAssetPath() + tree->getChildPtr("gauge")->getValue<string>();
 	seriousPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("serious")->getValue<string>();
 	seriousLeftPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("seriousLeft")->getValue<string>();
 	seriousRightPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("seriousRight")->getValue<string>();
@@ -399,7 +420,13 @@ void DetectingStage::readParams(Bit::JsonTree* tree, Bit::ParamsRef params){
 	params->addParam<float>(tree->getChildPtr("shiftY"), param_shiftY_);
 	params->addParam<float>(tree->getChildPtr("calShift"), param_calShift_);
 	params->addParam<float>(tree->getChildPtr("fontSize"), param_fontSize_);
-	params->addParam<float>(tree->getChildPtr("phubTimeX"), param_phubTimeX_);
-	params->addParam<float>(tree->getChildPtr("talkTimeX"), param_talkTimeX_);
-	params->addParam<float>(tree->getChildPtr("bothTimeY"), param_bothTimeY_);
+	params->addParam<float>(tree->getChildPtr("phubTimeSX"), param_phubTimeSX_);
+	params->addParam<float>(tree->getChildPtr("talkTimeSX"), param_talkTimeSX_);
+	params->addParam<float>(tree->getChildPtr("phubTimeMX"), param_phubTimeMX_);
+	params->addParam<float>(tree->getChildPtr("talkTimeMX"), param_talkTimeMX_);
+	params->addParam<float>(tree->getChildPtr("phubTimeHX"), param_phubTimeHX_);
+	params->addParam<float>(tree->getChildPtr("talkTimeHX"), param_talkTimeHX_);
+	params->addParam<float>(tree->getChildPtr("bothTimeSY"), param_bothTimeSY_);
+	params->addParam<float>(tree->getChildPtr("bothTimeMY"), param_bothTimeMY_);
+	params->addParam<float>(tree->getChildPtr("bothTimeHY"), param_bothTimeHY_);
 }

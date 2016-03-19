@@ -77,6 +77,7 @@ class PlayerManager : public Kinect{
 		vector<Skeleton>			users_;
 		bool						motorStatus_ = false;
 		int							selectedCamera_;
+		string						saveImagePath_;
 
 		int					motorAngle_ = 0;
 		int					facePixelMultiply = 2;

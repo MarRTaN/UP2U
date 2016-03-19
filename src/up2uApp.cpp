@@ -277,4 +277,4 @@ void up2uApp::draw()
 	shortcutKey_.draw();
 }
 
-CINDER_APP_NATIVE(up2uApp, RendererGl)
+CINDER_APP_NATIVE(up2uApp, RendererGl(0))
