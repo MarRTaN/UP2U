@@ -85,7 +85,7 @@ void PlayerManager::updateUsers(){
 				}
 				else{
 					ofstream savefile;
-					savefile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\output.txt");
+					savefile.open(saveImagePath_+"output.txt");
 					savefile << "";
 					savefile.close();
 
@@ -330,7 +330,7 @@ void PlayerManager::draw(){
 									data.bufferCount = 0;
 
 									if (!data.isImageSaved){
-										boost::filesystem::path path("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\faces\\");
+										boost::filesystem::path path(saveImagePath_+"faces\\");
 										path /= to_string(data.id) + ".jpg";
 										cv::Mat cvtColorMat;
 										cv::cvtColor(colorMat(faceRect), cvtColorMat, CV_BGR2RGB);
@@ -348,14 +348,14 @@ void PlayerManager::draw(){
 							if (data.gender == UNDEFINED && data.delayCallFaceApi >= data.callFaceApi){
 								
 								ofstream savefile;
-								savefile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\input.txt");
-								savefile << "C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\faces\\" << to_string(data.id) << ".jpg" ;
+								savefile.open(saveImagePath_+"input.txt");
+								savefile << saveImagePath_+"faces\\" << to_string(data.id) << ".jpg";
 								savefile.close();
 
 								//WinExec("C:/faceApi.exe", SW_HIDE);
 
 								std::ifstream myfile;
-								myfile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\output.txt");
+								myfile.open(saveImagePath_+"output.txt");
 								std::string str;
 								std::string file_contents;
 								std::getline(myfile, str);
@@ -556,6 +556,7 @@ void PlayerManager::readConfig(Bit::JsonTree* tree){
 	selectedCamera_ = tree->getChildPtr("cameraId")->getValue<int>();
 	motorAngleUp_ = tree->getChildPtr("motorAngleUp")->getValue<int>();
 	motorAngleDown_ = tree->getChildPtr("motorAngleDown")->getValue<int>();
+	saveImagePath_ = tree->getChildPtr("saveImagePath")->getValue<string>();
 }
 
 void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)
