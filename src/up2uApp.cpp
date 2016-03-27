@@ -189,7 +189,7 @@ void up2uApp::toggleDisplayParameters()
 void up2uApp::keyDown( KeyEvent event )
 {
 	shortcutKey_.keyDown(event);
-	if (event.getCode() == KeyEvent::KEY_d){
+	if (event.getCode() == KeyEvent::KEY_g){
 		playerMng_.isKinectDebugMode = !playerMng_.isKinectDebugMode;
 		stageMng_.toggleDebugMode();
 	}

@@ -97,8 +97,7 @@ class PlayerManager : public Kinect{
 		float				colorX_;
 		float				colorY_;
 
-		float				depthX_;
-		float				depthY_;
+		Vec2f				shift_;
 
 		float				spanX_;
 		float				spanCenter_;

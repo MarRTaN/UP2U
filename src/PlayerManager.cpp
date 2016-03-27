@@ -124,17 +124,18 @@ void PlayerManager::draw(){
 		float windowW = getWindowWidth();
 		float windowH = getWindowHeight();
 		float imageRatio = windowW / videoW;
+		float windowHeightShift = windowH;// (windowW * tx.getHeight() / tx.getWidth());
 
 		Area srcArea(0, 0, video.getWidth(), video.getHeight());
-		Rectf destRect(0, windowH - (windowW * video.getHeight() / video.getWidth()), windowW, windowH);
+		Rectf destRect(0, windowH - windowHeightShift, windowW, windowH);
 
 		//capture from kinect 
 		if (!isKinectDebugMode){
 
-			if (mTexture_){
+			if (mSurface_){
 				Texture tx = Texture(mSurface_);
 				Area srcAreaCamera(0, 0, tx.getWidth(), tx.getHeight());
-				Rectf destCamera(windowW, windowH - (windowW * tx.getHeight() / tx.getWidth()), 0, windowH);
+				Rectf destCamera(windowW, windowH - windowHeightShift, 0, windowH);
 				glPushMatrix();
 				gl::draw(mTexture_, srcAreaCamera, destCamera);
 				glPopMatrix();
@@ -174,9 +175,7 @@ void PlayerManager::draw(){
 		Vec2f circleCenter;
 		int id = 0;
 
-		//console() << "==========================" << endl;
 		for (int i = 0; i < persons_.size(); i++){
-			//console() << "id = " << persons_[i].id << " :: Pos : " << persons_[i].center.x << "," << persons_[i].center.y << endl;
 			if (persons_[i].isActive){
 				persons_[i].isActive = false;
 				persons_[i].lostCount = getElapsedSeconds() + 2;
@@ -279,11 +278,13 @@ void PlayerManager::draw(){
 
 					//rebuild position
 					data.center = data.kinectCenter * imageRatio;
+					data.center.x = data.center.x + shift_.x;
+					data.center.y = data.center.y + shift_.y;
 					hairCentroid = hairCentroid * imageRatio;
 					faceCentroid = faceCentroid * imageRatio;
 
 					center = spanCenter_ * video.getWidth();
-					factor = (data.center.x - center) * spanX_;
+					factor = 0;// (data.center.x - center) * spanX_;
 
 					colorX1 = data.center.x + colorX_ + factor;
 					colorY1 = data.center.y + colorY_;
@@ -390,11 +391,8 @@ void PlayerManager::draw(){
 			}
 		}
 
-		/*for (int i = 0; i < persons_.size(); i++){
-
-
-			if (isKinectDebugMode){
-
+		if (isKinectDebugMode){
+			for (int i = 0; i < persons_.size(); i++){
 				if (isDrawface){
 					Rectf faceRectColor = persons_[i].faceRectColorDebug;
 					Texture faceVideoC = Texture(persons_[i].faceSurface);
@@ -425,7 +423,7 @@ void PlayerManager::draw(){
 
 				id++;
 			}
-		}*/
+		}
 
 		//dataMutex_.unlock();
 	}
@@ -498,8 +496,13 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 
 	cv::cvtColor(colorMat(faceRect), cvtHairMat, CV_RGB2HSV);
 	cv::inRange(cvtHairMat, minColor, maxColor, outputHairMat);
-	cv::GaussianBlur(outputHairMat, outputHairMat, blurSize, 0, 0);
+
+	cv::Mat element_0 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(11, 11));
+	cv::morphologyEx(outputHairMat, outputHairMat, cv::MORPH_CLOSE, element_0);
+
+	cv::GaussianBlur(outputHairMat, outputHairMat, blurSize, 1, 1);
 	cv::threshold(outputHairMat, outputHairMat, threadhold.x, threadhold.y, cv::THRESH_BINARY);
+
 	double sumHairPoint = cv::sum(outputHairMat)[0];
 
 	if (isKinectDebugMode){
@@ -507,7 +510,7 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		Texture faceVideoC2 = Texture(calSurface2);
 		Area faceAreaColor2(0, 0, calSurface2.getWidth(), calSurface2.getHeight());
 
-		Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60, idNow * 60, (type * 60) + 120);
+		Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 500, idNow * 60, (type * 60) + 120 + 500);
 		gl::color(Color(255, 255, 255));
 		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
 	}
@@ -538,7 +541,9 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		if (isKinectDebugMode){
 			if (type == 0) gl::color(Color(255, 0, 0));
 			else		  gl::color(Color(255, 255, 0));
-			gl::drawSolidCircle(Vec2f(cX + faceRect.x + faceRect.width, cY + faceRect.y + faceRect.height), 5);
+			float cxx = (cX + faceRect.x + faceRect.width) * getWindowWidth() / (1.2*640.f);
+			float cyy = (cY + faceRect.y + faceRect.height) * getWindowHeight() / (1.2*480.f);
+			gl::drawSolidCircle(Vec2f(cxx, cyy), 5);
 		}
 	}
 
@@ -563,8 +568,8 @@ void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)
 {
 	params->addParam<float>(tree->getChildPtr("colorX1"), colorX_);
 	params->addParam<float>(tree->getChildPtr("colorY1"), colorY_);
-	params->addParam<float>(tree->getChildPtr("depthX1"), depthX_);
-	params->addParam<float>(tree->getChildPtr("depthY1"), depthY_);
+	params->addParam<float>(tree->getChildPtr("shift")->getChildPtr("x"), shift_.x);
+	params->addParam<float>(tree->getChildPtr("shift")->getChildPtr("y"), shift_.y);
 	params->addParam<float>(tree->getChildPtr("faceFrameRatioX"), faceFrameRatioX_);
 	params->addParam<float>(tree->getChildPtr("faceFrameRatioY"), faceFrameRatioY_);
 	params->addParam<float>(tree->getChildPtr("spanX"), spanX_);
