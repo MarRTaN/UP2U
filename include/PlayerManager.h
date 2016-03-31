@@ -36,7 +36,7 @@ class PlayerManager : public Kinect{
 
 	struct faceData{
 		Vec2i	pos;
-		int		count;
+		double	count;
 	};
 
 	public:
@@ -79,9 +79,9 @@ class PlayerManager : public Kinect{
 		int							selectedCamera_;
 		string						saveImagePath_;
 
-		int					motorAngle_ = 0;
+		int					motorAngle_ = -60;
 		int					facePixelMultiply = 2;
-
+		
 		float				videoW = 0;
 		float				videoH = 0;
 
@@ -90,8 +90,8 @@ class PlayerManager : public Kinect{
 		bool				isMoving_ = false;
 		int					motorUpCount_ = 0;
 		int					motorDownCount_ = 0;
-		int					motorAngleUp_ = 0;
-		int					motorAngleDown_ = 0;
+		int					motorAngleUp_ = -50;
+		int					motorAngleDown_ = -60;
 
 		//UserHead Frame
 		float				colorX_;
@@ -118,4 +118,6 @@ class PlayerManager : public Kinect{
 		float				angleLookLeft_ = 0;
 		float				angleLookRight_ = 0;
 		int					smoothMeanCount_ = 10;
+
+		int					captureDelay_ = 10000000;
 };

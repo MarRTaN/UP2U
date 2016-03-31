@@ -9,10 +9,10 @@ void StageManager::setup(){
 
 void StageManager::update(){
 	checkDetection();
-	/*if (lastStageId_ != currentStageId_){
+	if (lastStageId_ != currentStageId_){
 		advertisingStage_.reset();
 		detectingStage_.reset();
-	}*/
+	}
 
 	switch (currentStageId_){
 	case ADVERTISING_STAGE: advertisingStage_.update(); break;
