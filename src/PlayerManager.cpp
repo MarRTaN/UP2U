@@ -354,7 +354,17 @@ void PlayerManager::draw(){
 
 						//check person gender
 						if (data.isImageSaved){
-							if (data.gender == UNDEFINED && data.delayCallFaceApi >= data.callFaceApi){
+
+							std::ifstream statusfile;
+							statusfile.open(saveImagePath_ + "status.txt");
+							std::string statusStr;
+							std::string status_contents;
+							std::getline(statusfile, statusStr);
+							status_contents += statusStr;
+
+							if (status_contents == "ready" &&
+								data.gender == UNDEFINED && 
+								data.delayCallFaceApi >= data.callFaceApi){
 								
 								ofstream savefile;
 								savefile.open(saveImagePath_+"input.txt");
