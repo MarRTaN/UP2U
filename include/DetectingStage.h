@@ -7,6 +7,7 @@
 #include "cinder/ImageIo.h"
 #include "BitVideo.h"
 #include "BitDisplayArea.h"
+#include "BitAudio.h"
 #include "Person.h"
 #include "Up2UTypeDef.h"
 #include "Config.h"
@@ -48,8 +49,9 @@ private:
 	Font					fontM_;
 	Font					fontH_;
 	
+	Bit::Audio				bgm_;
+
 	Bit::DisplayArea		displayArea_;
-	Bit::Video				guageVid_;
 	vector<Person>			persons_;
 	Vec3f					hsv_ = Vec3f(0,0,0);
 	Vec3f					rgb_;

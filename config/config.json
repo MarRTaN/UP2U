@@ -11,6 +11,10 @@
         },
 
         "detectingStage": {
+			"bgm": {
+				"path": "bgm.",
+				"playOption": { "loop": true }
+			},
             "gauge":  "gauge.png",
             "smile": "smiley\\smile.png",
             "smileLeft": "smiley\\smileLeft.png",
@@ -43,15 +47,9 @@
             "turnRightMale": "smiley\\rightMale.png",
 
             "turnLeftFemale": "smiley\\leftFemale.png",
-            "turnRightFemale": "smiley\\rightFemale.png",
+            "turnRightFemale": "smiley\\rightFemale.png"
 
-            "guageVid": {
-                "path": "gauge.mov",
-                "loadOption": "gstreamer",
-                "blendMode": "premultiply",
-                "playOption": { "loop": false, "pingpong": false }
-            }
-        }
+             }
     },
         "display": {
             "width": 1920,
@@ -63,7 +61,7 @@
             "hideCursor": false
         },
 
-        "assetPath": "C:\\Senior Project\\UP2U\\assets\\",
+        "assetPath": "D:\\workspace\\UP2U\\assets\\",
 
         "aClassConfig": {
             "configBool": false,
@@ -181,7 +179,7 @@
             "index": 0,
             "rangeInMm": { "min": 50, "max": 4000 },
             "mirror": true,
-            "oniFile": "C:\\oni\\06-FULLTEST.oni",
+            "oniFile": "D:\\workspace\\UP2U\\assets\\06-FULLTEST.oni",
             "saveImagePath": "C:\\faceApi\\",
             "motor": false,
             "userDetectRangeMin": 0.3,

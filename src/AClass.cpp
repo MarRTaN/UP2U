@@ -1,3 +1,5 @@
+#define __STDC_LIMIT_MACROS
+
 #include "AClass.h"
 
 void AClass::readConfig(Bit::JsonTree* tree)

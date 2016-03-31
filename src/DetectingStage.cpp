@@ -1,9 +1,10 @@
 ﻿#include <DetectingStage.h>
 
 void DetectingStage::setup(){
-	//setup guage
-	//guageVid_.setup();
 	
+	//setup BGM
+	//bgm_.setup();
+
 	//get gauge image
 	ci::Surface gaugeSurface(loadImage(gaugePath_));
 	gaugeTexture_ = Texture(gaugeSurface);
@@ -98,7 +99,7 @@ void DetectingStage::setup(){
 
 void DetectingStage::update(){
 	if (timeCount_ == 0){
-		//guageVid_.play();
+		//bgm_.play();
 		timeCount_ = 1;
 	}
 	for (int i = 0; i < persons_.size(); i++){
@@ -110,7 +111,6 @@ void DetectingStage::update(){
 	timeRatio_ = (timePhub_*1.f) / ((timePhub_+ timeTalk_) * 1.f);
 	if (currentRatio_ + 0.001f < timeRatio_) currentRatio_ += 0.001f;
 	else if (currentRatio_ - 0.001f > timeRatio_) currentRatio_ -= 0.001f;
-	//guageVid_.seekToNormalizedTime(currentRatio_);
 }
 
 void DetectingStage::draw(){
@@ -379,12 +379,11 @@ int DetectingStage::idToIndex(int id){
 
 void DetectingStage::reset(){
 	timeCount_ = 0;
-	guageVid_.stop();
+	//bgm_.stop();
 }
 
 void DetectingStage::readConfig(Bit::JsonTree* tree){
-	guageVid_.readConfig(tree->getChildPtr("guageVid"));
-
+	//bgm_.readConfig(tree->getChildPtr("bgm"));
 	gaugePath_ = Bit::Config::getAssetPath() + tree->getChildPtr("gauge")->getValue<string>();
 	seriousPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("serious")->getValue<string>();
 	seriousLeftPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("seriousLeft")->getValue<string>();

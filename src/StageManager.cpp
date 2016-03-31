@@ -9,10 +9,10 @@ void StageManager::setup(){
 
 void StageManager::update(){
 	checkDetection();
-	/*if (lastStageId_ != currentStageId_){
+	if (lastStageId_ != currentStageId_){
 		advertisingStage_.reset();
 		detectingStage_.reset();
-	}*/
+	}
 
 	switch (currentStageId_){
 	case ADVERTISING_STAGE: advertisingStage_.update(); break;
@@ -26,7 +26,7 @@ void StageManager::update(){
 void StageManager::draw(){
 
 	switch (currentStageId_){
-		//case ADVERTISING_STAGE: advertisingStage_.draw();  break;
+		case ADVERTISING_STAGE: advertisingStage_.draw();  break;
 		case DETECTING_STAGE: detectingStage_.draw(); break;
 	}
 

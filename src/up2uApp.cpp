@@ -1,3 +1,5 @@
+#define __STDC_LIMIT_MACROS
+
 #include "cinder/app/AppNative.h"
 #include "cinder/app/AppBasic.h"
 #include "cinder/gl/gl.h"
