@@ -61,12 +61,12 @@ void PlayerManager::updateUsers(){
 			mTexture_ = ci::gl::Texture::create(mSurface_);
 		}
 
-		if (motorStatus_ == false) {
+		/*if (motorStatus_ == false) {
 			motorAngle_ = motorAngleDown_;
 			kinectDevice_->initMotor();
 			kinectDevice_->moveMotor(motorAngle_);
 			motorStatus_ = true;
-		}
+		}*/
 
 		//update framebound
 		frameBound = Rectf(frameRatio_.x1 * getWindowWidth(), frameRatio_.y1 * getWindowHeight(), frameRatio_.x2 * getWindowWidth(), frameRatio_.y2 * getWindowHeight());
@@ -97,7 +97,7 @@ void PlayerManager::updateUsers(){
 			else if(persons_[personCount].lostCount < getElapsedSeconds()){
 
 				ofstream savefile;
-				savefile.open("C:\\Users\\MarRTaN\\Downloads\\faceApiFile\\output.txt");
+				savefile.open(saveImagePath_+"output.txt");
 				savefile << "";
 				savefile.close();
 
@@ -141,8 +141,14 @@ void PlayerManager::draw(){
 				glPopMatrix();
 			}
 
-			gl::color(Color(255, 255, 255));
-			gl::draw(video, srcArea, destRect);
+			if (captureDelay_ > 1000000){
+				boost::filesystem::path path("C:\\tan\\captured\\");
+				path /= to_string(getElapsedSeconds()) + ".jpg";
+				writeImage(path, mSurface_);
+				captureDelay_ = 0;
+			}
+			
+			captureDelay_++;
 
 		}
 		else{
@@ -191,7 +197,7 @@ void PlayerManager::draw(){
 
 		headBound = Rectf(frameRatio_.x1 * videoW, frameRatio_.y1 * videoH, frameRatio_.x2 * videoW, frameRatio_.y2 * videoH);
 		
-
+		int idNow = 1;
 		for (int k = 0; k < users_.size(); k++){
 			circleCenter = Vec2f(users_[k].position.x, users_[k].position.y);
 			if (circleCenter.y > headBound.y1 &&
@@ -202,7 +208,6 @@ void PlayerManager::draw(){
 				//check is user Exist
 				int index = -1;
 				Person data;
-				int idNow = users_[k].id;
 				for (int i = 0; i < persons_.size(); i++){
 					if (persons_[i].id == users_[k].id){
 						index = i;
@@ -230,11 +235,11 @@ void PlayerManager::draw(){
 				data.angleLookRight = angleLookRight_;
 				
 				float facePoint = 0, hairPoint = 0;
-				float faceFrameSizeX = faceFrameRatioX_ * users_[k].position.z;
-				float faceFrameSizeY = faceFrameRatioY_ * users_[k].position.z;
+				//float faceFrameSizeX = faceFrameRatioX_ * users_[k].position.z;
+				//float faceFrameSizeY = faceFrameRatioY_ * users_[k].position.z;
 
-				//float faceFrameSizeX = 60.f;
-				//float faceFrameSizeY = 60.f;
+				float faceFrameSizeX = 60.f;
+				float faceFrameSizeY = 60.f;
 
 				float center = spanCenter_ * video.getWidth();
 				float factor = (data.kinectCenter.x - center) * spanX_;
@@ -263,18 +268,22 @@ void PlayerManager::draw(){
 				//Cal hair
 				hairD = getCentroid(0, idNow, colorMat, faceRect, cv::Scalar(0, 0, 0), cv::Scalar(180, 255, 80), cv::Size(7, 7), Vec2f(150, 255));
 				faceD = getCentroid(1, idNow, colorMat, faceRect, cv::Scalar(0, 40, 60), cv::Scalar(27, 150, 255), cv::Size(15, 15), Vec2f(120, 255));
-				
+				idNow++;
+
 				hairCentroid = hairD.pos;
 				faceCentroid = faceD.pos;
 				
 				hairPoint = hairD.count;
 				facePoint = faceD.count;
 
+				//console() << (facePoint + hairPoint) / (faceRect.area() * 1.f) << endl;
+
 				if (k < users_.size() &&
 					//facePoint > faceRectColor.calcArea() / facePixelMultiply * 0.02 && 
 					//hairPoint > faceRectColor.calcArea() / facePixelMultiply * 0.02) {
-					facePoint > 0 &&
-					hairPoint > 0) {
+					hairPoint != -1 &&
+					facePoint != -1 &&
+					(facePoint + hairPoint) / ( faceRect.area() * 1.f ) > 0.15) {
 
 					//rebuild position
 					data.center = data.kinectCenter * imageRatio;
@@ -301,13 +310,12 @@ void PlayerManager::draw(){
 					data.faceCentroid = faceCentroid;
 					data.hairCentroid = hairCentroid;
 
-					//if (data.faceCentroid.y > data.hairCentroid.y){
 					if (true) {
-						float diff = ( (data.faceCentroid.x - data.hairCentroid.x) * 1.f) / ( (data.faceCentroid.y - data.hairCentroid.y) * 1.f );
+						float diff = ((data.faceCentroid.x - data.hairCentroid.x) * 1.f) / ((data.faceCentroid.y - data.hairCentroid.y) * 1.f);
 						float angle = atan(diff) * 180 / M_PI;
 
 						if (data.angleMean.size() > smoothMeanCount_){
-							data.angleMean.erase( data.angleMean.begin());
+							data.angleMean.erase(data.angleMean.begin());
 						}
 
 						data.angleMean.push_back(angle);
@@ -331,11 +339,11 @@ void PlayerManager::draw(){
 									data.bufferCount = 0;
 
 									if (!data.isImageSaved){
-										boost::filesystem::path path(saveImagePath_+"faces\\");
+										boost::filesystem::path path(saveImagePath_ + "faces\\");
 										path /= to_string(data.id) + ".jpg";
 										cv::Mat cvtColorMat;
 										cv::cvtColor(colorMat(faceRect), cvtColorMat, CV_BGR2RGB);
-										cv::resize(cvtColorMat, cvtColorMat, cv::Size(faceRectWidth*4, faceRectHeight*4));
+										cv::resize(cvtColorMat, cvtColorMat, cv::Size(faceRectWidth * 4, faceRectHeight * 4));
 										writeImage(path, fromOcv(cvtColorMat));
 										data.isImageSaved = true;
 									}
@@ -353,7 +361,7 @@ void PlayerManager::draw(){
 								savefile << saveImagePath_+"faces\\" << to_string(data.id) << ".jpg";
 								savefile.close();
 
-								//WinExec("C:/faceApi.exe", SW_HIDE);
+								WinExec("C:/faceApi.exe", SW_HIDE);
 
 								std::ifstream myfile;
 								myfile.open(saveImagePath_+"output.txt");
@@ -410,16 +418,17 @@ void PlayerManager::draw(){
 
 				if (!persons_[i].isLookUp) gl::color(Color(0, 255, 0));
 				else					   gl::color(Color(255, 0, 0));
+				gl::color(Color(255, 0, 0));
 				gl::lineWidth(5);
 				gl::drawStrokedRect(rebuildFaceAreaColor);
 				gl::drawString(toString(persons_[i].id), Vec2f(rebuildFaceRectColor.x1, rebuildFaceRectColor.y1), ColorA(1.f, 0.f, 0.1f, 1.0f), Font("Arial", 30));
 				gl::drawString(toString(persons_[i].angle), Vec2f(rebuildFaceRectColor.x2, rebuildFaceRectColor.y2), ColorA(1.f, 0.f, 0.1f, 1.0f), Font("Arial", 30));
 
 				gl::color(0, 255, 255);
-				gl::drawStrokedCircle(persons_[i].hairCentroid, 2);
+				//gl::drawStrokedCircle(persons_[i].hairCentroid, 2);
 
 				gl::color(255, 255, 0);
-				gl::drawStrokedCircle(persons_[i].faceCentroid, 2);
+				//gl::drawStrokedCircle(persons_[i].faceCentroid, 2);
 
 				id++;
 			}
@@ -449,7 +458,7 @@ vector<Person> PlayerManager::getPersons(){
 void PlayerManager::setUsers(){
 	vector<Skeleton> users;
 	for (list<KinectUser*>::iterator it = kinectUsers_.begin(); it != kinectUsers_.end(); ++it){
-		if ((*it)->getHeadProjectivePosition().X > 0 && (*it)->getHeadProjectivePosition().X < 640){
+		if ((*it)->getHeadProjectivePosition().X > 20 && (*it)->getHeadProjectivePosition().X < 620){
 			Skeleton user;
 			user.id = (*it)->getId();
 			user.position = Vec3f((*it)->getHeadProjectivePosition().X, (*it)->getHeadProjectivePosition().Y, (*it)->getHeadProjectivePosition().Z);
@@ -460,7 +469,7 @@ void PlayerManager::setUsers(){
 }
 
 void PlayerManager::moveMotorUp(){
-	if (!isMoving_) {
+	/*if (!isMoving_) {
 		motorAngle_ = motorAngleUp_;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
@@ -471,11 +480,11 @@ void PlayerManager::moveMotorUp(){
 	}
 	else{
 		motorUpCount_++;
-	}
+	}*/
 }
 
 void PlayerManager::moveMotorDown(){
-	if (!isMoving_) {
+	/*if (!isMoving_) {
 		motorAngle_ = motorAngleDown_;
 		isMoving_ = true;
 		kinectDevice_->moveMotor(motorAngle_);
@@ -486,7 +495,7 @@ void PlayerManager::moveMotorDown(){
 	}
 	else{
 		motorDownCount_++;
-	}
+	}*/
 }
 
 PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat colorMat, cv::Rect faceRect, cv::Scalar minColor, cv::Scalar maxColor, cv::Size blurSize, Vec2f threadhold){
@@ -497,23 +506,48 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 	cv::cvtColor(colorMat(faceRect), cvtHairMat, CV_RGB2HSV);
 	cv::inRange(cvtHairMat, minColor, maxColor, outputHairMat);
 
-	cv::Mat element_0 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(11, 11));
+	if (isKinectDebugMode){
+		Surface calSurface2 = fromOcv(outputHairMat);
+		Texture faceVideoC2 = Texture(calSurface2);
+		Area faceAreaColor2(0, 0, calSurface2.getWidth(), calSurface2.getHeight());
+
+		//Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 500, idNow * 60, (type * 60) + 120 + 500);
+		Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 60, idNow * 60, (type * 60) + 120 + 60);
+		gl::color(Color(255, 255, 255));
+		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
+	}
+
+	cv::Mat element_0 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5));
 	cv::morphologyEx(outputHairMat, outputHairMat, cv::MORPH_CLOSE, element_0);
-
-	cv::GaussianBlur(outputHairMat, outputHairMat, blurSize, 1, 1);
-	cv::threshold(outputHairMat, outputHairMat, threadhold.x, threadhold.y, cv::THRESH_BINARY);
-
-	double sumHairPoint = cv::sum(outputHairMat)[0];
 
 	if (isKinectDebugMode){
 		Surface calSurface2 = fromOcv(outputHairMat);
 		Texture faceVideoC2 = Texture(calSurface2);
 		Area faceAreaColor2(0, 0, calSurface2.getWidth(), calSurface2.getHeight());
 
-		Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 500, idNow * 60, (type * 60) + 120 + 500);
+		//Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 500, idNow * 60, (type * 60) + 120 + 500);
+		Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 60 + 120, idNow * 60, (type * 60) + 120 + 60 + 120);
 		gl::color(Color(255, 255, 255));
 		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
 	}
+
+	/*cv::GaussianBlur(outputHairMat, outputHairMat, blurSize, 1, 1);
+	cv::threshold(outputHairMat, outputHairMat, threadhold.x, threadhold.y, cv::THRESH_BINARY);*/
+	cv::Mat element_1 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5));
+	cv::morphologyEx(outputHairMat, outputHairMat, cv::MORPH_ERODE, element_1);
+
+	if (isKinectDebugMode){
+		Surface calSurface2 = fromOcv(outputHairMat);
+		Texture faceVideoC2 = Texture(calSurface2);
+		Area faceAreaColor2(0, 0, calSurface2.getWidth(), calSurface2.getHeight());
+
+		//Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 500, idNow * 60, (type * 60) + 120 + 500);
+		Rectf faceDestC2((idNow - 1) * 60, (type * 60) + 60 + 60 + 240, idNow * 60, (type * 60) + 120 + 60 + 240);
+		gl::color(Color(255, 255, 255));
+		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
+	}
+
+	double sumHairPoint = cv::sum(outputHairMat)[0];
 
 	//contour
 
@@ -521,18 +555,32 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 	cv::findContours(outputHairMat, faceContours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 	int bigestFaceContour = -1;
 	int bigestFaceSize = 0;
-	for (int ci = 0; ci < faceContours.size(); ci++){
-		if (ci == 0) {
-			bigestFaceSize = faceContours[ci].size();
-			bigestFaceContour = ci;
-		}
-		else if (faceContours[ci].size() > bigestFaceSize){
-			bigestFaceContour = ci;
-		}
-	}
-
 	int cX = faceRect.x + faceRect.width / 2;
 	int cY = faceRect.y + faceRect.height / 2;
+
+	for (int ci = 0; ci < faceContours.size(); ci++){
+		cv::Moments faceM = cv::moments(faceContours[ci]);
+		double cYY = int(faceM.m01 / faceM.m00);
+		if (type == 0 && cYY < faceRect.height / 2.f){
+			if (bigestFaceContour == -1) {
+				bigestFaceSize = faceContours[ci].size();
+				bigestFaceContour = ci;
+			}
+			else if (faceContours[ci].size() > bigestFaceSize){
+				bigestFaceContour = ci;
+			}
+		}
+		else if (type == 1){
+			if (ci == 0) {
+				bigestFaceSize = faceContours[ci].size();
+				bigestFaceContour = ci;
+			}
+			else if (faceContours[ci].size() > bigestFaceSize){
+				bigestFaceContour = ci;
+			}
+		}
+	}
+	
 	if (bigestFaceContour != -1){
 		cv::Moments faceM = cv::moments(faceContours[bigestFaceContour]);
 		cX = int(faceM.m10 / faceM.m00);
@@ -543,13 +591,14 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 			else		  gl::color(Color(255, 255, 0));
 			float cxx = (cX + faceRect.x + faceRect.width) * getWindowWidth() / (1.2*640.f);
 			float cyy = (cY + faceRect.y + faceRect.height) * getWindowHeight() / (1.2*480.f);
-			gl::drawSolidCircle(Vec2f(cxx, cyy), 5);
+			//gl::drawSolidCircle(Vec2f(cX, cY), 5);
 		}
 	}
 
 	faceData fd;
 	fd.pos = Vec2i(cX, cY);
-	fd.count = sumHairPoint;
+	fd.count = -1;
+	if (bigestFaceContour != -1) fd.count = cv::contourArea(faceContours[bigestFaceContour]);
 
 	return fd;
 }
