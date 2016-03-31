@@ -141,7 +141,7 @@ void PlayerManager::draw(){
 				glPopMatrix();
 			}
 
-			if (captureDelay_ > 1000000){
+			if (captureDelay_ > 180){
 				boost::filesystem::path path("C:\\tan\\captured\\");
 				path /= to_string(getElapsedSeconds()) + ".jpg";
 				writeImage(path, mSurface_);
