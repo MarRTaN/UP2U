@@ -27,7 +27,8 @@ class Person{
 		vector<Vec2f>   kinectCenterMean;
 		float			angle = 0;
 		vector<float>   angleMean;
-		int				lostCount = 0;
+		int				lostTime = 0;
+		int				unDetectFrame = 0;
 		int				idleCount = 0;
 
 		Rectf			position = Rectf(0, 0, 0, 0);

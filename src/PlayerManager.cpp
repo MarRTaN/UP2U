@@ -80,21 +80,18 @@ void PlayerManager::updateUsers(){
 					persons_[personCount].center.y > frameBound.y1 &&
 					persons_[personCount].center.y < frameBound.y2 &&
 					!persons_[personCount].isPersonLost()) {
-					personCount++;
+					
+
 					moveMotorDown();
+					personCount++;
 				}
 				else{
-					ofstream savefile;
-					savefile.open(saveImagePath_+"output.txt");
-					savefile << "";
-					savefile.close();
-
 					persons_.erase(persons_.begin() + personCount);
 					isMoving_ = false;
 					moveMotorUp();
 				}
 			}
-			else if(persons_[personCount].lostCount < getElapsedSeconds()){
+			else if(persons_[personCount].lostTime < getElapsedSeconds()){
 
 				ofstream savefile;
 				savefile.open(saveImagePath_+"output.txt");
@@ -135,7 +132,7 @@ void PlayerManager::draw(){
 			if (mSurface_){
 				Texture tx = Texture(mSurface_);
 				Area srcAreaCamera(0.05 * tx.getWidth(), 0, 0.95 * tx.getWidth(), tx.getHeight());
-				Rectf destCamera(windowW, 0.1 * windowH, 0, windowH);
+				Rectf destCamera(windowW, 0 * windowH, 0, windowH);
 				glPushMatrix();
 				gl::draw(mTexture_, srcAreaCamera, destCamera);
 				glPopMatrix();
@@ -179,7 +176,6 @@ void PlayerManager::draw(){
 						   "\ngen=" + to_string(persons_[i].gender) +
 						   "\nlookup=" + direction + "\n";
 
-					console() << detail << endl;
 				}
 
 				boost::filesystem::path path(saveCapturePath_ + strDate + "\\");
@@ -190,7 +186,6 @@ void PlayerManager::draw(){
 
 				ofstream sf;
 				string savePath = detailPath + strTime + ".txt";
-				console() << savePath << endl;
 				sf.open(savePath);
 				sf << detail;
 				sf.close();
@@ -234,7 +229,7 @@ void PlayerManager::draw(){
 		for (int i = 0; i < persons_.size(); i++){
 			if (persons_[i].isActive){
 				persons_[i].isActive = false;
-				persons_[i].lostCount = getElapsedSeconds() + 2;
+				persons_[i].lostTime = getElapsedSeconds() + 1;
 			}
 		}
 
@@ -254,7 +249,7 @@ void PlayerManager::draw(){
 				circleCenter.y < headBound.y2 &&
 				circleCenter.x > headBound.x1 &&
 				circleCenter.x < headBound.x2 &&
-				users_[k].position.z > 1500){
+				users_[k].position.z > 1100){
 
 				//check is user Exist
 				int index = -1;
@@ -294,8 +289,6 @@ void PlayerManager::draw(){
 				//float faceFrameSizeX = 60.f;
 				//float faceFrameSizeY = 60.f;
 
-				console() << users_[k].position.z << endl;
-
 				float center = spanCenter_ * video.getWidth();
 				float factor = (data.kinectCenter.x - center) * spanX_;
 
@@ -334,11 +327,21 @@ void PlayerManager::draw(){
 				//console() << (facePoint + hairPoint) / (faceRect.area() * 1.f) << endl;
 
 				if (k < users_.size() &&
-					//facePoint > faceRectColor.calcArea() / facePixelMultiply * 0.02 && 
-					//hairPoint > faceRectColor.calcArea() / facePixelMultiply * 0.02) {
-					hairPoint != -1 &&
-					facePoint != -1 &&
-					(facePoint + hairPoint) / ( faceRect.area() * 1.f ) > 0.15) {
+					data.unDetectFrame < 50
+					//hairPoint != -1 &&
+					//facePoint != -1 &&
+					//(facePoint + hairPoint) / ( faceRect.area() * 1.f ) > 0.15
+					) {
+
+					if (hairPoint != -1 &&
+						facePoint != -1 &&
+						(facePoint + hairPoint) / (faceRect.area() * 1.f) > 0.15){
+						data.unDetectFrame = 0;
+					}
+					else {
+						data.unDetectFrame++;
+						console() << data.unDetectFrame  << endl;
+					}
 
 					//rebuild position
 					data.center = data.kinectCenter * imageRatio;
@@ -568,6 +571,9 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 	cv::Mat cvtHairMat;
 	cv::Mat outputHairMat;
 
+	faceData fd;
+	fd.count = -1;
+
 	cv::cvtColor(colorMat(faceRect), cvtHairMat, CV_RGB2HSV);
 	cv::inRange(cvtHairMat, minColor, maxColor, outputHairMat);
 
@@ -645,7 +651,7 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 			}
 		}
 	}
-	
+
 	if (bigestFaceContour != -1){
 		cv::Moments faceM = cv::moments(faceContours[bigestFaceContour]);
 		cX = int(faceM.m10 / faceM.m00);
@@ -660,11 +666,9 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		}
 	}
 
-	faceData fd;
 	fd.pos = Vec2i(cX, cY);
-	fd.count = -1;
 	if (bigestFaceContour != -1) fd.count = cv::contourArea(faceContours[bigestFaceContour]);
-
+	
 	return fd;
 }
 

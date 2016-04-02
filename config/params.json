@@ -30,15 +30,15 @@
         "frameRatio": {
             "x1": 0.1000000014901161,
             "x2": 0.8999999761581421,
-            "y1": 0.2,
+            "y1": 0.1,
             "y2": 0.6
         },
-        "smoothMeanCount": 25,
+        "smoothMeanCount": 5,
         "spanCenter": 0.50,
         "spanX": 0.01,
 		"shift" : {
 			"x" : -40,
-			"y" : -80
+			"y" : -150
 		}
     },
     "stageManagerParams": {
