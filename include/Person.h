@@ -19,6 +19,7 @@ class Person{
 
 		int				id = -1;
 		Vec2f			center = Vec2f(0, 0);
+		float			depth = 0;
 		Vec2f			lastCenter = Vec2f(0, 0);
 		Vec2f			kinectCenter = Vec2f(0, 0); //The real center from kinect
 		Vec2i			hairCentroid = Vec2f(0, 0);

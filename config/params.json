@@ -30,15 +30,15 @@
         "frameRatio": {
             "x1": 0.1000000014901161,
             "x2": 0.8999999761581421,
-            "y1": 0.4,
-            "y2": 0.8
+            "y1": 0.2,
+            "y2": 0.6
         },
         "smoothMeanCount": 25,
         "spanCenter": 0.50,
         "spanX": 0.01,
 		"shift" : {
-			"x" : -30,
-			"y" : 0
+			"x" : -40,
+			"y" : -80
 		}
     },
     "stageManagerParams": {
@@ -58,7 +58,7 @@
             "bothTimeMY": 300.0,
             "bothTimeHY": 400.0,
 
-            "scale": 60.0,
+            "scale": 95.0,
             "shiftX": 4.0,
             "shiftY": 0.0,
             "talkTimeX": 553.0

@@ -232,8 +232,11 @@ void DetectingStage::draw(){
 		}
 
 		//adjust position and size
+		float frameSize = 120.f / (persons_[i].depth / 1000.f);
+		float ratio = frameSize / 60.f;
+
 		Vec2f shift(param_shiftX_, param_shiftY_);
-		Vec2f scale(param_scale_, param_scale_);
+		Vec2f scale(param_scale_ * ratio, param_scale_ * ratio);
 
 		//calibrate position for each segment
 		Vec2f calShift(0, 0);
@@ -241,7 +244,8 @@ void DetectingStage::draw(){
 		else if (persons_[i].segtion == RIGHT) calShift.x = param_calShift_;
 		else calShift.x = 0;
 
-		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift, persons_[i].center + scale + shift + calShift);
+		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift, 
+							      persons_[i].center + scale + shift + calShift);
 		if (stickerTexture){
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
