@@ -34,6 +34,5 @@ private:
 	Bit::Video			advertisingVid_;
 	Bit::DisplayArea	displayArea_;
 	float				timeCount_ = 0;
-	bool				isDebugMode_ = false;
 	Config				config_;
 };

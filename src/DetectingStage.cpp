@@ -3,7 +3,7 @@
 void DetectingStage::setup(){
 	
 	//setup BGM
-	//bgm_.setup();
+	bgm_.setup();
 
 	//get gauge image
 	ci::Surface gaugeSurface(loadImage(gaugePath_));
@@ -93,13 +93,13 @@ void DetectingStage::setup(){
 	isStartPhubbing_.resize(15, false);
 
 	fontS_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
-	fontM_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_*0.8f);
-	fontH_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_*0.6f);
+	fontM_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
+	fontH_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
 }
 
 void DetectingStage::update(){
 	if (timeCount_ == 0){
-		//bgm_.play();
+		bgm_.play();
 		timeCount_ = 1;
 	}
 	for (int i = 0; i < persons_.size(); i++){
@@ -170,11 +170,11 @@ void DetectingStage::draw(){
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		displayArea_.draw(gaugeTexture_, gaugeRect);
 		drawString(phubSS, Vec2f(param_phubTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
-		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
+		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeHY_), Color(0, 0, 0), fontS_);
 		drawString(phubMS, Vec2f(param_phubTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
 		drawString(talkMS, Vec2f(param_talkTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
 		drawString(phubHS, Vec2f(param_phubTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
-		drawString(talkHS, Vec2f(param_talkTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
+		drawString(talkHS, Vec2f(param_talkTimeHX_, param_bothTimeSY_), Color(0, 0, 0), fontH_);
 		glDisable(GL_BLEND);
 	}
 
@@ -379,11 +379,11 @@ int DetectingStage::idToIndex(int id){
 
 void DetectingStage::reset(){
 	timeCount_ = 0;
-	//bgm_.stop();
+	bgm_.stop();
 }
 
 void DetectingStage::readConfig(Bit::JsonTree* tree){
-	//bgm_.readConfig(tree->getChildPtr("bgm"));
+	bgm_.readConfig(tree->getChildPtr("bgm"));
 	gaugePath_ = Bit::Config::getAssetPath() + tree->getChildPtr("gauge")->getValue<string>();
 	seriousPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("serious")->getValue<string>();
 	seriousLeftPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("seriousLeft")->getValue<string>();

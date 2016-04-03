@@ -12,7 +12,7 @@
 
         "detectingStage": {
 			"bgm": {
-				"path": "bgm.",
+				"path": "bgm.mp4",
 				"playOption": { "loop": true }
 			},
             "gauge":  "gauge.png",
