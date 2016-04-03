@@ -194,7 +194,8 @@ void PlayerManager::draw(){
 			}
 			
 			captureDelay_++;
-
+			gl::color(Color(255, 255, 255));
+			gl::draw(video, srcArea, destRect);
 		}
 		else{
 

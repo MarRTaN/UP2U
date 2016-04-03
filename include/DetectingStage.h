@@ -25,11 +25,19 @@ public:
 	void				readParams(Bit::JsonTree* tree, Bit::ParamsRef params);
 	void				setup();
 	void				update();
+	void				updateGameplay();
+	void				updatePhubVid();
+	void				updateTalkVid();
 	void				draw();
+	void				drawGameplay();
+	void				drawPhubVid();
+	void				drawTalkVid();
 	void				drawDebugMode();
 	void				reset();
+	void				resetMiniStage();
 	void				setPersons(vector<Person> persons);
 	void				checkAction();
+	void				updateGauge();
 	void				addColor(Vec3f added);
 	void				addTimePhub(float t);
 	void				addTimeTalk(float t);
@@ -45,11 +53,29 @@ public:
 
 private:
 
+	int						status_ = IDLE;
+	int						miniStage_ = GAMEPLAY;
+
 	Font					fontS_;
 	Font					fontM_;
 	Font					fontH_;
 	
 	Bit::Audio				bgm_;
+	Bit::Video				phubVid_;
+	Bit::Video				talkVid_;
+
+	bool					isPhubVidStart_ = false;
+	bool					isTalkVidStart_ = false;
+	
+	float					gaugeValue_ = 0.0f;
+	float					gaugeMax_ = 100.0f;
+	float					gaugeIncreaseRate_;
+	float					gaugeDecreaseRate_;	
+
+	float					hurtValue_ = 0.0f;
+	float					hurtMax_ = 100.0f;
+	float					hurtIncreaseRate_;
+	float					hurtDecreaseRate_;	
 
 	Bit::DisplayArea		displayArea_;
 	vector<Person>			persons_;

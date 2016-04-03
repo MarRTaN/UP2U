@@ -24,4 +24,14 @@ typedef enum Segtion{
 	RIGHT = 2
 };
 
+typedef enum Status{
+	IDLE = 0,
+	PHUB = 1,
+	TALK = 2
+};
 
+typedef enum MiniStage{
+	GAMEPLAY = 0,
+	PHUBVID = 1,
+	TALKVID = 2
+};

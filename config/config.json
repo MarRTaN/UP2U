@@ -15,6 +15,22 @@
 				"path": "bgm.mp4",
 				"playOption": { "loop": true }
 			},
+			"phubVid": {
+                "path": "phubVid.mp4",
+                "loadOption": "gstreamer",
+                "blendMode": "premultiply",
+                "playOption": { "loop": false, "pingpong": false }
+            },
+			"talkVid": {
+                "path": "talkVid.mp4",
+                "loadOption": "gstreamer",
+                "blendMode": "premultiply",
+                "playOption": { "loop": false, "pingpong": false }
+            },
+			"gaugeIncreaseRate": 0.2,
+			"gaugeDecreaseRate": 0.1,
+			"hurtIncreaseRate": 0.2,
+			"hurtDecreaseRate": 0.1,
             "gauge":  "gauge.png",
             "smile": "smiley\\smile.png",
             "smileLeft": "smiley\\smileLeft.png",

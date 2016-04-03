@@ -4,6 +4,8 @@ void DetectingStage::setup(){
 	
 	//setup BGM
 	bgm_.setup();
+	phubVid_.setup();
+	talkVid_.setup();
 
 	//get gauge image
 	ci::Surface gaugeSurface(loadImage(gaugePath_));
@@ -98,6 +100,14 @@ void DetectingStage::setup(){
 }
 
 void DetectingStage::update(){
+	switch (miniStage_){
+	case GAMEPLAY: updateGameplay(); break;
+	case PHUBVID: updatePhubVid(); break;
+	case TALKVID: updateTalkVid(); break;
+	}
+}
+
+void DetectingStage::updateGameplay(){
 	if (timeCount_ == 0){
 		bgm_.play();
 		timeCount_ = 1;
@@ -108,68 +118,137 @@ void DetectingStage::update(){
 		else persons_[i].segtion = CENTER;
 	}
 	checkAction();
-	timeRatio_ = (timePhub_*1.f) / ((timePhub_+ timeTalk_) * 1.f);
+	updateGauge();
+	/*timeRatio_ = (timePhub_*1.f) / ((timePhub_ + timeTalk_) * 1.f);
 	if (currentRatio_ + 0.001f < timeRatio_) currentRatio_ += 0.001f;
-	else if (currentRatio_ - 0.001f > timeRatio_) currentRatio_ -= 0.001f;
+	else if (currentRatio_ - 0.001f > timeRatio_) currentRatio_ -= 0.001f;*/
+}
+
+void DetectingStage::updatePhubVid(){
+	if (!isPhubVidStart_){
+		phubVid_.play();
+		isPhubVidStart_ = true;
+	}
+	if (phubVid_.isDone()){
+		resetMiniStage();
+	}	
+}
+
+void DetectingStage::updateTalkVid(){
+	if (!isTalkVidStart_){
+		talkVid_.play();
+		isTalkVidStart_ = true;
+	}
+	if (talkVid_.isDone()){
+		resetMiniStage();
+	}
+}
+
+void DetectingStage::updateGauge(){
+	if (status_ == TALK) {
+		gaugeValue_ += gaugeIncreaseRate_;
+		hurtValue_ -= hurtDecreaseRate_;
+	}
+	else if (status_ == IDLE) {
+		gaugeValue_ -= gaugeDecreaseRate_;
+		hurtValue_ -= hurtDecreaseRate_;
+	}
+
+	else if (status_ == PHUB) {
+		hurtValue_ += hurtIncreaseRate_;
+		gaugeValue_ -= gaugeDecreaseRate_;
+	}
+
+	if (gaugeValue_ > gaugeMax_) {
+		gaugeValue_ = gaugeMax_;
+		miniStage_ = TALKVID;
+	}
+	else if (gaugeValue_ < 0) gaugeValue_ = 0;
+
+	if (hurtValue_ > hurtMax_) {
+		hurtValue_ = hurtMax_;
+		miniStage_ = PHUBVID;
+	}
+	else if (hurtValue_ < 0) hurtValue_ = 0;
+	
 }
 
 void DetectingStage::draw(){
-	
+	switch (miniStage_){
+	case GAMEPLAY: drawGameplay(); break;
+	case PHUBVID: drawPhubVid(); break;
+	case TALKVID: drawTalkVid(); break;
+	}
+}
+
+void DetectingStage::drawGameplay(){
+
 	//get guage
 	Rectf gaugeRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight());
 	//Texture guageTexture = guageVid_.getTexture();
 
 
-	///calculate phub time
-	int phubH = timePhub_ / 3600;
-	int phubM = (timePhub_ / 60) % 60;
-	int phubS = timePhub_ % 60;
+	/////calculate phub time
+	//int phubH = timePhub_ / 3600;
+	//int phubM = (timePhub_ / 60) % 60;
+	//int phubS = timePhub_ % 60;
 
+	//
+	//string phubHS,phubMS, phubSS,phubString;
+	//if (phubH < 10) phubHS = "0" + toString(phubH);
+	//else phubHS = toString(phubH);
+
+	//if (phubM < 10) phubMS = "0" + toString(phubM);
+	//else phubMS = toString(phubM);
+
+	//if (phubS < 10) phubSS = "0" + toString(phubS);
+	//else phubSS = toString(phubS);
+
+	//phubString = phubHS + ":" + phubMS + ":" + phubSS;
+
+	/////calculate talk string
+	//int talkH = timeTalk_ / 3600;
+	//int talkM = (timeTalk_ / 60) % 60;
+	//int talkS = timeTalk_ % 60;
+
+	//string talkHS, talkMS, talkSS, talkString;
+	//if (talkH < 10) talkHS = "0" + toString(talkH);
+	//else talkHS = toString(talkH);
+
+	//if (talkM < 10) talkMS = "0" + toString(talkM);
+	//else talkMS = toString(talkM);
+
+	//if (talkS < 10) talkSS = "0" + toString(talkS);
+	//else talkSS = toString(talkS);
+
+	//talkString = talkHS + ":" + talkMS + ":" + talkSS;
+
+	////draw red green rect
+	//Rectf greenRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight()*0.15f);
+	//Rectf redRect = Rectf(0.0f, 0.0f, (getWindowWidth()*currentRatio_), getWindowHeight()*0.15f);
+	//gl::color(67.f/255.f, 193.f/255.f, 30.f/255.f);
+	////drawSolidRect(greenRect);
+	//gl::color(255.f/255.f, 54.f/255.f, 54.f/255.f);
+	////drawSolidRect(redRect);
+	//gl::color(1, 1, 1);
 	
-	string phubHS,phubMS, phubSS,phubString;
-	if (phubH < 10) phubHS = "0" + toString(phubH);
-	else phubHS = toString(phubH);
-
-	if (phubM < 10) phubMS = "0" + toString(phubM);
-	else phubMS = toString(phubM);
-
-	if (phubS < 10) phubSS = "0" + toString(phubS);
-	else phubSS = toString(phubS);
-
-	phubString = phubHS + ":" + phubMS + ":" + phubSS;
-
-	///calculate talk string
-	int talkH = timeTalk_ / 3600;
-	int talkM = (timeTalk_ / 60) % 60;
-	int talkS = timeTalk_ % 60;
-
-	string talkHS, talkMS, talkSS, talkString;
-	if (talkH < 10) talkHS = "0" + toString(talkH);
-	else talkHS = toString(talkH);
-
-	if (talkM < 10) talkMS = "0" + toString(talkM);
-	else talkMS = toString(talkM);
-
-	if (talkS < 10) talkSS = "0" + toString(talkS);
-	else talkSS = toString(talkS);
-
-	talkString = talkHS + ":" + talkMS + ":" + talkSS;
-
-	//draw red green rect
-	Rectf greenRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight()*0.15f);
-	Rectf redRect = Rectf(0.0f, 0.0f, (getWindowWidth()*currentRatio_), getWindowHeight()*0.15f);
-	gl::color(67.f/255.f, 193.f/255.f, 30.f/255.f);
-	//drawSolidRect(greenRect);
-	gl::color(255.f/255.f, 54.f/255.f, 54.f/255.f);
-	//drawSolidRect(redRect);
-	gl::color(1, 1, 1);
-
-
 	//draw guage
 	if (gaugeTexture_){
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		displayArea_.draw(gaugeTexture_, gaugeRect);
+		//draw rect
+		float gaugeRatio = gaugeValue_ / gaugeMax_;
+		Rectf blackRect = Rectf(getWindowWidth()*0.10f, getWindowHeight()*0.10f, (getWindowWidth()*0.10f) + (getWindowWidth()*0.8f*gaugeRatio), getWindowHeight()*0.15f);
+		gl::color(0, 0, 0);
+		drawSolidRect(blackRect);
+		gl::color(1, 1, 1);
+
+		float hurtRatio = hurtValue_ / hurtMax_;
+		Rectf redRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight());
+		gl::color(255.f / 255.f, 54.f / 255.f, 54.f / 255.f, hurtRatio/2);
+		drawSolidRect(redRect);
+		gl::color(1, 1, 1);
 		/*
 		drawString(phubSS, Vec2f(param_phubTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
 		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeHY_), Color(0, 0, 0), fontS_);
@@ -181,10 +260,9 @@ void DetectingStage::draw(){
 		glDisable(GL_BLEND);
 	}
 
-
 	//draw sticker
 	for (int i = 0; i < persons_.size(); i++){
-		if(!isDebugMode) gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
+		if (!isDebugMode) gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
 		else gl::color(1, 1, 1, 0.5);
 		//choose correct texture for each person
 		Texture stickerTexture;
@@ -247,8 +325,8 @@ void DetectingStage::draw(){
 		else if (persons_[i].segtion == RIGHT) calShift.x = param_calShift_;
 		else calShift.x = 0;
 
-		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift, 
-							      persons_[i].center + scale + shift + calShift);
+		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift,
+			persons_[i].center + scale + shift + calShift);
 		if (stickerTexture){
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -258,21 +336,24 @@ void DetectingStage::draw(){
 		}
 	}
 	gl::color(1, 1, 1);
+}
 
-	//draw guage
-	if (gaugeTexture_){
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		displayArea_.draw(gaugeTexture_, gaugeRect);
-		drawString(phubSS, Vec2f(param_phubTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
-		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
-		drawString(phubMS, Vec2f(param_phubTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
-		drawString(talkMS, Vec2f(param_talkTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
-		drawString(phubHS, Vec2f(param_phubTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
-		drawString(talkHS, Vec2f(param_talkTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
-		glDisable(GL_BLEND);
+void DetectingStage::drawPhubVid(){
+	Texture phubVidTexture = phubVid_.getTexture();
+	if (phubVidTexture && !isDebugMode){
+		enableAlphaBlending();
+		displayArea_.draw(phubVidTexture, getWindowBounds());
+		disableAlphaBlending();
 	}
-	gl::color(1, 1, 1);
+}
+
+void DetectingStage::drawTalkVid(){
+	Texture talkVidTexture = talkVid_.getTexture();
+	if (talkVidTexture && !isDebugMode){
+		enableAlphaBlending();
+		displayArea_.draw(talkVidTexture, getWindowBounds());
+		disableAlphaBlending();
+	}
 }
 
 void DetectingStage::setPersons(vector<Person> persons){
@@ -282,19 +363,20 @@ void DetectingStage::setPersons(vector<Person> persons){
 }
 
 void DetectingStage::checkAction(){
-
+	int peopleStatus = IDLE;
 	for (int i = 0; i < persons_.size(); i++){
 
-		if (persons_[i].getLook() == LOOKDOWN){
-			minimizeFaceColor(persons_[i].id);
-			calPhubTime(persons_[i].id);
-			resetTimeTalk(persons_[i].id);
-		}
-
-		else if (persons_[i].getLook() == LOOKUP){
+		if (persons_[i].getLook() == LOOKUP){
 			normalizeFaceColor(persons_[i].id);
 			resetTimePhub(persons_[i].id);
 			resetTimeTalk(persons_[i].id);
+		}
+
+		else if (persons_[i].getLook() == LOOKDOWN){
+			minimizeFaceColor(persons_[i].id);
+			calPhubTime(persons_[i].id);
+			resetTimeTalk(persons_[i].id);
+			if (peopleStatus == IDLE) peopleStatus = PHUB;
 		}
 
 		else if (persons_[i].getLook() == TURNRIGHT){
@@ -307,7 +389,10 @@ void DetectingStage::checkAction(){
 					break;
 				}
 			}
-			if (isMatched) maximizeFaceColor(persons_[i].id);
+			if (isMatched) {
+				maximizeFaceColor(persons_[i].id);
+				peopleStatus = TALK;
+			}
 			else normalizeFaceColor(persons_[i].id);
 		}
 
@@ -321,10 +406,14 @@ void DetectingStage::checkAction(){
 					break;
 				}
 			}
-			if (isMatched) maximizeFaceColor(persons_[i].id);
+			if (isMatched) {
+				maximizeFaceColor(persons_[i].id);
+				peopleStatus = TALK;
+			}
 			else normalizeFaceColor(persons_[i].id);
 		}
 	}
+	status_ = peopleStatus;
 }
 
 void DetectingStage::addColor(Vec3f added){
@@ -404,8 +493,27 @@ void DetectingStage::reset(){
 	bgm_.stop();
 }
 
+void DetectingStage::resetMiniStage(){
+	talkVid_.stop();
+	phubVid_.stop();
+	gaugeValue_ = 0.0f;
+	hurtValue_ = 0.0f;
+	isPhubVidStart_ = false;
+	isTalkVidStart_ = false;
+	miniStage_ = GAMEPLAY;
+}
+
 void DetectingStage::readConfig(Bit::JsonTree* tree){
 	bgm_.readConfig(tree->getChildPtr("bgm"));
+	phubVid_.readConfig(tree->getChildPtr("phubVid"));
+	talkVid_.readConfig(tree->getChildPtr("talkVid"));
+
+	gaugeIncreaseRate_ = tree->getChildPtr("gaugeIncreaseRate")->getValue<float>();
+	gaugeDecreaseRate_ = tree->getChildPtr("gaugeDecreaseRate")->getValue<float>();
+
+	hurtIncreaseRate_ = tree->getChildPtr("hurtIncreaseRate")->getValue<float>();
+	hurtDecreaseRate_ = tree->getChildPtr("hurtDecreaseRate")->getValue<float>();
+
 	gaugePath_ = Bit::Config::getAssetPath() + tree->getChildPtr("gauge")->getValue<string>();
 	seriousPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("serious")->getValue<string>();
 	seriousLeftPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("seriousLeft")->getValue<string>();
@@ -440,14 +548,14 @@ void DetectingStage::readParams(Bit::JsonTree* tree, Bit::ParamsRef params){
 	params->addParam<float>(tree->getChildPtr("shiftX"), param_shiftX_);
 	params->addParam<float>(tree->getChildPtr("shiftY"), param_shiftY_);
 	params->addParam<float>(tree->getChildPtr("calShift"), param_calShift_);
-	params->addParam<float>(tree->getChildPtr("fontSize"), param_fontSize_);
-	params->addParam<float>(tree->getChildPtr("phubTimeSX"), param_phubTimeSX_);
-	params->addParam<float>(tree->getChildPtr("talkTimeSX"), param_talkTimeSX_);
-	params->addParam<float>(tree->getChildPtr("phubTimeMX"), param_phubTimeMX_);
-	params->addParam<float>(tree->getChildPtr("talkTimeMX"), param_talkTimeMX_);
-	params->addParam<float>(tree->getChildPtr("phubTimeHX"), param_phubTimeHX_);
-	params->addParam<float>(tree->getChildPtr("talkTimeHX"), param_talkTimeHX_);
-	params->addParam<float>(tree->getChildPtr("bothTimeSY"), param_bothTimeSY_);
-	params->addParam<float>(tree->getChildPtr("bothTimeMY"), param_bothTimeMY_);
-	params->addParam<float>(tree->getChildPtr("bothTimeHY"), param_bothTimeHY_);
+	//params->addParam<float>(tree->getChildPtr("fontSize"), param_fontSize_);
+	//params->addParam<float>(tree->getChildPtr("phubTimeSX"), param_phubTimeSX_);
+	//params->addParam<float>(tree->getChildPtr("talkTimeSX"), param_talkTimeSX_);
+	//params->addParam<float>(tree->getChildPtr("phubTimeMX"), param_phubTimeMX_);
+	//params->addParam<float>(tree->getChildPtr("talkTimeMX"), param_talkTimeMX_);
+	//params->addParam<float>(tree->getChildPtr("phubTimeHX"), param_phubTimeHX_);
+	//params->addParam<float>(tree->getChildPtr("talkTimeHX"), param_talkTimeHX_);
+	//params->addParam<float>(tree->getChildPtr("bothTimeSY"), param_bothTimeSY_);
+	//params->addParam<float>(tree->getChildPtr("bothTimeMY"), param_bothTimeMY_);
+	//params->addParam<float>(tree->getChildPtr("bothTimeHY"), param_bothTimeHY_);
 }
