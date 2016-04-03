@@ -116,7 +116,7 @@ void DetectingStage::update(){
 void DetectingStage::draw(){
 	
 	//get guage
-	Rectf gaugeRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight()*0.4f);
+	Rectf gaugeRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight());
 	//Texture guageTexture = guageVid_.getTexture();
 
 
@@ -159,22 +159,25 @@ void DetectingStage::draw(){
 	Rectf greenRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight()*0.15f);
 	Rectf redRect = Rectf(0.0f, 0.0f, (getWindowWidth()*currentRatio_), getWindowHeight()*0.15f);
 	gl::color(67.f/255.f, 193.f/255.f, 30.f/255.f);
-	drawSolidRect(greenRect);
+	//drawSolidRect(greenRect);
 	gl::color(255.f/255.f, 54.f/255.f, 54.f/255.f);
-	drawSolidRect(redRect);
+	//drawSolidRect(redRect);
 	gl::color(1, 1, 1);
+
 
 	//draw guage
 	if (gaugeTexture_){
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		displayArea_.draw(gaugeTexture_, gaugeRect);
+		/*
 		drawString(phubSS, Vec2f(param_phubTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
 		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeHY_), Color(0, 0, 0), fontS_);
 		drawString(phubMS, Vec2f(param_phubTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
 		drawString(talkMS, Vec2f(param_talkTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
 		drawString(phubHS, Vec2f(param_phubTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
 		drawString(talkHS, Vec2f(param_talkTimeHX_, param_bothTimeSY_), Color(0, 0, 0), fontH_);
+		*/
 		glDisable(GL_BLEND);
 	}
 
@@ -232,8 +235,11 @@ void DetectingStage::draw(){
 		}
 
 		//adjust position and size
+		float frameSize = 120.f / (persons_[i].depth / 1000.f);
+		float ratio = frameSize / 60.f;
+
 		Vec2f shift(param_shiftX_, param_shiftY_);
-		Vec2f scale(param_scale_, param_scale_);
+		Vec2f scale(param_scale_ * ratio, param_scale_ * ratio);
 
 		//calibrate position for each segment
 		Vec2f calShift(0, 0);
@@ -241,7 +247,8 @@ void DetectingStage::draw(){
 		else if (persons_[i].segtion == RIGHT) calShift.x = param_calShift_;
 		else calShift.x = 0;
 
-		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift, persons_[i].center + scale + shift + calShift);
+		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift, 
+							      persons_[i].center + scale + shift + calShift);
 		if (stickerTexture){
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -249,6 +256,21 @@ void DetectingStage::draw(){
 			ci::gl::disableAlphaBlending();
 			glDisable(GL_BLEND);
 		}
+	}
+	gl::color(1, 1, 1);
+
+	//draw guage
+	if (gaugeTexture_){
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		displayArea_.draw(gaugeTexture_, gaugeRect);
+		drawString(phubSS, Vec2f(param_phubTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
+		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
+		drawString(phubMS, Vec2f(param_phubTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
+		drawString(talkMS, Vec2f(param_talkTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
+		drawString(phubHS, Vec2f(param_phubTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
+		drawString(talkHS, Vec2f(param_talkTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
+		glDisable(GL_BLEND);
 	}
 	gl::color(1, 1, 1);
 }

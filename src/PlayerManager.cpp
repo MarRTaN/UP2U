@@ -44,7 +44,7 @@ void PlayerManager::setupUsers(){
 	}
 
 	try {
-		mCapture_ = Capture::create(800, 600, cameraDevice);
+		mCapture_ = Capture::create(1920, 1080, cameraDevice);
 		mCapture_->start();
 	}
 	catch (...) {
@@ -80,21 +80,18 @@ void PlayerManager::updateUsers(){
 					persons_[personCount].center.y > frameBound.y1 &&
 					persons_[personCount].center.y < frameBound.y2 &&
 					!persons_[personCount].isPersonLost()) {
-					personCount++;
+					
+
 					moveMotorDown();
+					personCount++;
 				}
 				else{
-					ofstream savefile;
-					savefile.open(saveImagePath_+"output.txt");
-					savefile << "";
-					savefile.close();
-
 					persons_.erase(persons_.begin() + personCount);
 					isMoving_ = false;
 					moveMotorUp();
 				}
 			}
-			else if(persons_[personCount].lostCount < getElapsedSeconds()){
+			else if(persons_[personCount].lostTime < getElapsedSeconds()){
 
 				ofstream savefile;
 				savefile.open(saveImagePath_+"output.txt");
@@ -134,17 +131,65 @@ void PlayerManager::draw(){
 
 			if (mSurface_){
 				Texture tx = Texture(mSurface_);
-				Area srcAreaCamera(0, 0, tx.getWidth(), tx.getHeight());
-				Rectf destCamera(windowW, windowH - windowHeightShift, 0, windowH);
+				Area srcAreaCamera(0.05 * tx.getWidth(), 0, 0.95 * tx.getWidth(), tx.getHeight());
+				Rectf destCamera(windowW, 0 * windowH, 0, windowH);
 				glPushMatrix();
 				gl::draw(mTexture_, srcAreaCamera, destCamera);
 				glPopMatrix();
 			}
 
 			if (captureDelay_ > 180){
-				boost::filesystem::path path("C:\\tan\\captured\\");
-				path /= to_string(getElapsedSeconds()) + ".jpg";
+
+				time_t rawtime;
+				struct tm * timeinfo;
+				char timeBuffer[80];
+				char dateBuffer[80];
+
+				time(&rawtime);
+				timeinfo = localtime(&rawtime);
+
+				strftime(timeBuffer, 80, "%I-%M-%S", timeinfo);
+				strftime(dateBuffer, 80, "%Y-%m-%d", timeinfo);
+
+				std::string strTime(timeBuffer);
+				std::string strDate(dateBuffer);
+				std::string detail = "Detail :: ";
+
+				for (int i = 0; i < persons_.size(); i++){
+
+					string direction = "";
+					if (persons_[i].angle > persons_[i].angleLookRight){
+						direction = "RIGHT";
+					}
+					else if (persons_[i].angle < persons_[i].angleLookLeft){
+						direction = "LEFT";
+					}
+					else {
+						if (persons_[i].isLookUp)
+							direction = "UP";
+						else
+							direction = "DOWN";
+					}
+
+					detail += "id = " + to_string(i) +
+						   "\nloc=" + to_string(persons_[i].center.x) + "," + to_string(persons_[i].center.y) +
+						   "\ngen=" + to_string(persons_[i].gender) +
+						   "\nlookup=" + direction + "\n";
+
+				}
+
+				boost::filesystem::path path(saveCapturePath_ + strDate + "\\");
+				path /= strTime + ".jpg";
 				writeImage(path, mSurface_);
+
+				string detailPath = saveCapturePath_ + strDate + "\\";
+
+				ofstream sf;
+				string savePath = detailPath + strTime + ".txt";
+				sf.open(savePath);
+				sf << detail;
+				sf.close();
+
 				captureDelay_ = 0;
 			}
 			
@@ -184,7 +229,7 @@ void PlayerManager::draw(){
 		for (int i = 0; i < persons_.size(); i++){
 			if (persons_[i].isActive){
 				persons_[i].isActive = false;
-				persons_[i].lostCount = getElapsedSeconds() + 2;
+				persons_[i].lostTime = getElapsedSeconds() + 1;
 			}
 		}
 
@@ -203,7 +248,8 @@ void PlayerManager::draw(){
 			if (circleCenter.y > headBound.y1 &&
 				circleCenter.y < headBound.y2 &&
 				circleCenter.x > headBound.x1 &&
-				circleCenter.x < headBound.x2){
+				circleCenter.x < headBound.x2 &&
+				users_[k].position.z > 1100){
 
 				//check is user Exist
 				int index = -1;
@@ -233,13 +279,15 @@ void PlayerManager::draw(){
 
 				data.angleLookLeft = angleLookLeft_;
 				data.angleLookRight = angleLookRight_;
+
+				data.depth = users_[k].position.z;
 				
 				float facePoint = 0, hairPoint = 0;
-				//float faceFrameSizeX = faceFrameRatioX_ * users_[k].position.z;
-				//float faceFrameSizeY = faceFrameRatioY_ * users_[k].position.z;
+				float faceFrameSizeX = 120.f / ( users_[k].position.z / 1000.f);
+				float faceFrameSizeY = 120.f / ( users_[k].position.z / 1000.f);
 
-				float faceFrameSizeX = 60.f;
-				float faceFrameSizeY = 60.f;
+				//float faceFrameSizeX = 60.f;
+				//float faceFrameSizeY = 60.f;
 
 				float center = spanCenter_ * video.getWidth();
 				float factor = (data.kinectCenter.x - center) * spanX_;
@@ -279,11 +327,21 @@ void PlayerManager::draw(){
 				//console() << (facePoint + hairPoint) / (faceRect.area() * 1.f) << endl;
 
 				if (k < users_.size() &&
-					//facePoint > faceRectColor.calcArea() / facePixelMultiply * 0.02 && 
-					//hairPoint > faceRectColor.calcArea() / facePixelMultiply * 0.02) {
-					hairPoint != -1 &&
-					facePoint != -1 &&
-					(facePoint + hairPoint) / ( faceRect.area() * 1.f ) > 0.15) {
+					data.unDetectFrame < 50
+					//hairPoint != -1 &&
+					//facePoint != -1 &&
+					//(facePoint + hairPoint) / ( faceRect.area() * 1.f ) > 0.15
+					) {
+
+					if (hairPoint != -1 &&
+						facePoint != -1 &&
+						(facePoint + hairPoint) / (faceRect.area() * 1.f) > 0.15){
+						data.unDetectFrame = 0;
+					}
+					else {
+						data.unDetectFrame++;
+						console() << data.unDetectFrame  << endl;
+					}
 
 					//rebuild position
 					data.center = data.kinectCenter * imageRatio;
@@ -371,7 +429,7 @@ void PlayerManager::draw(){
 								savefile << saveImagePath_+"faces\\" << to_string(data.id) << ".jpg";
 								savefile.close();
 
-								WinExec("C:/faceApi.exe", SW_HIDE);
+								//WinExec("C:/faceApi.exe", SW_HIDE);
 
 								std::ifstream myfile;
 								myfile.open(saveImagePath_+"output.txt");
@@ -434,11 +492,11 @@ void PlayerManager::draw(){
 				gl::drawString(toString(persons_[i].id), Vec2f(rebuildFaceRectColor.x1, rebuildFaceRectColor.y1), ColorA(1.f, 0.f, 0.1f, 1.0f), Font("Arial", 30));
 				gl::drawString(toString(persons_[i].angle), Vec2f(rebuildFaceRectColor.x2, rebuildFaceRectColor.y2), ColorA(1.f, 0.f, 0.1f, 1.0f), Font("Arial", 30));
 
-				gl::color(0, 255, 255);
-				//gl::drawStrokedCircle(persons_[i].hairCentroid, 2);
+				gl::color(255, 0, 0);
+				gl::drawStrokedCircle(persons_[i].hairCentroid + persons_[i].center, 6);
 
 				gl::color(255, 255, 0);
-				//gl::drawStrokedCircle(persons_[i].faceCentroid, 2);
+				gl::drawStrokedCircle(persons_[i].faceCentroid + persons_[i].center, 6);
 
 				id++;
 			}
@@ -512,6 +570,9 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 	
 	cv::Mat cvtHairMat;
 	cv::Mat outputHairMat;
+
+	faceData fd;
+	fd.count = -1;
 
 	cv::cvtColor(colorMat(faceRect), cvtHairMat, CV_RGB2HSV);
 	cv::inRange(cvtHairMat, minColor, maxColor, outputHairMat);
@@ -590,7 +651,7 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 			}
 		}
 	}
-	
+
 	if (bigestFaceContour != -1){
 		cv::Moments faceM = cv::moments(faceContours[bigestFaceContour]);
 		cX = int(faceM.m10 / faceM.m00);
@@ -605,11 +666,9 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		}
 	}
 
-	faceData fd;
 	fd.pos = Vec2i(cX, cY);
-	fd.count = -1;
 	if (bigestFaceContour != -1) fd.count = cv::contourArea(faceContours[bigestFaceContour]);
-
+	
 	return fd;
 }
 
@@ -621,6 +680,7 @@ void PlayerManager::readConfig(Bit::JsonTree* tree){
 	motorAngleUp_ = tree->getChildPtr("motorAngleUp")->getValue<int>();
 	motorAngleDown_ = tree->getChildPtr("motorAngleDown")->getValue<int>();
 	saveImagePath_ = tree->getChildPtr("saveImagePath")->getValue<string>();
+	saveCapturePath_ = tree->getChildPtr("saveCapturePath")->getValue<string>();
 }
 
 void PlayerManager::readParams(Bit::JsonTree* tree, Bit::ParamsRef params)

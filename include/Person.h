@@ -19,6 +19,7 @@ class Person{
 
 		int				id = -1;
 		Vec2f			center = Vec2f(0, 0);
+		float			depth = 0;
 		Vec2f			lastCenter = Vec2f(0, 0);
 		Vec2f			kinectCenter = Vec2f(0, 0); //The real center from kinect
 		Vec2i			hairCentroid = Vec2f(0, 0);
@@ -26,7 +27,8 @@ class Person{
 		vector<Vec2f>   kinectCenterMean;
 		float			angle = 0;
 		vector<float>   angleMean;
-		int				lostCount = 0;
+		int				lostTime = 0;
+		int				unDetectFrame = 0;
 		int				idleCount = 0;
 
 		Rectf			position = Rectf(0, 0, 0, 0);

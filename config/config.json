@@ -181,6 +181,7 @@
             "mirror": true,
             "oniFile": "D:\\workspace\\UP2U\\assets\\06-FULLTEST.oni",
             "saveImagePath": "C:\\faceApi\\",
+			"saveCapturePath": "C:\\tan\\capture\\",
             "motor": false,
             "userDetectRangeMin": 0.3,
             "userDetectRangeMax": 0.7,

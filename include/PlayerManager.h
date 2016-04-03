@@ -19,6 +19,9 @@
 #include "Person.h"
 #include <iostream>
 #include <fstream>
+#include <ctime>
+#include <direct.h>
+
 
 
 #include "Config.h"
@@ -78,6 +81,7 @@ class PlayerManager : public Kinect{
 		bool						motorStatus_ = false;
 		int							selectedCamera_;
 		string						saveImagePath_;
+		string						saveCapturePath_;
 
 		int					motorAngle_ = -60;
 		int					facePixelMultiply = 2;
