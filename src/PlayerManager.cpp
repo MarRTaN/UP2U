@@ -194,8 +194,6 @@ void PlayerManager::draw(){
 			}
 			
 			captureDelay_++;
-			gl::color(Color(255, 255, 255));
-			gl::draw(video, srcArea, destRect);
 		}
 		else{
 
@@ -315,9 +313,13 @@ void PlayerManager::draw(){
 				Vec2i faceCentroid = Vec2i(0, 0);
 
 				//Cal hair
-				hairD = getCentroid(0, idNow, colorMat, faceRect, cv::Scalar(0, 0, 0), cv::Scalar(180, 255, 80), cv::Size(7, 7), Vec2f(150, 255));
-				faceD = getCentroid(1, idNow, colorMat, faceRect, cv::Scalar(0, 40, 60), cv::Scalar(27, 150, 255), cv::Size(15, 15), Vec2f(120, 255));
-				idNow++;
+				if (faceRect.x >= 0 && faceRect.y >= 0 &&
+					faceRect.x + faceRect.width <= colorMat.rows &&
+					faceRect.y + faceRect.height <= colorMat.cols){
+					hairD = getCentroid(0, idNow, colorMat, faceRect, cv::Scalar(0, 0, 0), cv::Scalar(180, 255, 80), cv::Size(7, 7), Vec2f(150, 255));
+					faceD = getCentroid(1, idNow, colorMat, faceRect, cv::Scalar(0, 40, 60), cv::Scalar(27, 150, 255), cv::Size(15, 15), Vec2f(120, 255));
+					idNow++;
+				}
 
 				hairCentroid = hairD.pos;
 				faceCentroid = faceD.pos;
@@ -327,8 +329,7 @@ void PlayerManager::draw(){
 
 				//console() << (facePoint + hairPoint) / (faceRect.area() * 1.f) << endl;
 
-				if (k < users_.size() &&
-					data.unDetectFrame < 50
+				if (k < users_.size()
 					//hairPoint != -1 &&
 					//facePoint != -1 &&
 					//(facePoint + hairPoint) / ( faceRect.area() * 1.f ) > 0.15

@@ -94,9 +94,9 @@ void DetectingStage::setup(){
 	startTimePhub_.resize(15, 0.0f);
 	isStartPhubbing_.resize(15, false);
 
-	fontS_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
-	fontM_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
-	fontH_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
+	//fontS_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
+	//fontM_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
+	//fontH_ = Font("ThaiSansNeue-Regular.otf", param_fontSize_);
 }
 
 void DetectingStage::update(){
@@ -181,6 +181,7 @@ void DetectingStage::draw(){
 	}
 }
 
+
 void DetectingStage::drawGameplay(){
 
 	//get guage
@@ -232,6 +233,86 @@ void DetectingStage::drawGameplay(){
 	////drawSolidRect(redRect);
 	//gl::color(1, 1, 1);
 	
+	
+	//draw sticker
+	for (int i = 0; i < persons_.size(); i++){
+		if (persons_[i].unDetectFrame <= 50){
+			if (!isDebugMode) gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
+			else gl::color(1, 1, 1, 0.5);
+			//choose correct texture for each person
+			Texture stickerTexture;
+
+			if (persons_[i].getLook() == LOOKUP) {
+				if (persons_[i].segtion == LEFT) {
+					if (persons_[i].gender == MALE) stickerTexture = smileLeftMaleTexture_;
+					else if (persons_[i].gender == FEMALE) stickerTexture = smileLeftFemaleTexture_;
+					else stickerTexture = smileLeftTexture_;
+				}
+				else if (persons_[i].segtion == CENTER) {
+					if (persons_[i].gender == MALE) stickerTexture = smileMaleTexture_;
+					else if (persons_[i].gender == FEMALE) stickerTexture = smileFemaleTexture_;
+					else stickerTexture = smileTexture_;
+				}
+				else if (persons_[i].segtion == RIGHT) {
+					if (persons_[i].gender == MALE) stickerTexture = smileRightMaleTexture_;
+					else if (persons_[i].gender == FEMALE) stickerTexture = smileRightFemaleTexture_;
+					else stickerTexture = smileRightTexture_;
+				}
+			}
+			else if (persons_[i].getLook() == LOOKDOWN) {
+				if (persons_[i].segtion == LEFT) {
+					if (persons_[i].gender == MALE) stickerTexture = seriousLeftMaleTexture_;
+					else if (persons_[i].gender == FEMALE) stickerTexture = seriousLeftFemaleTexture_;
+					else stickerTexture = seriousLeftTexture_;
+				}
+				else if (persons_[i].segtion == CENTER) {
+					if (persons_[i].gender == MALE) stickerTexture = seriousMaleTexture_;
+					else if (persons_[i].gender == FEMALE) stickerTexture = seriousFemaleTexture_;
+					else stickerTexture = seriousTexture_;
+				}
+				else if (persons_[i].segtion == RIGHT) {
+					if (persons_[i].gender == MALE) stickerTexture = seriousRightMaleTexture_;
+					else if (persons_[i].gender == FEMALE) stickerTexture = seriousRightFemaleTexture_;
+					else stickerTexture = seriousRightTexture_;
+				}
+			}
+			else if (persons_[i].getLook() == TURNLEFT) {
+				if (persons_[i].gender == MALE) stickerTexture = turnLeftMaleTexture_;
+				else if (persons_[i].gender == FEMALE) stickerTexture = turnLeftFemaleTexture_;
+				else stickerTexture = turnLeftTexture_;
+			}
+			else if (persons_[i].getLook() == TURNRIGHT) {
+				if (persons_[i].gender == MALE) stickerTexture = turnRightMaleTexture_;
+				else if (persons_[i].gender == FEMALE) stickerTexture = turnRightFemaleTexture_;
+				else stickerTexture = turnRightTexture_;
+			}
+
+			//adjust position and size
+			float frameSize = 120.f / (persons_[i].depth / 1000.f);
+			float ratio = frameSize / 60.f;
+
+			Vec2f shift(param_shiftX_, param_shiftY_);
+			Vec2f scale(param_scale_ * ratio, param_scale_ * ratio);
+
+			//calibrate position for each segment
+			Vec2f calShift(0, 0);
+			if (persons_[i].segtion == LEFT) calShift.x = -param_calShift_;
+			else if (persons_[i].segtion == RIGHT) calShift.x = param_calShift_;
+			else calShift.x = 0;
+
+			Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift,
+				persons_[i].center + scale + shift + calShift);
+			if (stickerTexture){
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				displayArea_.draw(stickerTexture, stickerRect);
+				ci::gl::disableAlphaBlending();
+				glDisable(GL_BLEND);
+			}
+		}
+	}
+	gl::color(1, 1, 1);
+
 	//draw guage
 	if (gaugeTexture_){
 		glEnable(GL_BLEND);
@@ -246,7 +327,7 @@ void DetectingStage::drawGameplay(){
 
 		float hurtRatio = hurtValue_ / hurtMax_;
 		Rectf redRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight());
-		gl::color(255.f / 255.f, 54.f / 255.f, 54.f / 255.f, hurtRatio/2);
+		gl::color(255.f / 255.f, 54.f / 255.f, 54.f / 255.f, hurtRatio / 2);
 		drawSolidRect(redRect);
 		gl::color(1, 1, 1);
 		/*
@@ -260,81 +341,6 @@ void DetectingStage::drawGameplay(){
 		glDisable(GL_BLEND);
 	}
 
-	//draw sticker
-	for (int i = 0; i < persons_.size(); i++){
-		if (!isDebugMode) gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
-		else gl::color(1, 1, 1, 0.5);
-		//choose correct texture for each person
-		Texture stickerTexture;
-
-		if (persons_[i].getLook() == LOOKUP) {
-			if (persons_[i].segtion == LEFT) {
-				if (persons_[i].gender == MALE) stickerTexture = smileLeftMaleTexture_;
-				else if (persons_[i].gender == FEMALE) stickerTexture = smileLeftFemaleTexture_;
-				else stickerTexture = smileLeftTexture_;
-			}
-			else if (persons_[i].segtion == CENTER) {
-				if (persons_[i].gender == MALE) stickerTexture = smileMaleTexture_;
-				else if (persons_[i].gender == FEMALE) stickerTexture = smileFemaleTexture_;
-				else stickerTexture = smileTexture_;
-			}
-			else if (persons_[i].segtion == RIGHT) {
-				if (persons_[i].gender == MALE) stickerTexture = smileRightMaleTexture_;
-				else if (persons_[i].gender == FEMALE) stickerTexture = smileRightFemaleTexture_;
-				else stickerTexture = smileRightTexture_;
-			}
-		}
-		else if (persons_[i].getLook() == LOOKDOWN) {
-			if (persons_[i].segtion == LEFT) {
-				if (persons_[i].gender == MALE) stickerTexture = seriousLeftMaleTexture_;
-				else if (persons_[i].gender == FEMALE) stickerTexture = seriousLeftFemaleTexture_;
-				else stickerTexture = seriousLeftTexture_;
-			}
-			else if (persons_[i].segtion == CENTER) {
-				if (persons_[i].gender == MALE) stickerTexture = seriousMaleTexture_;
-				else if (persons_[i].gender == FEMALE) stickerTexture = seriousFemaleTexture_;
-				else stickerTexture = seriousTexture_;
-			}
-			else if (persons_[i].segtion == RIGHT) {
-				if (persons_[i].gender == MALE) stickerTexture = seriousRightMaleTexture_;
-				else if (persons_[i].gender == FEMALE) stickerTexture = seriousRightFemaleTexture_;
-				else stickerTexture = seriousRightTexture_;
-			}
-		}
-		else if (persons_[i].getLook() == TURNLEFT) {
-			if (persons_[i].gender == MALE) stickerTexture = turnLeftMaleTexture_;
-			else if (persons_[i].gender == FEMALE) stickerTexture = turnLeftFemaleTexture_;
-			else stickerTexture = turnLeftTexture_;
-		}
-		else if (persons_[i].getLook() == TURNRIGHT) {
-			if (persons_[i].gender == MALE) stickerTexture = turnRightMaleTexture_;
-			else if (persons_[i].gender == FEMALE) stickerTexture = turnRightFemaleTexture_;
-			else stickerTexture = turnRightTexture_;
-		}
-
-		//adjust position and size
-		float frameSize = 120.f / (persons_[i].depth / 1000.f);
-		float ratio = frameSize / 60.f;
-
-		Vec2f shift(param_shiftX_, param_shiftY_);
-		Vec2f scale(param_scale_ * ratio, param_scale_ * ratio);
-
-		//calibrate position for each segment
-		Vec2f calShift(0, 0);
-		if (persons_[i].segtion == LEFT) calShift.x = -param_calShift_;
-		else if (persons_[i].segtion == RIGHT) calShift.x = param_calShift_;
-		else calShift.x = 0;
-
-		Rectf stickerRect = Rectf(persons_[i].center - scale + shift + calShift,
-			persons_[i].center + scale + shift + calShift);
-		if (stickerTexture){
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			displayArea_.draw(stickerTexture, stickerRect);
-			ci::gl::disableAlphaBlending();
-			glDisable(GL_BLEND);
-		}
-	}
 	gl::color(1, 1, 1);
 }
 

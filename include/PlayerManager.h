@@ -39,7 +39,7 @@ class PlayerManager : public Kinect{
 
 	struct faceData{
 		Vec2i	pos;
-		double	count;
+		double	count = -1;
 	};
 
 	public:
