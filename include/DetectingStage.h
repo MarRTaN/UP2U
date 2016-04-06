@@ -60,7 +60,8 @@ private:
 	Font					fontM_;
 	Font					fontH_;
 	
-	Bit::Audio				bgm_;
+
+	Bit::Video				bgm_;
 	Bit::Video				phubVid_;
 	Bit::Video				talkVid_;
 
@@ -116,8 +117,9 @@ private:
 	float					param_bothTimeMY_;
 	float					param_bothTimeHY_;
 
-
+	string					bloodPath_;
 	string					gaugePath_;
+	string					bgmPath_;
 
 	string					seriousPath_;
 	string					seriousLeftPath_;
@@ -153,6 +155,7 @@ private:
 	string					turnLeftFemalePath_;
 	string					turnRightFemalePath_;
 
+	Texture					bloodTexture_;
 	Texture					gaugeTexture_;
 	Texture					smileTexture_;
 	Texture					smileLeftTexture_;
@@ -186,4 +189,6 @@ private:
 
 	Texture					turnLeftFemaleTexture_;
 	Texture					turnRightFemaleTexture_;
+	float					timeStamp_ = 0;
+	int						bloodStage_ = 0;
 };

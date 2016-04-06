@@ -1,11 +1,14 @@
 ﻿#include <DetectingStage.h>
 
 void DetectingStage::setup(){
-	
 	//setup BGM
 	bgm_.setup();
 	phubVid_.setup();
 	talkVid_.setup();
+
+	//get gauge image
+	ci::Surface bloodSurface(loadImage(bloodPath_));
+	bloodTexture_ = Texture(bloodSurface);
 
 	//get gauge image
 	ci::Surface gaugeSurface(loadImage(gaugePath_));
@@ -109,6 +112,7 @@ void DetectingStage::update(){
 
 void DetectingStage::updateGameplay(){
 	if (timeCount_ == 0){
+		console() << "PLAY" << endl;
 		bgm_.play();
 		timeCount_ = 1;
 	}
@@ -320,24 +324,32 @@ void DetectingStage::drawGameplay(){
 		displayArea_.draw(gaugeTexture_, gaugeRect);
 		//draw rect
 		float gaugeRatio = gaugeValue_ / gaugeMax_;
-		Rectf blackRect = Rectf(getWindowWidth()*0.10f, getWindowHeight()*0.10f, (getWindowWidth()*0.10f) + (getWindowWidth()*0.8f*gaugeRatio), getWindowHeight()*0.15f);
+		Rectf blackRect = Rectf(getWindowWidth()*0.287f, getWindowHeight()*0.1485f, (getWindowWidth()*0.287f) + (getWindowWidth()*0.426f*gaugeRatio), getWindowHeight()*0.171f);
 		gl::color(0, 0, 0);
 		drawSolidRect(blackRect);
 		gl::color(1, 1, 1);
 
 		float hurtRatio = hurtValue_ / hurtMax_;
-		Rectf redRect = Rectf(0.0f, 0.0f, getWindowWidth(), getWindowHeight());
-		gl::color(255.f / 255.f, 54.f / 255.f, 54.f / 255.f, hurtRatio / 2);
-		drawSolidRect(redRect);
-		gl::color(1, 1, 1);
-		/*
-		drawString(phubSS, Vec2f(param_phubTimeSX_, param_bothTimeSY_), Color(0, 0, 0), fontS_);
-		drawString(talkSS, Vec2f(param_talkTimeSX_, param_bothTimeHY_), Color(0, 0, 0), fontS_);
-		drawString(phubMS, Vec2f(param_phubTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
-		drawString(talkMS, Vec2f(param_talkTimeMX_, param_bothTimeMY_), Color(0, 0, 0), fontM_);
-		drawString(phubHS, Vec2f(param_phubTimeHX_, param_bothTimeHY_), Color(0, 0, 0), fontH_);
-		drawString(talkHS, Vec2f(param_talkTimeHX_, param_bothTimeSY_), Color(0, 0, 0), fontH_);
-		*/
+		float fade = 0;
+		float maxStage = 30.0;
+		if (bloodStage_ > 100) bloodStage_ = 0;
+		if (bloodStage_ < maxStage) fade = bloodStage_ * (100.f / maxStage);
+		else {
+			int diff = bloodStage_ - maxStage;
+			fade = 100 - (diff * (100.f / (100.f - maxStage)));
+		}
+		bloodStage_++;
+
+		gl::color(1, 1, 1, (fade / 100.f)*hurtRatio);
+
+		int second = getElapsedSeconds();
+		int result = second % 2;
+		if (bloodTexture_ && status_ == PHUB){
+			Rectf bloodRect = Rectf(0, 0, getWindowWidth(), getWindowHeight());
+			displayArea_.draw(bloodTexture_, bloodRect);
+			timeStamp_ = second;
+		}
+
 		glDisable(GL_BLEND);
 	}
 
@@ -520,6 +532,7 @@ void DetectingStage::readConfig(Bit::JsonTree* tree){
 	hurtIncreaseRate_ = tree->getChildPtr("hurtIncreaseRate")->getValue<float>();
 	hurtDecreaseRate_ = tree->getChildPtr("hurtDecreaseRate")->getValue<float>();
 
+	bloodPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("blood")->getValue<string>();
 	gaugePath_ = Bit::Config::getAssetPath() + tree->getChildPtr("gauge")->getValue<string>();
 	seriousPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("serious")->getValue<string>();
 	seriousLeftPath_ = Bit::Config::getAssetPath() + tree->getChildPtr("seriousLeft")->getValue<string>();
