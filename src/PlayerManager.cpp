@@ -276,8 +276,8 @@ void PlayerManager::draw(){
 				data.depth = users_[k].position.z;
 				
 				float facePoint = 0, hairPoint = 0;
-				float faceFrameSizeX = 120.f / ( users_[k].position.z / 1000.f);
-				float faceFrameSizeY = 120.f / ( users_[k].position.z / 1000.f);
+				float faceFrameSizeX = (120.f*faceFrameRatioX_) / (users_[k].position.z / 1000.f);
+				float faceFrameSizeY = (120.f*faceFrameRatioY_) / (users_[k].position.z / 1000.f);
 
 				//float faceFrameSizeX = 60.f;
 				//float faceFrameSizeY = 60.f;
@@ -431,7 +431,7 @@ void PlayerManager::draw(){
 								savefile << saveImagePath_+"faces\\" << to_string(data.id) << ".jpg";
 								savefile.close();
 
-								//WinExec("C:/faceApi.exe", SW_HIDE);
+								WinExec("C:/faceApi.exe", SW_HIDE);
 
 								std::ifstream myfile;
 								myfile.open(saveImagePath_+"output.txt");
@@ -591,6 +591,9 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
 	}
 
+
+	cv::Mat element_1 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3, 3));
+	cv::morphologyEx(outputHairMat, outputHairMat, cv::MORPH_ERODE, element_1);
 	cv::Mat element_0 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5));
 	cv::morphologyEx(outputHairMat, outputHairMat, cv::MORPH_CLOSE, element_0);
 
@@ -605,10 +608,10 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
 	}
 
-	/*cv::GaussianBlur(outputHairMat, outputHairMat, blurSize, 1, 1);
-	cv::threshold(outputHairMat, outputHairMat, threadhold.x, threadhold.y, cv::THRESH_BINARY);*/
-	cv::Mat element_1 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5));
-	cv::morphologyEx(outputHairMat, outputHairMat, cv::MORPH_ERODE, element_1);
+	cv::GaussianBlur(outputHairMat, outputHairMat, blurSize, 1, 1);
+	cv::threshold(outputHairMat, outputHairMat, threadhold.x, threadhold.y, cv::THRESH_BINARY);
+	cv::Mat element_2 = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(25, 25));
+	cv::morphologyEx(outputHairMat, outputHairMat, cv::MORPH_CLOSE, element_2);
 
 	if (isKinectDebugMode){
 		Surface calSurface2 = fromOcv(outputHairMat);
