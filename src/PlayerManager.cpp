@@ -241,8 +241,7 @@ void PlayerManager::draw(){
 			if (circleCenter.y > headBound.y1 &&
 				circleCenter.y < headBound.y2 &&
 				circleCenter.x > headBound.x1 &&
-				circleCenter.x < headBound.x2 &&
-				users_[k].position.z > 1100){
+				circleCenter.x < headBound.x2){
 
 				//check is user Exist
 				int index = -1;
@@ -457,7 +456,7 @@ void PlayerManager::draw(){
 									console() << "id = " << data.id << ", gender = " << gender << endl;
 								}
 								data.delayCallFaceApi = 0;
-								//data.callFaceApi *= 1.5;
+								data.callFaceApi *= 1.5;
 								data.isImageSaved = false;
 							}
 							data.delayCallFaceApi++;
@@ -529,7 +528,9 @@ vector<Person> PlayerManager::getPersons(){
 void PlayerManager::setUsers(){
 	vector<Skeleton> users;
 	for (list<KinectUser*>::iterator it = kinectUsers_.begin(); it != kinectUsers_.end(); ++it){
-		if ((*it)->getHeadProjectivePosition().X > 20 && (*it)->getHeadProjectivePosition().X < 620){
+		if ((*it)->getHeadProjectivePosition().X > 20 && 
+			(*it)->getHeadProjectivePosition().X < 620 &&
+			(*it)->getHeadProjectivePosition().Z > 1200){
 			Skeleton user;
 			user.id = (*it)->getId();
 			user.position = Vec3f((*it)->getHeadProjectivePosition().X, (*it)->getHeadProjectivePosition().Y, (*it)->getHeadProjectivePosition().Z);

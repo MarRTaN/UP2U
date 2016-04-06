@@ -116,9 +116,11 @@ void DetectingStage::updateGameplay(){
 		timeCount_ = 1;
 	}
 	for (int i = 0; i < persons_.size(); i++){
-		if (persons_[i].center.x < getWindowWidth() / 3) persons_[i].segtion = LEFT;
-		else if (persons_[i].center.x > getWindowWidth() * 2 / 3) persons_[i].segtion = RIGHT;
-		else persons_[i].segtion = CENTER;
+		if (persons_[i].unDetectFrame <= 50){
+			if (persons_[i].center.x < getWindowWidth() / 3) persons_[i].segtion = LEFT;
+			else if (persons_[i].center.x > getWindowWidth() * 2 / 3) persons_[i].segtion = RIGHT;
+			else persons_[i].segtion = CENTER;
+		}
 	}
 	checkAction();
 	updateGauge();
@@ -165,12 +167,14 @@ void DetectingStage::updateGauge(){
 	if (gaugeValue_ > gaugeMax_) {
 		gaugeValue_ = gaugeMax_;
 		miniStage_ = TALKVID;
+		bgm_.stop();
 	}
 	else if (gaugeValue_ < 0) gaugeValue_ = 0;
 
 	if (hurtValue_ > hurtMax_) {
 		hurtValue_ = hurtMax_;
 		miniStage_ = PHUBVID;
+		bgm_.stop();
 	}
 	else if (hurtValue_ < 0) hurtValue_ = 0;
 	
@@ -184,6 +188,9 @@ void DetectingStage::draw(){
 	}
 }
 
+int DetectingStage::getMiniStage(){
+	return miniStage_;
+}
 
 void DetectingStage::drawGameplay(){
 
@@ -382,52 +389,55 @@ void DetectingStage::setPersons(vector<Person> persons){
 void DetectingStage::checkAction(){
 	int peopleStatus = IDLE;
 	for (int i = 0; i < persons_.size(); i++){
+		if (persons_[i].unDetectFrame <= 50){
+			if (persons_[i].getLook() == LOOKUP){
+				normalizeFaceColor(persons_[i].id);
+				resetTimePhub(persons_[i].id);
+				resetTimeTalk(persons_[i].id);
+			}
 
-		if (persons_[i].getLook() == LOOKUP){
-			normalizeFaceColor(persons_[i].id);
-			resetTimePhub(persons_[i].id);
-			resetTimeTalk(persons_[i].id);
-		}
+			else if (persons_[i].getLook() == LOOKDOWN){
+				minimizeFaceColor(persons_[i].id);
+				calPhubTime(persons_[i].id);
+				resetTimeTalk(persons_[i].id);
+				if (peopleStatus == IDLE) peopleStatus = PHUB;
+			}
 
-		else if (persons_[i].getLook() == LOOKDOWN){
-			minimizeFaceColor(persons_[i].id);
-			calPhubTime(persons_[i].id);
-			resetTimeTalk(persons_[i].id);
-			if (peopleStatus == IDLE) peopleStatus = PHUB;
-		}
-
-		else if (persons_[i].getLook() == TURNRIGHT){
-			resetTimePhub(persons_[i].id);
-			bool isMatched = false;
-			for (int j = i; j < persons_.size(); j++){
-				if (persons_[j].getLook() == TURNLEFT) {
-					calTalkTime(persons_[i].id);
-					isMatched = true;
-					break;
+			else if (persons_[i].getLook() == TURNRIGHT){
+				resetTimePhub(persons_[i].id);
+				bool isMatched = false;
+				for (int j = i; j < persons_.size(); j++){
+					if (persons_[i].unDetectFrame <= 50){
+						if (persons_[j].getLook() == TURNLEFT) {
+							calTalkTime(persons_[i].id);
+							isMatched = true;
+							break;
+						}
+					}
 				}
-			}
-			if (isMatched) {
-				maximizeFaceColor(persons_[i].id);
-				peopleStatus = TALK;
-			}
-			else normalizeFaceColor(persons_[i].id);
-		}
-
-		else if (persons_[i].getLook() == TURNLEFT){
-			resetTimePhub(persons_[i].id);
-			bool isMatched = false;
-			for (int j = i; j >= 0; j--){
-				if (persons_[j].getLook() == TURNRIGHT) {
-					calTalkTime(persons_[i].id);
-					isMatched = true;
-					break;
+				if (isMatched) {
+					maximizeFaceColor(persons_[i].id);
+					peopleStatus = TALK;
 				}
+				else normalizeFaceColor(persons_[i].id);
 			}
-			if (isMatched) {
-				maximizeFaceColor(persons_[i].id);
-				peopleStatus = TALK;
+
+			else if (persons_[i].getLook() == TURNLEFT){
+				resetTimePhub(persons_[i].id);
+				bool isMatched = false;
+				for (int j = i; j >= 0; j--){
+					if (persons_[j].getLook() == TURNRIGHT) {
+						calTalkTime(persons_[i].id);
+						isMatched = true;
+						break;
+					}
+				}
+				if (isMatched) {
+					maximizeFaceColor(persons_[i].id);
+					peopleStatus = TALK;
+				}
+				else normalizeFaceColor(persons_[i].id);
 			}
-			else normalizeFaceColor(persons_[i].id);
 		}
 	}
 	status_ = peopleStatus;

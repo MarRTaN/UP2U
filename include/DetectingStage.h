@@ -50,6 +50,7 @@ public:
 	void				normalizeFaceColor(int personId);
 	int					idToIndex(int id);
 	bool				isDebugMode = false;
+	int					getMiniStage();
 
 private:
 

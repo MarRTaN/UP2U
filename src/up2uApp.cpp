@@ -227,9 +227,12 @@ void up2uApp::update()
 	try {
 		// check if there is any exception from thread, for more info see Bit::ExceptionHandler::checkExceptionFromThread
 		Bit::ExceptionHandler::checkExceptionFromThread();
+
+		int miniStage = stageMng_.getMiniStage();
 		
 		// added update part here
-		playerMng_.updateUsers();
+		if (miniStage == GAMEPLAY)
+			playerMng_.updateUsers();
 		
 		stageMng_.setPersons(playerMng_.getPersons());
 		if (playerMng_.getPersons().size() > 0) {
@@ -257,7 +260,9 @@ void up2uApp::draw()
 	gl::clear(Color(0, 0, 0));
 	
 	// draw everything here
-	playerMng_.draw();
+	int miniStage = stageMng_.getMiniStage();
+	if (miniStage == GAMEPLAY)
+		playerMng_.draw();
 	stageMng_.draw();
 	
 	

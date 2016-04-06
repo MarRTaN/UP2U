@@ -88,6 +88,10 @@ void StageManager::toggleDebugMode(){
 	advertisingStage_.isDebugMode = !advertisingStage_.isDebugMode;
 }
 
+int StageManager::getMiniStage(){
+	return detectingStage_.getMiniStage();
+}
+
 void StageManager::readConfig(Bit::JsonTree* tree){
 	advertisingStage_.readConfig(tree->getChildPtr("advertisingStage"));
 	detectingStage_.readConfig(tree->getChildPtr("detectingStage"));

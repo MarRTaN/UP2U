@@ -35,6 +35,7 @@ public:
 	void			readParams(Bit::JsonTree* tree, Bit::ParamsRef params);
 
 	void			toggleDebugMode();
+	int				getMiniStage();
 
 private:
 	int							currentStageId_;
