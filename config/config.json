@@ -81,7 +81,7 @@
             "hideCursor": false
         },
 
-        "assetPath": "D:\\workspace\\UP2U\\assets\\",
+        "assetPath": "C:\\Senior Project\\UP2U\\assets\\",
 
         "aClassConfig": {
             "configBool": false,
@@ -199,13 +199,13 @@
             "index": 0,
             "rangeInMm": { "min": 50, "max": 4000 },
             "mirror": true,
-            "oniFile": "D:\\workspace\\UP2U\\assets\\06-FULLTEST.oni",
+            "oniFile": "",
             "saveImagePath": "C:\\faceApi\\",
 			"saveCapturePath": "C:\\tan\\capture\\",
             "motor": false,
             "userDetectRangeMin": 0.3,
             "userDetectRangeMax": 0.7,
-			"cameraId": 1,
+			"cameraId": 2,
 			"motorAngleUp": -10,
 			"motorAngleDown" : -15
         },

@@ -92,12 +92,6 @@ void PlayerManager::updateUsers(){
 				}
 			}
 			else if(persons_[personCount].lostTime < getElapsedSeconds()){
-
-				ofstream savefile;
-				savefile.open(saveImagePath_+"output.txt");
-				savefile << "";
-				savefile.close();
-
 				persons_.erase(persons_.begin() + personCount);
 				isMoving_ = false;
 				moveMotorUp();
@@ -138,7 +132,7 @@ void PlayerManager::draw(){
 				glPopMatrix();
 			}
 
-			if (captureDelay_ > 180 && mSurface_){
+			if (captureDelay_ > 180 && mSurface_ && persons_.size() > 0){
 
 				time_t rawtime;
 				struct tm * timeinfo;
@@ -194,9 +188,6 @@ void PlayerManager::draw(){
 			}
 			
 			captureDelay_++;
-
-			gl::color(Color(255, 255, 255));
-			gl::draw(video, srcArea, destRect);
 		}
 		else{
 
@@ -400,22 +391,28 @@ void PlayerManager::draw(){
 								if (data.bufferCount > bufferDelay){
 									data.isLookUp = true;
 									data.bufferCount = 0;
-
-									if (!data.isImageSaved){
-										boost::filesystem::path path(saveImagePath_ + "faces\\");
-										path /= to_string(data.id) + ".jpg";
-										cv::Mat cvtColorMat;
-										cv::cvtColor(colorMat(faceRect), cvtColorMat, CV_BGR2RGB);
-										cv::resize(cvtColorMat, cvtColorMat, cv::Size(faceRectWidth * 4, faceRectHeight * 4));
-										writeImage(path, fromOcv(cvtColorMat));
-										data.isImageSaved = true;
-									}
 								}
 								data.bufferCount++;
 							}
 						}
 
 						//check person gender
+
+						if (!data.isImageSaved){
+							if (faceRect.x >= 0 && faceRect.y >= 0 &&
+								faceRect.x + faceRect.width <= colorMat.rows &&
+								faceRect.y + faceRect.height <= colorMat.cols){
+
+								boost::filesystem::path path(saveImagePath_ + "faces\\");
+								path /= to_string(data.id) + ".jpg";
+								cv::Mat cvtColorMat;
+								cv::cvtColor(colorMat(faceRect), cvtColorMat, CV_BGR2RGB);
+								cv::resize(cvtColorMat, cvtColorMat, cv::Size(faceRectWidth * 4, faceRectHeight * 4));
+								writeImage(path, fromOcv(cvtColorMat));
+								data.isImageSaved = true;
+							}
+						}
+
 						if (data.isImageSaved){
 
 							std::ifstream statusfile;
@@ -460,7 +457,8 @@ void PlayerManager::draw(){
 									console() << "id = " << data.id << ", gender = " << gender << endl;
 								}
 								data.delayCallFaceApi = 0;
-								data.callFaceApi *= 2;
+								//data.callFaceApi *= 1.5;
+								data.isImageSaved = false;
 							}
 							data.delayCallFaceApi++;
 						}

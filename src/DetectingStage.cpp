@@ -112,7 +112,6 @@ void DetectingStage::update(){
 
 void DetectingStage::updateGameplay(){
 	if (timeCount_ == 0){
-		console() << "PLAY" << endl;
 		bgm_.play();
 		timeCount_ = 1;
 	}
@@ -324,7 +323,7 @@ void DetectingStage::drawGameplay(){
 		displayArea_.draw(gaugeTexture_, gaugeRect);
 		//draw rect
 		float gaugeRatio = gaugeValue_ / gaugeMax_;
-		Rectf blackRect = Rectf(getWindowWidth()*0.287f, getWindowHeight()*0.1485f, (getWindowWidth()*0.287f) + (getWindowWidth()*0.426f*gaugeRatio), getWindowHeight()*0.171f);
+		Rectf blackRect = Rectf(getWindowWidth()*0.287f, getWindowHeight()*0.1485f, (getWindowWidth()*0.287f) + (getWindowWidth()*0.475f*gaugeRatio), getWindowHeight()*0.171f);
 		gl::color(0, 0, 0);
 		drawSolidRect(blackRect);
 		gl::color(1, 1, 1);
