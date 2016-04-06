@@ -57,7 +57,7 @@ class Person{
 		int				getLook();
 
 		bool			isImageSaved = false;
-		int				delayCallFaceApi = 0;
+		int				delayCallFaceApi = 160;
 
 		int				callFaceApi = 150;
 };

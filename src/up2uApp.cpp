@@ -229,19 +229,17 @@ void up2uApp::update()
 		Bit::ExceptionHandler::checkExceptionFromThread();
 		
 		// added update part here
-		//if (playerMng_.isDataReady()){
-		//	if (playerMng_.isPlayerDetected()){
-		//		stageMng_.setPlayerDetection(true);
-		//		stageMng_.setPersons(playerMng_.getPersons());
-		//	}
-		//	else{
-		//		stageMng_.setPlayerDetection(false);
-		//	}
-		//}
 		playerMng_.updateUsers();
 		
 		stageMng_.setPersons(playerMng_.getPersons());
-		if (playerMng_.getPersons().size() > 0) stageMng_.setPlayerDetection(true);
+		if (playerMng_.getPersons().size() > 0) {
+			int count = 0;
+			for (int i = 0; i < playerMng_.getPersons().size(); i++){
+				if (playerMng_.getPersons()[i].unDetectFrame <= 50) count++;
+			}
+			if(count > 0) stageMng_.setPlayerDetection(true);
+			else stageMng_.setPlayerDetection(false);
+		}
 		else stageMng_.setPlayerDetection(false);
 		stageMng_.update();
 	}

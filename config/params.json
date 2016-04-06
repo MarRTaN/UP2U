@@ -33,7 +33,7 @@
             "y1": 0.1,
             "y2": 0.6
         },
-        "smoothMeanCount": 5,
+        "smoothMeanCount": 10,
         "spanCenter": 0.50,
         "spanX": 0.01,
 		"shift" : {
