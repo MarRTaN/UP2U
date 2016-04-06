@@ -138,7 +138,7 @@ void PlayerManager::draw(){
 				glPopMatrix();
 			}
 
-			if (captureDelay_ > 180){
+			if (captureDelay_ > 180 && mSurface_){
 
 				time_t rawtime;
 				struct tm * timeinfo;
@@ -194,6 +194,9 @@ void PlayerManager::draw(){
 			}
 			
 			captureDelay_++;
+
+			gl::color(Color(255, 255, 255));
+			gl::draw(video, srcArea, destRect);
 		}
 		else{
 
@@ -342,7 +345,7 @@ void PlayerManager::draw(){
 					}
 					else {
 						data.unDetectFrame++;
-						console() << data.unDetectFrame  << endl;
+						//console() << data.unDetectFrame  << endl;
 					}
 
 					//rebuild position
