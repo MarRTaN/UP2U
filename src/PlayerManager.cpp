@@ -246,6 +246,7 @@ void PlayerManager::draw(){
 				//check is user Exist
 				int index = -1;
 				Person data;
+
 				for (int i = 0; i < persons_.size(); i++){
 					if (persons_[i].id == users_[k].id){
 						index = i;
@@ -258,8 +259,10 @@ void PlayerManager::draw(){
 				if (index == -1) {
 					index = persons_.size();
 					data.isActive = true;
+					data.id = users_[k].id;
 					data.angleMean.reserve(smoothMeanCount_ + 5);
 					data.kinectCenterMean.reserve(smoothMeanCount_ + 5);
+					data.delayCallFaceApi = 11 * (11 - data.id);
 				}
 
 				if (data.kinectCenterMean.size() > smoothMeanCount_){
@@ -328,16 +331,6 @@ void PlayerManager::draw(){
 					//(facePoint + hairPoint) / ( faceRect.area() * 1.f ) > 0.15
 					) {
 
-					if (hairPoint != -1 &&
-						facePoint != -1 &&
-						(facePoint + hairPoint) / (faceRect.area() * 1.f) > 0.15){
-						data.unDetectFrame = 0;
-					}
-					else {
-						data.unDetectFrame++;
-						//console() << data.unDetectFrame  << endl;
-					}
-
 					//rebuild position
 					data.center = data.kinectCenter * imageRatio;
 					data.center.x = data.center.x + shift_.x;
@@ -357,47 +350,49 @@ void PlayerManager::draw(){
 					//Color
 					Rectf rebuildFaceRectColor(colorX1, colorY1, colorX2, colorY2);
 
-					data.id = users_[k].id;
 					data.lastCenter = data.center;
 					data.position = rebuildFaceRectColor;
 					data.faceCentroid = faceCentroid;
 					data.hairCentroid = hairCentroid;
 
-					if (true) {
-						float diff = ((data.faceCentroid.x - data.hairCentroid.x) * 1.f) / ((data.faceCentroid.y - data.hairCentroid.y) * 1.f);
-						float angle = atan(diff) * 180 / M_PI;
+					float diff = ((data.faceCentroid.x - data.hairCentroid.x) * 1.f) / ((data.faceCentroid.y - data.hairCentroid.y) * 1.f);
+					float angle = atan(diff) * 180 / M_PI;
 
-						if (data.angleMean.size() > smoothMeanCount_){
-							data.angleMean.erase(data.angleMean.begin());
-						}
+					if (data.angleMean.size() > smoothMeanCount_){
+						data.angleMean.erase(data.angleMean.begin());
+					}
 
-						data.angleMean.push_back(angle);
-						data.calAngleMean();
+					data.angleMean.push_back(angle);
+					data.calAngleMean();
 
-						int bufferDelay = data.bufferDelay;
+					int bufferDelay = data.bufferDelay;
 
-						if (facePoint / (facePoint + hairPoint) < faceDownPercentage_) {
-							if (data.isLookUp == true){
-								if (data.bufferCount > bufferDelay){
-									data.isLookUp = false;
-									data.bufferCount = 0;
-								}
-								data.bufferCount++;
+					if (facePoint / (facePoint + hairPoint) < faceDownPercentage_) {
+						if (data.isLookUp == true){
+							if (data.bufferCount > bufferDelay){
+								data.isLookUp = false;
+								data.bufferCount = 0;
 							}
+							data.bufferCount++;
 						}
-						else {
-							if (data.isLookUp == false){
-								if (data.bufferCount > bufferDelay){
-									data.isLookUp = true;
-									data.bufferCount = 0;
-								}
-								data.bufferCount++;
+					}
+					else {
+						if (data.isLookUp == false){
+							if (data.bufferCount > bufferDelay){
+								data.isLookUp = true;
+								data.bufferCount = 0;
 							}
+							data.bufferCount++;
 						}
+					}
 
-						//check person gender
+					//check person gender
+					if (hairPoint != -1 &&
+						facePoint != -1 &&
+						(facePoint + hairPoint) / (faceRect.area() * 1.f) > 0.15){
+						data.unDetectFrame = 0;
 
-						if (!data.isImageSaved){
+						if (!data.isImageSaved && data.gender == UNDEFINED){
 							if (faceRect.x >= 0 && faceRect.y >= 0 &&
 								faceRect.x + faceRect.width <= colorMat.rows &&
 								faceRect.y + faceRect.height <= colorMat.cols){
@@ -422,18 +417,18 @@ void PlayerManager::draw(){
 							status_contents += statusStr;
 
 							if (status_contents == "ready" &&
-								data.gender == UNDEFINED && 
+								data.gender == UNDEFINED &&
 								data.delayCallFaceApi >= data.callFaceApi){
-								
+
 								ofstream savefile;
-								savefile.open(saveImagePath_+"input.txt");
-								savefile << saveImagePath_+"faces\\" << to_string(data.id) << ".jpg";
+								savefile.open(saveImagePath_ + "input.txt");
+								savefile << saveImagePath_ + "faces\\" << to_string(data.id) << ".jpg";
 								savefile.close();
 
 								WinExec("C:/faceApi.exe", SW_HIDE);
 
 								std::ifstream myfile;
-								myfile.open(saveImagePath_+"output.txt");
+								myfile.open(saveImagePath_ + "output.txt");
 								std::string str;
 								std::string file_contents;
 								std::getline(myfile, str);
@@ -462,9 +457,14 @@ void PlayerManager::draw(){
 							data.delayCallFaceApi++;
 						}
 
-						if (index == persons_.size()) persons_.push_back(Person());
-						persons_[index] = data;
 					}
+					else {
+						data.unDetectFrame++;
+					}
+
+					if (index == persons_.size()) persons_.push_back(Person());
+					persons_[index] = data;
+
 				}
 			}
 		}
