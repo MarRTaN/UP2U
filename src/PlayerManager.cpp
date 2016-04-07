@@ -415,6 +415,7 @@ void PlayerManager::draw(){
 							std::string status_contents;
 							std::getline(statusfile, statusStr);
 							status_contents += statusStr;
+							statusfile.close();
 
 							if (status_contents == "ready" &&
 								data.gender == UNDEFINED &&
@@ -433,6 +434,7 @@ void PlayerManager::draw(){
 								std::string file_contents;
 								std::getline(myfile, str);
 								file_contents += str;
+								myfile.close();
 
 								console() << "id = " << data.id << ", content = " << file_contents << endl;
 
@@ -453,6 +455,11 @@ void PlayerManager::draw(){
 								data.delayCallFaceApi = 0;
 								data.callFaceApi *= 1.5;
 								data.isImageSaved = false;
+
+								ofstream delfile;
+								delfile.open(saveImagePath_ + "input.txt");
+								delfile << "";
+								delfile.close();
 							}
 							data.delayCallFaceApi++;
 						}
