@@ -116,7 +116,7 @@ void DetectingStage::updateGameplay(){
 		timeCount_ = 1;
 	}
 	for (int i = 0; i < persons_.size(); i++){
-		if (persons_[i].unDetectFrame <= 50){
+		if (persons_[i].unDetectFrame <= 180){
 			if (persons_[i].center.x < getWindowWidth() / 3) persons_[i].segtion = LEFT;
 			else if (persons_[i].center.x > getWindowWidth() * 2 / 3) persons_[i].segtion = RIGHT;
 			else persons_[i].segtion = CENTER;
@@ -246,7 +246,7 @@ void DetectingStage::drawGameplay(){
 	
 	//draw sticker
 	for (int i = 0; i < persons_.size(); i++){
-		if (persons_[i].unDetectFrame <= 50){
+		if (persons_[i].unDetectFrame <= 180){
 			if (!isDebugMode) gl::color(Color(CM_HSV, facesColor_[persons_[i].id], 0.77f, 0.96f));
 			else gl::color(1, 1, 1, 0.5);
 			//choose correct texture for each person
@@ -389,7 +389,7 @@ void DetectingStage::setPersons(vector<Person> persons){
 void DetectingStage::checkAction(){
 	int peopleStatus = IDLE;
 	for (int i = 0; i < persons_.size(); i++){
-		if (persons_[i].unDetectFrame <= 50){
+		if (persons_[i].unDetectFrame <= 180){
 			if (persons_[i].getLook() == LOOKUP){
 				normalizeFaceColor(persons_[i].id);
 				resetTimePhub(persons_[i].id);
@@ -407,7 +407,7 @@ void DetectingStage::checkAction(){
 				resetTimePhub(persons_[i].id);
 				bool isMatched = false;
 				for (int j = i; j < persons_.size(); j++){
-					if (persons_[i].unDetectFrame <= 50){
+					if (persons_[i].unDetectFrame <= 180){
 						if (persons_[j].getLook() == TURNLEFT) {
 							calTalkTime(persons_[i].id);
 							isMatched = true;

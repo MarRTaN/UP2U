@@ -387,9 +387,7 @@ void PlayerManager::draw(){
 					}
 
 					//check person gender
-					if (hairPoint != -1 &&
-						facePoint != -1 &&
-						(facePoint + hairPoint) / (faceRect.area() * 1.f) > 0.15){
+					if ((facePoint + hairPoint) / (faceRect.area() * 1.f) > 0.15){
 						data.unDetectFrame = 0;
 
 						if (!data.isImageSaved && data.gender == UNDEFINED){
@@ -407,7 +405,8 @@ void PlayerManager::draw(){
 							}
 						}
 
-						if (data.isImageSaved){
+						if (data.isImageSaved &&
+							data.gender == UNDEFINED){
 
 							std::ifstream statusfile;
 							statusfile.open(saveImagePath_ + "status.txt");
@@ -418,7 +417,6 @@ void PlayerManager::draw(){
 							statusfile.close();
 
 							if (status_contents == "ready" &&
-								data.gender == UNDEFINED &&
 								data.delayCallFaceApi >= data.callFaceApi){
 
 								ofstream savefile;
