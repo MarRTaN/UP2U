@@ -309,9 +309,10 @@ void PlayerManager::draw(){
 				Vec2i faceCentroid = Vec2i(0, 0);
 
 				//Cal hair
-				if (faceRect.x >= 0 && faceRect.y >= 0 &&
+				/*if (faceRect.x >= 0 && faceRect.y >= 0 &&
 					faceRect.x + faceRect.width <= colorMat.rows &&
-					faceRect.y + faceRect.height <= colorMat.cols){
+					faceRect.y + faceRect.height <= colorMat.cols){*/
+				if (true){
 					hairD = getCentroid(0, idNow, colorMat, faceRect, cv::Scalar(0, 0, 0), cv::Scalar(180, 255, 80), cv::Size(7, 7), Vec2f(150, 255));
 					faceD = getCentroid(1, idNow, colorMat, faceRect, cv::Scalar(0, 40, 60), cv::Scalar(27, 150, 255), cv::Size(15, 15), Vec2f(120, 255));
 					idNow++;
@@ -630,8 +631,6 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		gl::draw(faceVideoC2, faceAreaColor2, faceDestC2);
 	}
 
-	double sumHairPoint = cv::sum(outputHairMat)[0];
-
 	//contour
 
 	vector<vector<cv::Point> > faceContours;
@@ -645,7 +644,7 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		cv::Moments faceM = cv::moments(faceContours[ci]);
 		double cYY = int(faceM.m01 / faceM.m00);
 		if (type == 0 && cYY < faceRect.height / 2.f){
-			if (bigestFaceContour == -1) {
+			if (ci == 0) {
 				bigestFaceSize = faceContours[ci].size();
 				bigestFaceContour = ci;
 			}
@@ -664,7 +663,7 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 		}
 	}
 
-	if (bigestFaceContour != -1){
+	if (faceContours.size() > 0){
 		cv::Moments faceM = cv::moments(faceContours[bigestFaceContour]);
 		cX = int(faceM.m10 / faceM.m00);
 		cY = int(faceM.m01 / faceM.m00);
@@ -679,7 +678,8 @@ PlayerManager::faceData PlayerManager::getCentroid(int type, int idNow, cv::Mat 
 	}
 
 	fd.pos = Vec2i(cX, cY);
-	if (bigestFaceContour != -1) fd.count = cv::contourArea(faceContours[bigestFaceContour]);
+	//if (bigestFaceContour != -1) fd.count = cv::contourArea(faceContours[bigestFaceContour]);
+	double sumHairPoint = cv::sum(outputHairMat)[0];
 	
 	return fd;
 }
